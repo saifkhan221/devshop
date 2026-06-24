@@ -28,16 +28,6 @@
           </div>
           <div class="kpi-val">{{ k.value }}</div>
           <div class="kpi-lbl">{{ k.label }}</div>
-          <svg class="kpi-spark" viewBox="0 0 80 26" preserveAspectRatio="none">
-            <defs>
-              <linearGradient :id="`sg-${k.key}`" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" :stop-color="k.color" stop-opacity="0.35"/>
-                <stop offset="100%" :stop-color="k.color" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <path :d="k.area" :fill="`url(#sg-${k.key})`"/>
-            <path :d="k.line" fill="none" :stroke="k.color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
         </div>
       </div>
 
@@ -212,17 +202,6 @@ const firstName = computed(() => {
 })
 
 // ─── KPI Cards ────────────────────────────────────────────────────
-// Generate a smooth sparkline SVG path from an array of values
-function mkLine(vals) {
-  const max = Math.max(...vals, 1)
-  const pts = vals.map((v, i) => `${(i / (vals.length - 1)) * 80},${26 - (v / max) * 20}`)
-  return `M ${pts.join(' L ')}`
-}
-function mkArea(vals) {
-  const max = Math.max(...vals, 1)
-  const pts = vals.map((v, i) => `${(i / (vals.length - 1)) * 80},${26 - (v / max) * 20}`)
-  return `M 0,26 L ${pts.join(' L ')} L 80,26 Z`
-}
 
 const createdThisMonth = computed(() => {
   const now  = new Date()
@@ -250,12 +229,9 @@ const kpiList = computed(() => {
       value: pc,
       label: 'Total Projects',
       badge: pc > 0 ? `${pc} active` : 'None',
-      color: 'var(--accent)',
       iconBg: 'var(--accent-subtle)',
       badgeBg: 'var(--accent-subtle)',
       badgeColor: 'var(--accent)',
-      line: mkLine([1, 2, 1, 3, 2, Math.max(pc, 1), Math.max(pc, 1)]),
-      area: mkArea([1, 2, 1, 3, 2, Math.max(pc, 1), Math.max(pc, 1)]),
     },
     {
       key: 'tools',
@@ -263,12 +239,9 @@ const kpiList = computed(() => {
       value: tc,
       label: 'Tools Deployed',
       badge: tc > 0 ? `${tc} active` : 'None',
-      color: '#10b981',
       iconBg: 'rgba(16,185,129,.12)',
       badgeBg: 'rgba(16,185,129,.12)',
       badgeColor: '#10b981',
-      line: mkLine([1, 3, 2, 4, 3, 5, Math.max(tc, 1)]),
-      area: mkArea([1, 3, 2, 4, 3, 5, Math.max(tc, 1)]),
     },
     {
       key: 'month',
@@ -276,12 +249,9 @@ const kpiList = computed(() => {
       value: createdThisMonth.value,
       label: 'Projects This Month',
       badge: 'This month',
-      color: '#f59e0b',
       iconBg: 'rgba(245,158,11,.12)',
       badgeBg: 'rgba(245,158,11,.12)',
       badgeColor: '#f59e0b',
-      line: mkLine([0, 1, 0, 1, 1, Math.max(createdThisMonth.value, 0.5), Math.max(createdThisMonth.value, 0.5)]),
-      area: mkArea([0, 1, 0, 1, 1, Math.max(createdThisMonth.value, 0.5), Math.max(createdThisMonth.value, 0.5)]),
     },
     {
       key: 'avg',
@@ -289,12 +259,9 @@ const kpiList = computed(() => {
       value: avgTools.value,
       label: 'Avg Tools / Project',
       badge: 'Per project',
-      color: '#3b9ef5',
       iconBg: 'rgba(59,158,245,.12)',
       badgeBg: 'rgba(59,158,245,.12)',
       badgeColor: '#3b9ef5',
-      line: mkLine([0, 1, 2, 1, 2, 3, Math.max(Number(avgTools.value) || 0, 0.5)]),
-      area: mkArea([0, 1, 2, 1, 2, 3, Math.max(Number(avgTools.value) || 0, 0.5)]),
     },
   ]
 })
@@ -514,12 +481,6 @@ function lighten(hex) {
   font-size: 12px;
   color: $brand-400;
   margin-bottom: 12px;
-}
-
-.kpi-spark {
-  width: 100%;
-  height: 26px;
-  display: block;
 }
 
 // ── Card Base ───────────────────────────────────────────────────────
