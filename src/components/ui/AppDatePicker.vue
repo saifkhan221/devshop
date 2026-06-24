@@ -251,7 +251,7 @@ function fmt(iso) {
 .dp-panel {
   position: absolute;
   top: calc(100% + 8px);
-  left: 0;
+  right: 0;
   display: flex;
   border-radius: 16px;
   overflow: hidden;
