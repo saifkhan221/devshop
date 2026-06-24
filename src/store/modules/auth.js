@@ -86,9 +86,9 @@ export default {
     },
 
     // Called once in main.js before the app mounts —
-    // restores the user from localStorage so they stay logged in on refresh
-    initAuth({ commit }) {
-      const user = authService.getCurrentUser()
+    // restores the session (localStorage for dummy, Firebase persistence for firebase mode)
+    async initAuth({ commit }) {
+      const user = await authService.waitForUser()
       if (user) commit('SET_USER', user)
     },
   },

@@ -81,5 +81,25 @@ export const authService = {
       return safeParseUser(stored) // validate shape before trusting
     }
     return null
+  },
+
+  // Waits for Firebase to restore the persisted session (async on page load).
+  // Returns the user object or null. Used by initAuth in the store.
+  waitForUser() {
+    if (MODE === 'dummy') {
+      return Promise.resolve(this.getCurrentUser())
+    }
+    return new Promise(async (resolve) => {
+      try {
+        const { onAuthStateChanged } = await import('firebase/auth')
+        const { auth } = await import('./firebase')
+        const unsub = onAuthStateChanged(auth, (user) => {
+          unsub()
+          resolve(user || null)
+        })
+      } catch {
+        resolve(null)
+      }
+    })
   }
 }

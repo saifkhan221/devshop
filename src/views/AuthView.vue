@@ -97,32 +97,40 @@ const particles = [
 ]
 
 async function handleLogin() {
+  if (loading.value) return
   error.value = ''
   loading.value = true
-  const ok = await store.dispatch('auth/login', { email: email.value, password: password.value })
-  loading.value = false
-  if (ok) {
-    await store.dispatch('projects/fetchProjects')
-    router.push('/dashboard')
-  } else {
-    error.value = store.state.auth.error || 'Login failed'
+  try {
+    const ok = await store.dispatch('auth/login', { email: email.value, password: password.value })
+    if (ok) {
+      try { await store.dispatch('projects/fetchProjects') } catch { /* Firestore loads on dashboard */ }
+      router.push('/dashboard')
+    } else {
+      error.value = store.state.auth.error || 'Login failed'
+    }
+  } finally {
+    loading.value = false
   }
 }
 
 async function handleSignup() {
+  if (loading.value) return
   error.value = ''
   if (password.value !== confirmPassword.value) {
     error.value = 'Passwords do not match'
     return
   }
   loading.value = true
-  const ok = await store.dispatch('auth/signup', { name: name.value, email: email.value, password: password.value })
-  loading.value = false
-  if (ok) {
-    await store.dispatch('projects/fetchProjects')
-    router.push('/dashboard')
-  } else {
-    error.value = store.state.auth.error || 'Signup failed'
+  try {
+    const ok = await store.dispatch('auth/signup', { name: name.value, email: email.value, password: password.value })
+    if (ok) {
+      try { await store.dispatch('projects/fetchProjects') } catch { /* Firestore loads on dashboard */ }
+      router.push('/dashboard')
+    } else {
+      error.value = store.state.auth.error || 'Signup failed'
+    }
+  } finally {
+    loading.value = false
   }
 }
 </script>
