@@ -30,13 +30,7 @@
       </div>
 
       <!-- Custom Date Picker -->
-      <div class="date-wrap">
-        <button class="drop-trigger date-trigger" @click="openDatePicker">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span>{{ newDue ? formatDate(newDue) : todayLabel }}</span>
-        </button>
-        <input ref="dateInputRef" type="date" class="hidden-date" v-model="newDue" />
-      </div>
+      <AppDatePicker v-model="newDue" />
 
       <button class="add-btn" @click="addTask">Add</button>
     </div>
@@ -69,6 +63,7 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useToolStorage } from '@/composables/useToolStorage'
+import AppDatePicker from '@/components/ui/AppDatePicker.vue'
 
 const props = defineProps({ projectId: String })
 
@@ -95,13 +90,6 @@ function onPriorityOutside(e) {
 }
 onMounted(() => document.addEventListener('mousedown', onPriorityOutside))
 onUnmounted(() => document.removeEventListener('mousedown', onPriorityOutside))
-
-// Date picker — proxy click onto hidden native input
-const dateInputRef = ref(null)
-function openDatePicker() { dateInputRef.value?.showPicker?.() }
-
-// Today's label shown when no date selected
-const todayLabel = computed(() => formatDate(new Date().toISOString().split('T')[0]))
 
 // Stats
 const remaining = computed(() => tasks.value.filter(t => !t.done).length)
@@ -251,19 +239,6 @@ function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1) }
 // Dropdown animation
 .drop-enter-active, .drop-leave-active { transition: opacity 0.12s ease, transform 0.12s ease; }
 .drop-enter-from, .drop-leave-to { opacity: 0; transform: translateY(-6px) scale(0.97); }
-
-// ── Date picker ─────────────────────────────────────────────────────────
-.date-wrap { position: relative; }
-
-.date-trigger { gap: 7px; }
-
-.hidden-date {
-  position: absolute;
-  top: 0; left: 0;
-  width: 0; height: 0;
-  opacity: 0;
-  pointer-events: none;
-}
 
 // ── Add button ──────────────────────────────────────────────────────────
 .add-btn {
