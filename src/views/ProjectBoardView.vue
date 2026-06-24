@@ -105,7 +105,7 @@
                   </div>
                   <span class="tool-category-badge">{{ tool.category }}</span>
                 </div>
-                <div class="tool-panel">
+                <div class="tool-panel" :class="{ 'tool-panel--flush': tool.component === 'SvgViewer' }">
                   <component :is="toolComponents[tool.component]" :project-id="projectId" />
                 </div>
               </div>
@@ -342,6 +342,10 @@ async function logout() {
   border: 1px solid var(--border-subtle);
   border-radius: $radius-xl;
   padding: 24px;
+  &--flush {
+    padding: 0;
+    overflow: hidden;
+  }
 }
 
 // ── Loading skeleton ────────────────────────────────────────────────
