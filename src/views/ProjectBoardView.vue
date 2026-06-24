@@ -50,8 +50,17 @@
       <!-- Content -->
       <div class="content">
 
+        <!-- LOADING SKELETON -->
+        <template v-if="loading">
+          <div class="skeleton-header">
+            <div class="skel skel-title"></div>
+            <div class="skel skel-sub"></div>
+          </div>
+          <div class="skel skel-panel"></div>
+        </template>
+
         <!-- SINGLE TOOL VIEW -->
-        <template v-if="viewMode === 'single'">
+        <template v-else-if="viewMode === 'single'">
           <template v-if="activeTool">
             <div class="tool-header">
               <div>
@@ -129,6 +138,7 @@ const route = useRoute()
 
 const projectId = route.params.id
 const activeToolId = ref(null)
+const loading = ref(!store.getters['projects/projectById'](projectId))
 
 // View mode: 'single' | 'all'
 const VIEW_MODE_KEY = 'devshop_view_mode'
@@ -179,6 +189,7 @@ onMounted(async () => {
   if (!project.value) {
     await store.dispatch('projects/fetchProjects')
   }
+  loading.value = false
   // Auto-select first tool
   if (toolList.value.length > 0) {
     activeToolId.value = toolList.value[0].id
@@ -332,6 +343,24 @@ async function logout() {
   border-radius: $radius-xl;
   padding: 24px;
 }
+
+// ── Loading skeleton ────────────────────────────────────────────────
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+.skel {
+  background: linear-gradient(90deg, $bg-elevated 25%, $bg-surface 50%, $bg-elevated 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: $radius-md;
+}
+
+.skeleton-header { margin-bottom: 24px; }
+.skel-title  { height: 24px; width: 200px; margin-bottom: 10px; }
+.skel-sub    { height: 14px; width: 300px; }
+.skel-panel  { height: 420px; width: 100%; border-radius: $radius-xl; }
 
 .no-tool {
   display: flex;
