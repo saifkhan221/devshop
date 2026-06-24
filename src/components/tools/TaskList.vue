@@ -31,13 +31,13 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useToolStorage } from '@/composables/useToolStorage'
 
 const props = defineProps({ projectId: String })
 
-const LS_KEY = computed(() => `devshop_tool_${props.projectId}_task-list`)
+const { data: tasks, save } = useToolStorage(props.projectId, 'task-list', [])
 
-const tasks = ref([])
 const newTask = ref('')
 const filter = ref('All')
 const filters = ['All', 'Active', 'Completed']
@@ -50,14 +50,7 @@ const filteredTasks = computed(() => {
   return tasks.value
 })
 
-onMounted(() => {
-  const saved = localStorage.getItem(LS_KEY.value)
-  if (saved) tasks.value = JSON.parse(saved)
-})
-
-watch(tasks, (val) => {
-  localStorage.setItem(LS_KEY.value, JSON.stringify(val))
-}, { deep: true })
+watch(tasks, (val) => save(val), { deep: true })
 
 function addTask() {
   if (!newTask.value.trim()) return

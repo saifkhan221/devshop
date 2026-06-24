@@ -33,12 +33,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useToolStorage } from '@/composables/useToolStorage'
 
 const props = defineProps({ projectId: String })
-const LS_KEY = computed(() => `devshop_tool_${props.projectId}_code-snippets`)
 
-const snippets = ref([])
+const { data: snippets, save } = useToolStorage(props.projectId, 'code-snippets', [])
+
 const search = ref('')
 const showForm = ref(false)
 const expanded = ref([])
@@ -51,12 +52,7 @@ const filteredSnippets = computed(() => {
   return snippets.value.filter(s => s.title.toLowerCase().includes(search.value.toLowerCase()))
 })
 
-onMounted(() => {
-  const saved = localStorage.getItem(LS_KEY.value)
-  if (saved) snippets.value = JSON.parse(saved)
-})
-
-watch(snippets, () => localStorage.setItem(LS_KEY.value, JSON.stringify(snippets.value)), { deep: true })
+watch(snippets, (val) => save(val), { deep: true })
 
 function addSnippet() {
   snippets.value.unshift({ ...newSnippet.value, id: Date.now() })

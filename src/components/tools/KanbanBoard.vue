@@ -57,39 +57,35 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
+import { useToolStorage } from '@/composables/useToolStorage'
 
 const props = defineProps({ projectId: String })
-const LS_KEY = `devshop_tool_${props.projectId}_kanban`
 
 const vFocus = { mounted: (el) => el.focus() }
 
 const defaultColumns = [
-  { id: 1, name: 'To Do', cards: [{ id: 1, title: 'Set up project structure', desc: '' }], newCardTitle: '', editing: false },
-  { id: 2, name: 'In Progress', cards: [], newCardTitle: '', editing: false },
-  { id: 3, name: 'Review', cards: [], newCardTitle: '', editing: false },
-  { id: 4, name: 'Done', cards: [], newCardTitle: '', editing: false },
+  { id: 1, name: 'To Do', cards: [{ id: 1, title: 'Set up project structure', desc: '' }] },
+  { id: 2, name: 'In Progress', cards: [] },
+  { id: 3, name: 'Review', cards: [] },
+  { id: 4, name: 'Done', cards: [] },
 ]
 
+const { data: storedColumns, save: persist } = useToolStorage(props.projectId, 'kanban', defaultColumns)
+
+// Add reactive UI fields (not persisted) on top of stored data
 const columns = ref([])
-
-onMounted(() => {
-  const saved = localStorage.getItem(LS_KEY)
-  if (saved) {
-    const parsed = JSON.parse(saved)
-    columns.value = parsed.map(c => ({ ...c, newCardTitle: '', editing: false }))
-  } else {
-    columns.value = defaultColumns
-  }
-})
-
-watch(columns, save, { deep: true })
+watch(storedColumns, (val) => {
+  columns.value = val.map(c => ({ ...c, newCardTitle: '', editing: false }))
+}, { immediate: true })
 
 function save() {
-  const data = columns.value.map(c => ({ id: c.id, name: c.name, cards: c.cards }))
-  localStorage.setItem(LS_KEY, JSON.stringify(data))
+  const clean = columns.value.map(c => ({ id: c.id, name: c.name, cards: c.cards }))
+  persist(clean)
 }
+
+watch(columns, save, { deep: true })
 
 function addCard(col) {
   if (!col.newCardTitle.trim()) return

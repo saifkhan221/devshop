@@ -30,7 +30,7 @@
         <div class="saved-swatches">
           <div v-for="s in pal.slice(0,10)" :key="s.shade" class="saved-swatch" :style="{ background: s.hex }"></div>
         </div>
-        <button class="del-btn" @click="savedPalettes.splice(idx, 1); saveToDisk()">✕</button>
+        <button class="del-btn" @click="savedPalettes.splice(idx, 1); persist(savedPalettes)">✕</button>
       </div>
     </div>
 
@@ -39,22 +39,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, computed } from 'vue'
+import { useToolStorage } from '@/composables/useToolStorage'
 
 const props = defineProps({ projectId: String })
-const LS_KEY = computed(() => `devshop_tool_${props.projectId}_color-palette`)
 
-import { computed } from 'vue'
+const { data: savedPalettes, save: persist } = useToolStorage(props.projectId, 'color-palette', [])
 
 const baseColor = ref('#7c3aed')
 const palette = ref([])
-const savedPalettes = ref([])
 const copiedColor = ref('')
-
-onMounted(() => {
-  const saved = localStorage.getItem(LS_KEY.value)
-  if (saved) savedPalettes.value = JSON.parse(saved)
-})
 
 function hexToHsl(hex) {
   let r = parseInt(hex.slice(1,3),16)/255, g = parseInt(hex.slice(3,5),16)/255, b = parseInt(hex.slice(5,7),16)/255
@@ -105,11 +99,7 @@ function copyColor(hex) {
 function savePalette() {
   if (savedPalettes.value.length >= 5) savedPalettes.value.shift()
   savedPalettes.value.push([...palette.value])
-  saveToDisk()
-}
-
-function saveToDisk() {
-  localStorage.setItem(LS_KEY.value, JSON.stringify(savedPalettes.value))
+  persist(savedPalettes.value)
 }
 </script>
 

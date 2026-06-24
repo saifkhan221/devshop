@@ -32,10 +32,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useToolStorage } from '@/composables/useToolStorage'
 
 const props = defineProps({ projectId: String })
-const LS_KEY = computed(() => `devshop_tool_${props.projectId}_testing-checklist`)
 
 const categories = ref([
   { name: 'Functionality', items: [
@@ -78,6 +78,18 @@ const categories = ref([
   ]},
 ])
 
+// Only persist the done states (not the full label text which never changes)
+const { data: savedStates, save: persist } = useToolStorage(props.projectId, 'testing-checklist', [])
+
+// Restore saved done states once loaded
+watch(savedStates, (saved) => {
+  if (!saved.length) return
+  saved.forEach(c => {
+    const cat = categories.value.find(x => x.name === c.name)
+    if (cat) c.items.forEach(i => { const item = cat.items.find(x => x.id === i.id); if (item) item.done = i.done })
+  })
+}, { once: true })
+
 const totalItems = computed(() => categories.value.reduce((s, c) => s + c.items.length, 0))
 const totalDone = computed(() => categories.value.reduce((s, c) => s + c.items.filter(i => i.done).length, 0))
 const overallPct = computed(() => Math.round((totalDone.value / totalItems.value) * 100))
@@ -87,19 +99,8 @@ function catPct(cat) { return Math.round((catDone(cat) / cat.items.length) * 100
 
 function save() {
   const data = categories.value.map(c => ({ name: c.name, items: c.items.map(i => ({ id: i.id, done: i.done })) }))
-  localStorage.setItem(LS_KEY.value, JSON.stringify(data))
+  persist(data)
 }
-
-onMounted(() => {
-  const saved = localStorage.getItem(LS_KEY.value)
-  if (saved) {
-    const data = JSON.parse(saved)
-    data.forEach(c => {
-      const cat = categories.value.find(x => x.name === c.name)
-      if (cat) c.items.forEach(i => { const item = cat.items.find(x => x.id === i.id); if (item) item.done = i.done })
-    })
-  }
-})
 
 function resetAll() {
   categories.value.forEach(c => c.items.forEach(i => i.done = false))
