@@ -1,14 +1,16 @@
 /**
- * useToolStorage — per-tool data persistence
+ * useToolStorage — per-tool data persistence with stale-while-revalidate
  *
- * Dummy mode  → localStorage (key: devshop_tool_{projectId}_{toolId})
- * Firebase mode → Firestore collection "toolData", doc "{projectId}_{toolId}"
+ * Dummy mode    → localStorage only
+ * Firebase mode → localStorage as instant cache (L1) + Firestore as source of truth (L2)
  *
- * Usage:
- *   const { data, loading, save } = useToolStorage(projectId, 'kanban', defaultValue)
+ * On load:
+ *   1. Read localStorage cache → show data instantly (loading = false immediately)
+ *   2. Fetch Firestore in background → update data silently if different
  *
- *   // Mutate data.value freely, then call save(valueToStore) to persist.
- *   // save() is debounced 800ms so rapid changes get batched automatically.
+ * On save:
+ *   1. Write localStorage immediately
+ *   2. Write Firestore debounced 800ms
  */
 
 import { ref } from 'vue'
@@ -16,7 +18,7 @@ import { ref } from 'vue'
 const MODE = import.meta.env.VITE_AUTH_MODE
 const DEBOUNCE_MS = 800
 
-// ─── Firestore module cache (same pattern as db.js) ───────────────────────
+// ─── Firestore module cache ───────────────────────────────────────────────
 let _fs = null
 async function getFs() {
   if (!_fs) {
@@ -42,25 +44,27 @@ export function useToolStorage(projectId, toolId, defaultValue) {
 
   // ─── Load ──────────────────────────────────────────────────────────────
   async function load() {
-    if (MODE === 'dummy') {
-      const raw = localStorage.getItem(lsKey)
-      if (raw) {
-        try { data.value = JSON.parse(raw) } catch { /* corrupt — use default */ }
-      }
-      loading.value = false
-      return
+    // Step 1: read localStorage cache — instant, no network
+    const cached = localStorage.getItem(lsKey)
+    if (cached) {
+      try { data.value = JSON.parse(cached) } catch { /* corrupt — keep default */ }
     }
+    loading.value = false   // ← show tool immediately with cached data
 
+    if (MODE === 'dummy') return
+
+    // Step 2 (Firebase only): refresh from Firestore in background
     try {
       const { db, doc, getDoc } = await getFs()
       const snap = await getDoc(doc(db, 'toolData', docId))
       if (snap.exists() && snap.data().data !== undefined) {
-        data.value = snap.data().data
+        const fresh = snap.data().data
+        // Update cache + reactive data with latest from Firestore
+        localStorage.setItem(lsKey, JSON.stringify(fresh))
+        data.value = fresh
       }
     } catch {
-      // Firestore unavailable — silently fall through with default value
-    } finally {
-      loading.value = false
+      // Firestore unavailable — cached data already shown, nothing to do
     }
   }
 
@@ -69,15 +73,15 @@ export function useToolStorage(projectId, toolId, defaultValue) {
 
   function save(valueToStore) {
     const payload = valueToStore !== undefined ? valueToStore : data.value
+    // Write localStorage immediately so cache is always fresh
+    localStorage.setItem(lsKey, JSON.stringify(payload))
+    // Debounce the Firestore write
     if (_timer) clearTimeout(_timer)
-    _timer = setTimeout(() => persist(payload), DEBOUNCE_MS)
+    _timer = setTimeout(() => persistToFirestore(payload), DEBOUNCE_MS)
   }
 
-  async function persist(payload) {
-    if (MODE === 'dummy') {
-      localStorage.setItem(lsKey, JSON.stringify(payload))
-      return
-    }
+  async function persistToFirestore(payload) {
+    if (MODE === 'dummy') return
 
     try {
       const { db, doc, setDoc } = await getFs()
@@ -93,7 +97,7 @@ export function useToolStorage(projectId, toolId, defaultValue) {
         updatedAt: new Date().toISOString(),
       })
     } catch {
-      // Save failed silently — data stays in memory, user work not lost
+      // Firestore write failed — data is safe in localStorage
     }
   }
 

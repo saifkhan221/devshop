@@ -14,9 +14,10 @@ async function fs() {
   }
   return _fs
 }
-const LS_KEY = 'devshop_projects'
-const getLocal = () => JSON.parse(localStorage.getItem(LS_KEY) || '[]')
-const saveLocal = (data) => localStorage.setItem(LS_KEY, JSON.stringify(data))
+const LS_KEY       = 'devshop_projects'
+const LS_FB_CACHE  = (uid) => `devshop_projects_cache_${uid}`   // Firebase project cache per user
+const getLocal     = () => JSON.parse(localStorage.getItem(LS_KEY) || '[]')
+const saveLocal    = (data) => localStorage.setItem(LS_KEY, JSON.stringify(data))
 
 // Throttle config for Firestore operations
 // Max 30 DB calls per second per action key — prevents runaway loops hammering Firebase
@@ -35,11 +36,29 @@ export const dbService = {
       if (projects.length === 0) { saveLocal(DUMMY_PROJECTS); return DUMMY_PROJECTS }
       return projects
     }
+    // Return cache instantly if available (stale-while-revalidate)
+    const cacheKey = LS_FB_CACHE(userId)
+    const cached = localStorage.getItem(cacheKey)
+    if (cached) {
+      // Kick off background refresh — caller gets cache immediately
+      throttle('db:getProjects', async () => {
+        const { db, collection, query, where, getDocs } = await fs()
+        const q = query(collection(db,'projects'), where('userId','==',userId))
+        const snap = await getDocs(q)
+        const fresh = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+        localStorage.setItem(cacheKey, JSON.stringify(fresh))
+        return fresh
+      }, DB_THROTTLE).catch(() => {})
+      return JSON.parse(cached)
+    }
+    // First load — must wait for Firestore
     return throttle('db:getProjects', async () => {
       const { db, collection, query, where, getDocs } = await fs()
       const q = query(collection(db,'projects'), where('userId','==',userId))
       const snap = await getDocs(q)
-      return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      const projects = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      localStorage.setItem(cacheKey, JSON.stringify(projects))
+      return projects
     }, DB_THROTTLE)
   },
 
@@ -52,11 +71,16 @@ export const dbService = {
     return throttle('db:createProject', async () => {
       const { db, collection, addDoc, serverTimestamp } = await fs()
       const ref = await addDoc(collection(db,'projects'), { ...project, userId, createdAt: serverTimestamp() })
-      return { id: ref.id, ...project }
+      const newProject = { id: ref.id, ...project }
+      // Update cache
+      const cacheKey = LS_FB_CACHE(userId)
+      const cached = JSON.parse(localStorage.getItem(cacheKey) || '[]')
+      localStorage.setItem(cacheKey, JSON.stringify([newProject, ...cached]))
+      return newProject
     }, DB_THROTTLE)
   },
 
-  async updateProject(projectId, data) {
+  async updateProject(projectId, data, userId) {
     if (MODE === 'dummy') {
       const projects = getLocal()
       const idx = projects.findIndex(p => p.id === projectId)
@@ -66,14 +90,27 @@ export const dbService = {
     return throttle('db:updateProject', async () => {
       const { db, doc, updateDoc } = await fs()
       await updateDoc(doc(db,'projects',projectId), data)
+      // Update cache if userId provided
+      if (userId) {
+        const cacheKey = LS_FB_CACHE(userId)
+        const cached = JSON.parse(localStorage.getItem(cacheKey) || '[]')
+        const idx = cached.findIndex(p => p.id === projectId)
+        if (idx !== -1) { cached[idx] = { ...cached[idx], ...data }; localStorage.setItem(cacheKey, JSON.stringify(cached)) }
+      }
     }, DB_THROTTLE)
   },
 
-  async deleteProject(projectId) {
+  async deleteProject(projectId, userId) {
     if (MODE === 'dummy') { saveLocal(getLocal().filter(p => p.id !== projectId)); return }
     return throttle('db:deleteProject', async () => {
       const { db, doc, deleteDoc } = await fs()
       await deleteDoc(doc(db,'projects',projectId))
+      // Update cache
+      if (userId) {
+        const cacheKey = LS_FB_CACHE(userId)
+        const cached = JSON.parse(localStorage.getItem(cacheKey) || '[]')
+        localStorage.setItem(cacheKey, JSON.stringify(cached.filter(p => p.id !== projectId)))
+      }
     }, DB_THROTTLE)
   }
 }
