@@ -21,6 +21,7 @@
 
       <!-- ── KPI Cards ─────────────────────────────────────────────── -->
       <div class="kpi-row">
+        <!-- Regular cards -->
         <div v-for="k in kpiList" :key="k.key" class="kpi-card">
           <div class="kpi-top">
             <div class="kpi-icon" :style="{ background: k.iconBg }">{{ k.icon }}</div>
@@ -28,6 +29,52 @@
           </div>
           <div class="kpi-val">{{ k.value }}</div>
           <div class="kpi-lbl">{{ k.label }}</div>
+        </div>
+
+        <!-- Date / Time / Weather card -->
+        <div class="kpi-card kpi-card--weather">
+          <div class="kpi-top">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div class="kpi-icon" style="background:rgba(245,158,11,.12)">
+                <span v-if="weather.icon">{{ weather.icon }}</span>
+                <span v-else>🌤️</span>
+              </div>
+              <span v-if="weather.label" class="wx-condition-label">{{ weather.label }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <button class="clock-toggle" @click="toggleClockFormat" :title="`Switch to ${is24h ? '12h' : '24h'}`">
+                {{ is24h ? '24h' : '12h' }}
+              </button>
+              <span class="kpi-badge" style="background:rgba(245,158,11,.12);color:#f59e0b">
+                {{ weather.temp !== null ? weather.temp + '°C' : 'Weather' }}
+              </span>
+            </div>
+          </div>
+          <div class="wx-time">{{ clock }}</div>
+          <div class="wx-date">{{ todayFull }}</div>
+          <div class="wx-location">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            {{ weather.city || 'Locating…' }}
+          </div>
+        </div>
+
+        <!-- Motivational quote card -->
+        <div class="kpi-card kpi-card--quote">
+          <div class="kpi-top">
+            <div class="kpi-icon" style="background:rgba(59,130,246,.12)">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
+              </svg>
+            </div>
+            <button class="quote-refresh" @click="fetchQuote" title="New quote">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            </button>
+          </div>
+          <div class="quote-text" :class="{ loading: quoteLoading }">
+            {{ quoteLoading ? '…' : (quote.content || '—') }}
+          </div>
+          <div class="quote-author">— {{ quote.author || '' }}</div>
         </div>
       </div>
 
@@ -151,7 +198,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import AppNavbar from '@/components/layout/AppNavbar.vue'
@@ -243,26 +290,6 @@ const kpiList = computed(() => {
       badgeBg: 'rgba(16,185,129,.12)',
       badgeColor: '#10b981',
     },
-    {
-      key: 'month',
-      icon: '📅',
-      value: createdThisMonth.value,
-      label: 'Projects This Month',
-      badge: 'This month',
-      iconBg: 'rgba(245,158,11,.12)',
-      badgeBg: 'rgba(245,158,11,.12)',
-      badgeColor: '#f59e0b',
-    },
-    {
-      key: 'avg',
-      icon: '⚡',
-      value: avgTools.value,
-      label: 'Avg Tools / Project',
-      badge: 'Per project',
-      iconBg: 'rgba(59,158,245,.12)',
-      badgeBg: 'rgba(59,158,245,.12)',
-      badgeColor: '#3b9ef5',
-    },
   ]
 })
 
@@ -278,14 +305,151 @@ const filteredProjects = computed(() => {
   return list
 })
 
+// ─── Clock ────────────────────────────────────────────────────────
+const clock = ref('')
+const todayFull = ref('')
+const is24h = ref(localStorage.getItem('devshop_clock_24h') !== 'false')
+let clockTimer = null
+
+function toggleClockFormat() {
+  is24h.value = !is24h.value
+  localStorage.setItem('devshop_clock_24h', is24h.value)
+  tickClock()
+}
+
+function tickClock() {
+  const now = new Date()
+  clock.value = now.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: !is24h.value,
+  })
+  todayFull.value = now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long' })
+}
+
+// ─── Weather ──────────────────────────────────────────────────────
+const WMO_ICONS = {
+  0:'☀️', 1:'🌤️', 2:'⛅', 3:'☁️',
+  45:'🌫️', 48:'🌫️',
+  51:'🌦️', 53:'🌦️', 55:'🌧️',
+  61:'🌧️', 63:'🌧️', 65:'🌧️',
+  71:'🌨️', 73:'🌨️', 75:'❄️',
+  80:'🌦️', 81:'🌧️', 82:'⛈️',
+  95:'⛈️', 96:'⛈️', 99:'⛈️',
+}
+
+const WMO_LABELS = {
+  0:'Clear sky', 1:'Mainly clear', 2:'Partly cloudy', 3:'Overcast',
+  45:'Foggy', 48:'Foggy',
+  51:'Light drizzle', 53:'Drizzle', 55:'Heavy drizzle',
+  61:'Light rain', 63:'Rain', 65:'Heavy rain',
+  71:'Light snow', 73:'Snow', 75:'Heavy snow',
+  80:'Showers', 81:'Heavy showers', 82:'Violent showers',
+  95:'Thunderstorm', 96:'Thunderstorm', 99:'Thunderstorm',
+}
+
+const weather = ref({ temp: null, icon: '', city: '', label: '' })
+
+async function getCoords() {
+  // 1. Try browser geolocation first (precise, needs permission)
+  if (navigator.geolocation) {
+    try {
+      const pos = await new Promise((res, rej) =>
+        navigator.geolocation.getCurrentPosition(res, rej, { timeout: 5000 })
+      )
+      return { lat: pos.coords.latitude, lon: pos.coords.longitude, source: 'gps' }
+    } catch { /* denied or timed out — fall through to IP */ }
+  }
+  // 2. Fall back to IP-based location (no permission needed)
+  const ipRes = await fetch('https://ipapi.co/json/')
+  const ipJson = await ipRes.json()
+  if (ipJson.latitude) {
+    return { lat: ipJson.latitude, lon: ipJson.longitude, city: ipJson.city, source: 'ip' }
+  }
+  throw new Error('no location')
+}
+
+async function fetchWeather() {
+  try {
+    const coords = await getCoords()
+    let city = coords.city || ''
+
+    if (!city) {
+      // Reverse geocode only when GPS was used (IP fallback already has city)
+      const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lon}&format=json`)
+      const geoJson = await geoRes.json()
+      city = geoJson.address?.city || geoJson.address?.town || geoJson.address?.village || geoJson.address?.county || 'Your location'
+    }
+    weather.value.city = city
+
+    // Fetch weather
+    const wxRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,weather_code`)
+    const wxJson = await wxRes.json()
+    const code = wxJson.current?.weather_code
+    weather.value.temp = Math.round(wxJson.current?.temperature_2m ?? 0)
+    weather.value.icon = WMO_ICONS[code] ?? '🌡️'
+    weather.value.label = WMO_LABELS[code] ?? 'Unknown'
+  } catch {
+    weather.value.city = 'Location unavailable'
+  }
+}
+
+// ─── Quote ────────────────────────────────────────────────────────
+const FALLBACK_QUOTES = [
+  { content: 'Great things are done by a series of small things brought together.', author: 'Vincent Van Gogh' },
+  { content: 'The secret of getting ahead is getting started.', author: 'Mark Twain' },
+  { content: 'It always seems impossible until it\'s done.', author: 'Nelson Mandela' },
+  { content: 'Don\'t watch the clock; do what it does. Keep going.', author: 'Sam Levenson' },
+  { content: 'Believe you can and you\'re halfway there.', author: 'Theodore Roosevelt' },
+  { content: 'The only way to do great work is to love what you do.', author: 'Steve Jobs' },
+  { content: 'In the middle of every difficulty lies opportunity.', author: 'Albert Einstein' },
+  { content: 'Success is not final, failure is not fatal: it is the courage to continue that counts.', author: 'Winston Churchill' },
+  { content: 'The future belongs to those who believe in the beauty of their dreams.', author: 'Eleanor Roosevelt' },
+  { content: 'Strive not to be a success, but rather to be of value.', author: 'Albert Einstein' },
+]
+
+const quote = ref({ content: '', author: '' })
+const quoteLoading = ref(false)
+let quoteTimer = null
+
+async function fetchQuote() {
+  quoteLoading.value = true
+  try {
+    // Updated quotable.io endpoint
+    const res = await fetch('https://api.quotable.io/quotes/random?tags=inspirational|motivational&maxLength=80', { signal: AbortSignal.timeout(5000) })
+    if (!res.ok) throw new Error('API error')
+    const json = await res.json()
+    const q = Array.isArray(json) ? json[0] : json
+    if (q?.content) {
+      quote.value = { content: q.content, author: q.author }
+    } else throw new Error('empty')
+  } catch {
+    // Pick a random fallback quote
+    const idx = Math.floor(Math.random() * FALLBACK_QUOTES.length)
+    quote.value = FALLBACK_QUOTES[idx]
+  } finally {
+    quoteLoading.value = false
+  }
+}
+
 // ─── Lifecycle ────────────────────────────────────────────────────
 onMounted(async () => {
   if (projects.value.length === 0) {
     await store.dispatch('projects/fetchProjects')
   }
   document.addEventListener('mousedown', onSortOutside)
+  tickClock()
+  clockTimer = setInterval(tickClock, 1000)
+  fetchWeather()
+  fetchQuote()
+  // Auto-refresh quote every 30 mins
+  quoteTimer = setInterval(fetchQuote, 30 * 60 * 1000)
 })
-onUnmounted(() => document.removeEventListener('mousedown', onSortOutside))
+onUnmounted(() => {
+  document.removeEventListener('mousedown', onSortOutside)
+  if (clockTimer) clearInterval(clockTimer)
+  if (quoteTimer) clearInterval(quoteTimer)
+})
 
 // ─── Actions ──────────────────────────────────────────────────────
 function openNewProjectModal() {
@@ -319,7 +483,10 @@ async function doDelete() {
 // ─── Helpers ──────────────────────────────────────────────────────
 function formatDate(d) {
   if (!d) return ''
-  return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  // Firestore Timestamp → plain Date
+  const date = d?.toDate ? d.toDate() : d?.seconds ? new Date(d.seconds * 1000) : new Date(d)
+  if (isNaN(date.getTime())) return ''
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
 function hexToRgba(hex, alpha) {
@@ -480,6 +647,88 @@ function lighten(hex) {
 .kpi-lbl {
   font-size: 13px;
   color: $brand-400;
+}
+
+// ── Clock format toggle ──────────────────────────────────────────────
+.clock-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  background: $bg-elevated;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 3px 0;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #f59e0b;
+  font-variant-numeric: tabular-nums;
+  &:hover { border-color: #f59e0b; }
+}
+
+// ── Weather card ──────────────────────────────────────────────────────
+.wx-time {
+  font-size: 34px;
+  font-weight: 800;
+  color: $text-heading;
+  letter-spacing: -1px;
+  line-height: 1;
+  margin-bottom: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.wx-date {
+  font-size: 13px;
+  font-weight: 500;
+  color: $brand-300;
+  margin-bottom: 6px;
+}
+.wx-location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: $brand-400;
+  svg { flex-shrink: 0; }
+}
+.wx-condition-label { font-size: 11px; color: $brand-400; }
+
+// ── Quote card ──────────────────────────────────────────────────────
+.quote-refresh {
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  background: $bg-elevated;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: $brand-400;
+  cursor: pointer;
+  transition: all 0.15s;
+  padding: 0;
+  outline: none;
+  &:focus { outline: none; box-shadow: none; }
+  &:hover { border-color: var(--accent); color: var(--accent); }
+}
+
+.quote-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: $text-heading;
+  line-height: 1.55;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  &.loading { color: $brand-500; font-style: italic; }
+}
+
+.quote-author {
+  font-size: 11px;
+  color: $brand-400;
+  font-style: italic;
 }
 
 // ── Card Base ───────────────────────────────────────────────────────

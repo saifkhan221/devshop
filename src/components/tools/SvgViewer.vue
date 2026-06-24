@@ -140,14 +140,23 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import DOMPurify from 'dompurify'
+import { useToolStorage } from '@/composables/useToolStorage'
 
-defineProps({ projectId: String })
+const props = defineProps({ projectId: String })
+
+const { data, save } = useToolStorage(props.projectId, 'svg-viewer', {
+  rawCode: '',
+  previewBg: 'checker',
+  zoom: 100,
+})
 
 // ─── State ────────────────────────────────────────────────────────────────
 const fileInput   = ref(null)
-const rawCode     = ref('')
+const rawCode     = computed({ get: () => data.value.rawCode,   set: v => { data.value.rawCode = v;   save() } })
+const previewBg   = computed({ get: () => data.value.previewBg, set: v => { data.value.previewBg = v; save() } })
+const zoom        = computed({ get: () => data.value.zoom,      set: v => { data.value.zoom = v;      save() } })
 const svgContent  = ref('')
 const svgWidth    = ref('')
 const svgHeight   = ref('')
@@ -157,8 +166,6 @@ const fillColor   = ref('')
 const dragging    = ref(false)
 const copied      = ref(false)
 const activeTab   = ref('code')
-const previewBg   = ref('checker')
-const zoom        = ref(100)
 const showIconLib = ref(false)
 const iconSearch  = ref('')
 const iconLibRef  = ref(null)
@@ -377,11 +384,12 @@ function onOutside(e) {
 }
 onMounted(() => {
   document.addEventListener('mousedown', onOutside)
-  // Load default SVG
-  rawCode.value = DEFAULT_SVG
-  svgContent.value = DEFAULT_SVG
-  parseMeta(DEFAULT_SVG)
-  fileSize.value = `${new Blob([DEFAULT_SVG]).size} B`
+  // Use saved SVG if available, otherwise load default
+  const code = rawCode.value || DEFAULT_SVG
+  if (!rawCode.value) rawCode.value = DEFAULT_SVG
+  svgContent.value = code
+  parseMeta(code)
+  fileSize.value = `${new Blob([code]).size} B`
 })
 onUnmounted(() => document.removeEventListener('mousedown', onOutside))
 

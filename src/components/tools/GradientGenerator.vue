@@ -36,19 +36,25 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useToolStorage } from '@/composables/useToolStorage'
 
-defineProps({ projectId: String })
+const props = defineProps({ projectId: String })
 
-const type = ref('Linear')
+const { data, save } = useToolStorage(props.projectId, 'gradient-generator', {
+  type: 'Linear',
+  angle: 135,
+  stops: [{ color: '#4c2c99', pos: 0 }, { color: '#7c3aed', pos: 100 }],
+})
+
+const type  = computed({ get: () => data.value.type,  set: v => { data.value.type = v;  save() } })
+const angle = computed({ get: () => data.value.angle, set: v => { data.value.angle = v; save() } })
+const stops = computed({ get: () => data.value.stops, set: v => { data.value.stops = v; save() } })
+
 const types = ['Linear', 'Radial', 'Conic']
-const angle = ref(135)
 const copied = ref(false)
 
-const stops = ref([
-  { color: '#4c2c99', pos: 0 },
-  { color: '#7c3aed', pos: 100 }
-])
+watch(() => data.value.stops, () => save(), { deep: true })
 
 const stopsCSS = computed(() => stops.value.map(s => `${s.color} ${s.pos}%`).join(', '))
 
@@ -59,7 +65,7 @@ const cssGradient = computed(() => {
 })
 
 function addStop() {
-  stops.value.push({ color: '#a78bfa', pos: 50 })
+  data.value.stops.push({ color: '#a78bfa', pos: 50 }); save()
 }
 
 async function copyCSS() {

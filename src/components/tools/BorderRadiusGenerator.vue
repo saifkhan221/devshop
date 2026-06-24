@@ -35,12 +35,21 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useToolStorage } from '@/composables/useToolStorage'
 
-defineProps({ projectId: String })
+const props = defineProps({ projectId: String })
 
-const uniform = ref(true)
-const corners = ref([12, 12, 12, 12])
+const { data, save } = useToolStorage(props.projectId, 'border-radius', {
+  uniform: true,
+  corners: [12, 12, 12, 12],
+})
+
+const uniform = computed({ get: () => data.value.uniform, set: v => { data.value.uniform = v; save() } })
+const corners = computed({ get: () => data.value.corners, set: v => { data.value.corners = v; save() } })
+
+watch(() => data.value.corners, () => save(), { deep: true })
+
 const copied = ref(false)
 
 const cornerLabels = ['Top Left', 'Top Right', 'Bottom Right', 'Bottom Left']

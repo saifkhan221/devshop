@@ -10,7 +10,13 @@
       <ThemeSelector />
       <span v-if="showUsername" class="nav-username">{{ user?.name || user?.email }}</span>
       <div class="nav-avatar">{{ initials }}</div>
-      <button class="nav-logout" @click="logout" title="Logout">↩</button>
+      <button class="nav-logout" @click="logout" title="Logout">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
     </div>
   </nav>
 </template>
@@ -114,6 +120,6 @@ async function logout() {
   color: $brand-400;
   font-size: 14px;
   transition: all 0.2s;
-  &:hover { background: $bg-elevated; color: #fff; }
+  &:hover { background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.3); color: #f87171; }
 }
 </style>

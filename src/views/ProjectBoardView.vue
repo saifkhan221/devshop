@@ -125,7 +125,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch, defineAsyncComponent } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import AppSidebar from '@/components/layout/AppSidebar.vue'
@@ -151,11 +151,18 @@ function setViewMode(mode) {
 const project = computed(() => store.getters['projects/projectById'](projectId))
 const initials = computed(() => store.getters['auth/userInitials'])
 
-const toolList = computed(() => {
+const allToolList = computed(() => {
   if (!project.value) return []
   const order = project.value.toolOrder || project.value.tools || []
   return order.map(id => TOOLS.find(t => t.id === id)).filter(Boolean)
 })
+
+// Hidden tools are excluded from the main content area
+const hiddenTools = computed(() => project.value?.hiddenTools || [])
+
+const toolList = computed(() =>
+  allToolList.value.filter(t => !hiddenTools.value.includes(t.id))
+)
 
 const activeTool = computed(() => TOOLS.find(t => t.id === activeToolId.value))
 
@@ -185,24 +192,65 @@ const activeToolComponent = computed(() => {
   return toolComponents[activeTool.value.component] || null
 })
 
+// ─── Scroll spy ────────────────────────────────────────────────────────────
+let scrollObserver = null
+
+function setupScrollSpy() {
+  if (scrollObserver) { scrollObserver.disconnect(); scrollObserver = null }
+  if (viewMode.value !== 'all') return
+
+  // Wait a tick for the DOM to render tool blocks
+  setTimeout(() => {
+    const options = {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px', // trigger when tool is in top 30% of viewport
+      threshold: 0,
+    }
+    scrollObserver = new IntersectionObserver((entries) => {
+      // Find the entry that just became visible
+      const visible = entries.find(e => e.isIntersecting)
+      if (visible) {
+        const id = visible.target.id.replace('tool-', '')
+        activeToolId.value = id
+      }
+    }, options)
+
+    toolList.value.forEach(tool => {
+      const el = document.getElementById(`tool-${tool.id}`)
+      if (el) scrollObserver.observe(el)
+    })
+  }, 100)
+}
+
 onMounted(async () => {
   if (!project.value) {
     await store.dispatch('projects/fetchProjects')
   }
   loading.value = false
-  // Auto-select first tool
   if (toolList.value.length > 0) {
     activeToolId.value = toolList.value[0].id
   }
+  setupScrollSpy()
 })
+
+onUnmounted(() => {
+  if (scrollObserver) scrollObserver.disconnect()
+})
+
+// Re-setup observer when view mode changes or tool list changes
+watch(viewMode, setupScrollSpy)
+watch(toolList, setupScrollSpy)
 
 function setActiveTool(id) {
   activeToolId.value = id
-  // In all-tools view, scroll to the tool block
   if (viewMode.value === 'all') {
+    // Temporarily disconnect observer so the programmatic scroll doesn't retrigger
+    if (scrollObserver) scrollObserver.disconnect()
     setTimeout(() => {
       const el = document.getElementById(`tool-${id}`)
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      // Reconnect after scroll settles
+      setTimeout(setupScrollSpy, 600)
     }, 50)
   }
 }
@@ -429,7 +477,7 @@ async function logout() {
 }
 
 .tool-block {
-  padding-bottom: 8px;
+  padding-bottom: 16px;
 }
 
 .tool-icon-inline {
@@ -451,7 +499,7 @@ async function logout() {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 20px 0;
+  padding: 40px 0;
 }
 
 .separator-line {

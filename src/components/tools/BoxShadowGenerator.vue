@@ -61,16 +61,21 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useToolStorage } from '@/composables/useToolStorage'
 
-defineProps({ projectId: String })
+const props = defineProps({ projectId: String })
+
+const { data, save } = useToolStorage(props.projectId, 'box-shadow', {
+  shadows: [{ x: 4, y: 8, blur: 24, spread: 0, color: '#000000', opacity: 0.3, inset: false }],
+})
+
+const shadows = computed({ get: () => data.value.shadows, set: v => { data.value.shadows = v; save() } })
+
+watch(() => data.value.shadows, () => save(), { deep: true })
 
 const activeShadow = ref(0)
 const copied = ref(false)
-
-const shadows = ref([
-  { x: 4, y: 8, blur: 24, spread: 0, color: '#000000', opacity: 0.3, inset: false }
-])
 
 function shadowToCSS(s) {
   const hex = s.color

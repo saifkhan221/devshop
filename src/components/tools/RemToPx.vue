@@ -40,12 +40,19 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useToolStorage } from '@/composables/useToolStorage'
 
-defineProps({ projectId: String })
+const props = defineProps({ projectId: String })
 
-const rem = ref(1)
-const base = ref(16)
+const { data, save } = useToolStorage(props.projectId, 'rem-to-px', {
+  rem: 1,
+  base: 16,
+})
+
+const rem  = computed({ get: () => data.value.rem,  set: v => { data.value.rem = v;  save() } })
+const base = computed({ get: () => data.value.base, set: v => { data.value.base = v; save() } })
+
 const copied = ref(false)
 
 const pxValue = computed(() => {

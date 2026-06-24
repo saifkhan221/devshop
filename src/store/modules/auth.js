@@ -35,10 +35,18 @@ export default {
   getters: {
     isLoggedIn:   (state) => !!state.user,
     currentUser:  (state) => state.user,
-    userInitials: (state) =>
-      state.user?.initials ||
-      state.user?.name?.split(' ').map((n) => n[0]).join('') ||
-      'U',
+    userInitials: (state) => {
+      if (!state.user) return '?'
+      const fullName = state.user.displayName || state.user.name
+      if (fullName) {
+        const parts = fullName.trim().split(/\s+/).filter(Boolean)
+        return parts.length >= 2
+          ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()  // Saif Khan → SK, Saif Adris Khan → SK
+          : parts[0][0].toUpperCase()                                  // Saif → S
+      }
+      if (state.user.email) return state.user.email[0].toUpperCase()
+      return '?'
+    },
   },
 
   // ─── Mutations (sync, direct state changes) ───────────────────────────────
