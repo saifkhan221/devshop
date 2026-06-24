@@ -18,4 +18,11 @@ initTheme() // apply saved theme before mount — prevents flash of default them
 store.dispatch('auth/initAuth').then(() => {
   app.use(router)
   app.mount('#app')
+
+  // Fade out and remove the native boot screen
+  const boot = document.getElementById('app-boot')
+  if (boot) {
+    boot.classList.add('fade-out')
+    setTimeout(() => boot.remove(), 350)
+  }
 })

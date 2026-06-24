@@ -5,8 +5,38 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DevShop — Your Frontend Workspace</title>
+    <style>
+      #app-boot {
+        position: fixed; inset: 0;
+        display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+        background: #0d0720;
+        z-index: 9999;
+        transition: opacity 0.3s ease;
+      }
+      #app-boot.fade-out { opacity: 0; pointer-events: none; }
+      .boot-logo {
+        width: 44px; height: 44px;
+        background: linear-gradient(135deg, #5b21b6, #7c3aed);
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px;
+        box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+      }
+      .boot-spinner {
+        width: 20px; height: 20px;
+        border: 2px solid rgba(124,58,237,0.2);
+        border-top-color: #7c3aed;
+        border-radius: 50%;
+        animation: boot-spin 0.7s linear infinite;
+      }
+      @keyframes boot-spin { to { transform: rotate(360deg); } }
+    </style>
   </head>
   <body>
+    <div id="app-boot">
+      <div class="boot-logo">⚡</div>
+      <div class="boot-spinner"></div>
+    </div>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
