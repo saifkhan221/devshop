@@ -7,10 +7,15 @@ import { initTheme } from '@/utils/theme'
 
 const app = createApp(App)
 app.use(store)
-app.use(router)
 
 initTheme() // apply saved theme before mount — prevents flash of default theme
 
+// ── Auth-first boot ────────────────────────────────────────────────────────
+// Router is installed AFTER initAuth resolves so the beforeEach guard
+// sees the correct isLoggedIn state on the very first navigation.
+// If router is installed before auth is known, the guard fires with
+// isLoggedIn=false and redirects the user to "/" on every page refresh.
 store.dispatch('auth/initAuth').then(() => {
+  app.use(router)
   app.mount('#app')
 })

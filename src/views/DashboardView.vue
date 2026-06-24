@@ -440,7 +440,7 @@ function lighten(hex) {
   background: $bg-surface;
   border: 1px solid var(--border-subtle);
   border-radius: 16px;
-  padding: 18px 20px 12px;
+  padding: 24px 24px 20px;
   position: relative;
   overflow: hidden;
 }
@@ -449,38 +449,37 @@ function lighten(hex) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
 }
 
 .kpi-icon {
-  width: 38px; height: 38px;
-  border-radius: 10px;
+  width: 48px; height: 48px;
+  border-radius: 13px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
+  font-size: 22px;
   flex-shrink: 0;
 }
 
 .kpi-badge {
   font-size: 10px;
   font-weight: 600;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 20px;
   letter-spacing: 0.02em;
 }
 
 .kpi-val {
-  font-size: 30px;
+  font-size: 34px;
   font-weight: 800;
   color: $text-heading;
   letter-spacing: -1px;
   line-height: 1;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .kpi-lbl {
-  font-size: 12px;
+  font-size: 13px;
   color: $brand-400;
-  margin-bottom: 12px;
 }
 
 // ── Card Base ───────────────────────────────────────────────────────
