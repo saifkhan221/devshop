@@ -10,16 +10,16 @@
     <transition name="cal">
       <div v-if="open" class="dp-panel">
 
-        <!-- Left sidebar -->
-        <div class="dp-sidebar">
-          <div class="dp-day-name">{{ tempDayName }}</div>
-          <div class="dp-day-num">{{ tempDay }}</div>
-          <div class="dp-month-name">{{ tempMonthName }}</div>
-          <div class="dp-year">{{ tempYear }}</div>
-        </div>
-
-        <!-- Right: calendar -->
+        <!-- Calendar -->
         <div class="dp-calendar">
+          <!-- Date info strip -->
+          <div class="dp-date-strip">
+            <span class="dp-strip-num">{{ tempDay }}</span>
+            <span class="dp-strip-day">{{ tempDayName }}</span>
+            <span class="dp-strip-sep">·</span>
+            <span class="dp-strip-month">{{ tempMonthName }}</span>
+            <span class="dp-strip-year">{{ tempYear }}</span>
+          </div>
           <div class="dp-nav">
             <div class="dp-nav-group">
               <button class="dp-nav-btn" @click="prevMonth">‹</button>
@@ -253,35 +253,35 @@ function fmt(iso) {
   top: calc(100% + 8px);
   right: 0;
   display: flex;
+  flex-direction: column;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px var(--border-subtle);
   z-index: 200;
 }
 
-// ── Left sidebar ───────────────────────────────────────────────────────────
-.dp-sidebar {
-  width: 120px;
-  flex-shrink: 0;
-  background: var(--accent);
-  padding: 24px 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 2px;
-}
-
-.dp-day-name  { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
-.dp-day-num   { font-size: 52px; font-weight: 800; color: #fff; line-height: 1; letter-spacing: -2px; }
-.dp-month-name{ font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.9); margin-top: 4px; }
-.dp-year      { font-size: 28px; font-weight: 700; color: rgba(255,255,255,0.6); margin-top: 8px; }
-
-// ── Calendar right side ────────────────────────────────────────────────────
+// ── Calendar ───────────────────────────────────────────────────────────────
 .dp-calendar {
   background: $bg-surface;
   padding: 20px;
-  min-width: 280px;
+  min-width: 300px;
 }
+
+// ── Date info strip (top of calendar) ─────────────────────────────────────
+.dp-date-strip {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.dp-strip-num   { font-size: 32px; font-weight: 800; color: var(--accent); line-height: 1; letter-spacing: -1px; }
+.dp-strip-day   { font-size: 13px; font-weight: 600; color: $text-heading; }
+.dp-strip-sep   { font-size: 13px; color: $brand-400; }
+.dp-strip-month { font-size: 13px; font-weight: 600; color: $text-heading; }
+.dp-strip-year  { font-size: 13px; font-weight: 500; color: $brand-400; margin-left: 2px; }
 
 .dp-nav {
   display: flex;
