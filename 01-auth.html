@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DevShop — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --brand-950: #0d0720;
+    --brand-900: #160d30;
+    --brand-800: #1f1245;
+    --brand-700: #2d1a62;
+    --brand-600: #4c2c99;
+    --brand-500: #7c3aed;
+    --brand-400: #a78bfa;
+    --brand-300: #c4b5fd;
+    --brand-200: #ddd6fe;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--brand-950);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Background glow */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(124,58,237,0.18) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -200px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(76,44,153,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .card {
+    position: relative;
+    z-index: 1;
+    background: var(--brand-900);
+    border: 1px solid rgba(44, 26, 98, 0.9);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(124,58,237,0.08);
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--brand-600), var(--brand-500));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 16px rgba(124,58,237,0.4);
+  }
+
+  .logo-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+
+  .tagline {
+    text-align: center;
+    font-size: 13px;
+    color: var(--brand-400);
+    margin-bottom: 28px;
+  }
+
+  .tab-switcher {
+    display: flex;
+    background: var(--brand-800);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 28px;
+    gap: 4px;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 7px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active {
+    background: var(--brand-600);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(124,58,237,0.3);
+  }
+
+  .tab-btn:not(.active) {
+    background: transparent;
+    color: var(--brand-400);
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--brand-300);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    background: var(--brand-800);
+    border: 1px solid rgba(45, 26, 98, 0.8);
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input:focus {
+    border-color: var(--brand-500);
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+  }
+
+  input::placeholder { color: rgba(167,139,250,0.4); }
+
+  .btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--brand-600), var(--brand-500));
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(124,58,237,0.3);
+    letter-spacing: 0.01em;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(124,58,237,0.45);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(45,26,98,0.8);
+  }
+
+  .divider span {
+    font-size: 12px;
+    color: var(--brand-400);
+  }
+
+  .toggle-link {
+    text-align: center;
+    font-size: 13px;
+    color: var(--brand-400);
+    margin-top: 20px;
+  }
+
+  .toggle-link a {
+    color: var(--brand-300);
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .toggle-link a:hover { color: #fff; }
+
+  /* Floating particles */
+  .particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.15;
+    animation: float linear infinite;
+    z-index: 0;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.15; }
+    90% { opacity: 0.15; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+  }
+
+  .screen-nav {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    background: var(--brand-900);
+    border: 1px solid rgba(45,26,98,0.9);
+    border-radius: 50px;
+    padding: 8px 16px;
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .screen-nav a {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--brand-400);
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 20px;
+    transition: all 0.2s;
+  }
+
+  .screen-nav a.active,
+  .screen-nav a:hover {
+    background: var(--brand-700);
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<!-- Particles -->
+<div class="particle" style="left:10%;width:6px;height:6px;background:#7c3aed;animation-duration:12s;animation-delay:0s;"></div>
+<div class="particle" style="left:25%;width:4px;height:4px;background:#a78bfa;animation-duration:15s;animation-delay:3s;"></div>
+<div class="particle" style="left:60%;width:5px;height:5px;background:#7c3aed;animation-duration:10s;animation-delay:1s;"></div>
+<div class="particle" style="left:80%;width:3px;height:3px;background:#c4b5fd;animation-duration:18s;animation-delay:6s;"></div>
+<div class="particle" style="left:45%;width:4px;height:4px;background:#a78bfa;animation-duration:14s;animation-delay:9s;"></div>
+
+<div class="card">
+  <div class="logo-row">
+    <div class="logo-icon">⚡</div>
+    <span class="logo-name">DevShop</span>
+  </div>
+  <p class="tagline">Your frontend workspace, all in one place.</p>
+
+  <div class="tab-switcher">
+    <button class="tab-btn active">Login</button>
+    <button class="tab-btn">Sign Up</button>
+  </div>
+
+  <div class="form-group">
+    <label>Email address</label>
+    <input type="email" placeholder="you@example.com"/>
+  </div>
+
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" placeholder="Enter your password"/>
+  </div>
+
+  <button class="btn-primary">Sign in to DevShop</button>
+
+  <div class="toggle-link">
+    Don't have an account? <a>Create one free</a>
+  </div>
+</div>
+
+<!-- Screen navigation -->
+<nav class="screen-nav">
+  <a href="01-auth.html" class="active">① Auth</a>
+  <a href="02-dashboard.html">② Dashboard</a>
+  <a href="03-tool-selector.html">③ Tools</a>
+  <a href="04-project-board.html">④ Board</a>
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DevShop — Add Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --brand-950: #0d0720;
+    --brand-900: #160d30;
+    --brand-800: #1f1245;
+    --brand-700: #2d1a62;
+    --brand-600: #4c2c99;
+    --brand-500: #7c3aed;
+    --brand-400: #a78bfa;
+    --brand-300: #c4b5fd;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--brand-950);
+    min-height: 100vh;
+    color: #fff;
+    padding-bottom: 100px;
+  }
+
+  .navbar {
+    height: 58px;
+    background: var(--brand-900);
+    border-bottom: 1px solid rgba(45,26,98,0.8);
+    display: flex;
+    align-items: center;
+    padding: 0 28px;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+
+  .nav-logo { display: flex; align-items: center; gap: 9px; flex: 1; }
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, #4c2c99, #7c3aed);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    box-shadow: 0 2px 10px rgba(124,58,237,0.35);
+  }
+  .logo-name { font-size: 16px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+
+  .nav-right { display: flex; align-items: center; gap: 14px; }
+  .nav-avatar {
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, var(--brand-600), var(--brand-500));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; color: #fff;
+    box-shadow: 0 2px 8px rgba(124,58,237,0.3);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--brand-400);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 5px 0;
+  }
+  .back-link:hover { color: #fff; }
+
+  .main { padding: 32px 36px 120px; max-width: 1100px; margin: 0 auto; }
+
+  .page-header { margin-bottom: 8px; }
+  .page-title { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+  .page-subtitle { font-size: 13px; color: var(--brand-400); margin-top: 5px; line-height: 1.5; }
+
+  .project-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--brand-800);
+    border: 1px solid rgba(45,26,98,0.8);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--brand-300);
+    margin: 14px 0 28px;
+  }
+
+  .project-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--brand-500);
+  }
+
+  /* Category tabs */
+  .category-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .cat-tab {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(45,26,98,0.8);
+    background: transparent;
+    color: var(--brand-400);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .cat-tab.active,
+  .cat-tab:hover {
+    background: var(--brand-700);
+    border-color: var(--brand-600);
+    color: #fff;
+  }
+
+  /* Tools grid */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+
+  .tool-card {
+    background: var(--brand-900);
+    border: 2px solid rgba(45,26,98,0.7);
+    border-radius: 14px;
+    padding: 18px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    user-select: none;
+  }
+
+  .tool-card:hover {
+    border-color: rgba(124,58,237,0.4);
+    transform: translateY(-1px);
+  }
+
+  .tool-card.selected {
+    border-color: var(--brand-500);
+    background: rgba(124,58,237,0.08);
+  }
+
+  .tool-check {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background: var(--brand-500);
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(124,58,237,0.4);
+  }
+
+  .tool-card.selected .tool-check { display: flex; }
+
+  .tool-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 12px;
+    background: var(--brand-800);
+  }
+
+  .tool-card.selected .tool-icon {
+    background: rgba(124,58,237,0.2);
+  }
+
+  .tool-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+    letter-spacing: -0.1px;
+  }
+
+  .tool-desc {
+    font-size: 11px;
+    color: var(--brand-400);
+    line-height: 1.5;
+  }
+
+  .tool-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-top: 10px;
+    background: var(--brand-800);
+    color: var(--brand-400);
+  }
+
+  .tool-card.selected .tool-tag {
+    background: rgba(124,58,237,0.2);
+    color: var(--brand-300);
+  }
+
+  /* Bottom sticky bar */
+  .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--brand-900);
+    border-top: 1px solid rgba(45,26,98,0.9);
+    padding: 16px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 50;
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.3);
+  }
+
+  .selected-count {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .count-badge {
+    width: 28px;
+    height: 28px;
+    background: var(--brand-600);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(124,58,237,0.4);
+  }
+
+  .count-text { font-size: 13px; color: var(--brand-300); }
+  .count-text strong { color: #fff; }
+
+  .bar-actions { display: flex; gap: 10px; align-items: center; }
+
+  .btn-ghost {
+    padding: 9px 18px;
+    background: var(--brand-800);
+    border: none;
+    border-radius: 10px;
+    color: var(--brand-300);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-ghost:hover { background: var(--brand-700); color: #fff; }
+
+  .btn-primary {
+    padding: 9px 22px;
+    background: linear-gradient(135deg, var(--brand-600), var(--brand-500));
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 10px rgba(124,58,237,0.3);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(124,58,237,0.45); }
+
+  .screen-nav {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    background: var(--brand-900);
+    border: 1px solid rgba(45,26,98,0.9);
+    border-radius: 50px;
+    padding: 8px 16px;
+    z-index: 200;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .screen-nav a {
+    font-size: 12px; font-weight: 500; color: var(--brand-400);
+    text-decoration: none; padding: 5px 12px; border-radius: 20px; transition: all 0.2s;
+  }
+
+  .screen-nav a.active, .screen-nav a:hover { background: var(--brand-700); color: #fff; }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-logo">
+    <div class="logo-icon">⚡</div>
+    <span class="logo-name">DevShop</span>
+  </div>
+  <div class="nav-right">
+    <span style="font-size:13px;font-weight:500;color:var(--brand-300);">Saif K.</span>
+    <div class="nav-avatar">SK</div>
+  </div>
+</nav>
+
+<main class="main">
+
+  <a class="back-link" href="02-dashboard.html">← Back to Dashboard</a>
+
+  <div class="page-header">
+    <h1 class="page-title">Add Tools to Your Project</h1>
+    <p class="page-subtitle">Select the tools you want in this project. You can add or remove them anytime.</p>
+  </div>
+
+  <div class="project-pill">
+    <div class="project-dot"></div>
+    E-Commerce Redesign
+  </div>
+
+  <!-- Category filters -->
+  <div class="category-tabs">
+    <button class="cat-tab active">All Tools</button>
+    <button class="cat-tab">CSS & Layout</button>
+    <button class="cat-tab">Productivity</button>
+    <button class="cat-tab">Code</button>
+    <button class="cat-tab">Testing</button>
+    <button class="cat-tab">Design</button>
+  </div>
+
+  <div class="tools-grid" id="toolsGrid">
+
+    <div class="tool-card selected" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">📐</div>
+      <div class="tool-name">PX to REM</div>
+      <div class="tool-desc">Convert pixel values to REM units instantly</div>
+      <span class="tool-tag">CSS</span>
+    </div>
+
+    <div class="tool-card" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">↔️</div>
+      <div class="tool-name">REM to PX</div>
+      <div class="tool-desc">Reverse convert REM back to pixel values</div>
+      <span class="tool-tag">CSS</span>
+    </div>
+
+    <div class="tool-card selected" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">🌫️</div>
+      <div class="tool-name">Box Shadow Generator</div>
+      <div class="tool-desc">Build and preview CSS box shadows live</div>
+      <span class="tool-tag">CSS</span>
+    </div>
+
+    <div class="tool-card" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">🖼️</div>
+      <div class="tool-name">SVG Viewer</div>
+      <div class="tool-desc">View, preview and inspect SVG files</div>
+      <span class="tool-tag">Design</span>
+    </div>
+
+    <div class="tool-card selected" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">✅</div>
+      <div class="tool-name">Task List</div>
+      <div class="tool-desc">Manage todos and project tasks</div>
+      <span class="tool-tag">Productivity</span>
+    </div>
+
+    <div class="tool-card" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">📋</div>
+      <div class="tool-name">Testing Checklist</div>
+      <div class="tool-desc">QA checklist to ship with confidence</div>
+      <span class="tool-tag">Testing</span>
+    </div>
+
+    <div class="tool-card" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">🎨</div>
+      <div class="tool-name">Color Palette</div>
+      <div class="tool-desc">Generate and save color palettes</div>
+      <span class="tool-tag">Design</span>
+    </div>
+
+    <div class="tool-card" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">🌈</div>
+      <div class="tool-name">Gradient Generator</div>
+      <div class="tool-desc">Create beautiful CSS gradients visually</div>
+      <span class="tool-tag">CSS</span>
+    </div>
+
+    <div class="tool-card" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">📦</div>
+      <div class="tool-name">Flexbox Playground</div>
+      <div class="tool-desc">Interactive flexbox layout visualizer</div>
+      <span class="tool-tag">CSS & Layout</span>
+    </div>
+
+    <div class="tool-card" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">⬜</div>
+      <div class="tool-name">Border Radius</div>
+      <div class="tool-desc">Visual border radius generator</div>
+      <span class="tool-tag">CSS</span>
+    </div>
+
+    <div class="tool-card selected" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">👁️</div>
+      <div class="tool-name">Contrast Checker</div>
+      <div class="tool-desc">WCAG contrast ratio checker</div>
+      <span class="tool-tag">Accessibility</span>
+    </div>
+
+    <div class="tool-card" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">💾</div>
+      <div class="tool-name">Code Snippets</div>
+      <div class="tool-desc">Save and organize reusable code</div>
+      <span class="tool-tag">Code</span>
+    </div>
+
+    <div class="tool-card" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">🔤</div>
+      <div class="tool-name">Regex Tester</div>
+      <div class="tool-desc">Test and debug regular expressions</div>
+      <span class="tool-tag">Code</span>
+    </div>
+
+    <div class="tool-card" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">{ }</div>
+      <div class="tool-name">JSON Formatter</div>
+      <div class="tool-desc">Format and validate JSON data</div>
+      <span class="tool-tag">Code</span>
+    </div>
+
+    <div class="tool-card selected" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">📌</div>
+      <div class="tool-name">Kanban Board</div>
+      <div class="tool-desc">Trello-style task management board</div>
+      <span class="tool-tag">Productivity</span>
+    </div>
+
+    <div class="tool-card" onclick="toggleTool(this)">
+      <div class="tool-check">✓</div>
+      <div class="tool-icon">📱</div>
+      <div class="tool-name">Breakpoint Tester</div>
+      <div class="tool-desc">Test responsive breakpoints live</div>
+      <span class="tool-tag">Testing</span>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- Bottom action bar -->
+<div class="bottom-bar">
+  <div class="selected-count">
+    <div class="count-badge" id="countBadge">5</div>
+    <span class="count-text"><strong id="countText">5 tools</strong> selected</span>
+  </div>
+  <div class="bar-actions">
+    <button class="btn-ghost">Skip for now</button>
+    <a href="04-project-board.html" style="text-decoration:none;">
+      <button class="btn-primary">Add to Project →</button>
+    </a>
+  </div>
+</div>
+
+<!-- Screen nav -->
+<nav class="screen-nav">
+  <a href="01-auth.html">① Auth</a>
+  <a href="02-dashboard.html">② Dashboard</a>
+  <a href="03-tool-selector.html" class="active">③ Tools</a>
+  <a href="04-project-board.html">④ Board</a>
+</nav>
+
+<script>
+  function toggleTool(card) {
+    card.classList.toggle('selected');
+    const count = document.querySelectorAll('.tool-card.selected').length;
+    document.getElementById('countBadge').textContent = count;
+    document.getElementById('countText').textContent = count + ' tool' + (count !== 1 ? 's' : '');
+  }
+</script>
+</body>
+</html>

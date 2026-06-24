@@ -1,0 +1,34 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Projects: users can ONLY access their OWN projects
+    match /projects/{projectId} {
+      // Read: only if the document's userId matches the logged-in user
+      allow read: if request.auth != null
+                  && resource.data.userId == request.auth.uid;
+
+      // Create: only if the new document's userId matches the logged-in user
+      // and required fields are present
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.keys().hasAll(['name', 'userId'])
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() <= 100;
+
+      // Update: only the owner can update, and cannot change the userId field
+      allow update: if request.auth != null
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.userId == request.auth.uid;
+
+      // Delete: only the owner
+      allow delete: if request.auth != null
+                    && resource.data.userId == request.auth.uid;
+    }
+
+    // Deny everything else by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

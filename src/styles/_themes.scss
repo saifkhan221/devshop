@@ -1,0 +1,228 @@
+// ─── Theme Definitions ────────────────────────────────────────────────────
+// Applied by setting data-theme="themeName" on <html>
+// Custom theme is applied via inline CSS properties on :root directly (see theme.js)
+
+:root,
+[data-theme="aurora"] {
+  // Aurora — deep purple cosmos (DEFAULT)
+  --bg-primary:     #0d0720;
+  --bg-surface:     #160d30;
+  --bg-elevated:    #1f1245;
+  --border-subtle:  rgba(45, 26, 98, 0.7);
+  --border-strong:  rgba(45, 26, 98, 0.9);
+  --text-primary:   #ffffff;
+  --text-secondary: #c4b5fd;
+  --text-muted:     #a78bfa;
+  --text-heading:   #ffffff;
+  --accent:         #7c3aed;
+  --accent-glow:    rgba(124, 58, 237, 0.35);
+  --accent-subtle:  rgba(124, 58, 237, 0.08);
+  --brand-950: #0d0720;
+  --brand-900: #160d30;
+  --brand-800: #1f1245;
+  --brand-700: #2d1a62;
+  --brand-600: #4c2c99;
+  --brand-500: #7c3aed;
+  --brand-400: #a78bfa;
+  --brand-300: #c4b5fd;
+  --brand-200: #ddd6fe;
+  --shadow-card:   0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-modal:  0 40px 80px rgba(0, 0, 0, 0.6);
+  --shadow-accent: 0 4px 16px rgba(124, 58, 237, 0.35);
+}
+
+[data-theme="slate"] {
+  // Slate — cool grey with indigo
+  --bg-primary:     #0f1117;
+  --bg-surface:     #1a1d27;
+  --bg-elevated:    #222534;
+  --border-subtle:  rgba(50, 55, 80, 0.7);
+  --border-strong:  rgba(50, 55, 80, 0.9);
+  --text-primary:   #f1f5f9;
+  --text-secondary: #a5b4fc;
+  --text-muted:     #818cf8;
+  --text-heading:   #ffffff;
+  --accent:         #6366f1;
+  --accent-glow:    rgba(99, 102, 241, 0.35);
+  --accent-subtle:  rgba(99, 102, 241, 0.08);
+  --brand-950: #0f1117;
+  --brand-900: #1a1d27;
+  --brand-800: #222534;
+  --brand-700: #323750;
+  --brand-600: #4338ca;
+  --brand-500: #6366f1;
+  --brand-400: #818cf8;
+  --brand-300: #a5b4fc;
+  --brand-200: #c7d2fe;
+  --shadow-card:   0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-modal:  0 40px 80px rgba(0, 0, 0, 0.6);
+  --shadow-accent: 0 4px 16px rgba(99, 102, 241, 0.35);
+}
+
+[data-theme="ocean"] {
+  // Ocean — deep sea navy & cyan
+  --bg-primary:     #071520;
+  --bg-surface:     #0d2137;
+  --bg-elevated:    #0f2d4a;
+  --border-subtle:  rgba(6, 78, 110, 0.6);
+  --border-strong:  rgba(6, 78, 110, 0.9);
+  --text-primary:   #f0f9ff;
+  --text-secondary: #67e8f9;
+  --text-muted:     #22d3ee;
+  --text-heading:   #ffffff;
+  --accent:         #06b6d4;
+  --accent-glow:    rgba(6, 182, 212, 0.35);
+  --accent-subtle:  rgba(6, 182, 212, 0.08);
+  --brand-950: #071520;
+  --brand-900: #0d2137;
+  --brand-800: #0f2d4a;
+  --brand-700: #164e63;
+  --brand-600: #0e7490;
+  --brand-500: #06b6d4;
+  --brand-400: #22d3ee;
+  --brand-300: #67e8f9;
+  --brand-200: #a5f3fc;
+  --shadow-card:   0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-modal:  0 40px 80px rgba(0, 0, 0, 0.65);
+  --shadow-accent: 0 4px 16px rgba(6, 182, 212, 0.35);
+}
+
+[data-theme="volt"] {
+  // Volt — true black with electric neon lime (inspired by neon dashboard)
+  --bg-primary:     #090909;
+  --bg-surface:     #181818;
+  --bg-elevated:    #272727;
+  --border-subtle:  rgba(200, 245, 59, 0.18);
+  --border-strong:  rgba(200, 245, 59, 0.38);
+  --text-primary:   #ffffff;
+  --text-secondary: #e0f993;
+  --text-muted:     #d5f76c;
+  --text-heading:   #ffffff;
+  --accent:         #c8f53b;
+  --accent-glow:    rgba(200, 245, 59, 0.35);
+  --accent-subtle:  rgba(200, 245, 59, 0.08);
+  --brand-950: #090909;
+  --brand-900: #151515;
+  --brand-800: #222222;
+  --brand-700: #647a1d;
+  --brand-600: #a0c42f;
+  --brand-500: #c8f53b;
+  --brand-400: #d3f762;
+  --brand-300: #def991;
+  --brand-200: #e9fbaf;
+  --shadow-card:   0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-modal:  0 40px 80px rgba(0, 0, 0, 0.75);
+  --shadow-accent: 0 4px 16px rgba(200, 245, 59, 0.4);
+}
+
+[data-theme="jade"] {
+  // Jade — dark carbon with emerald teal (inspired by AIZCRM dashboard)
+  --bg-primary:     #0c1110;
+  --bg-surface:     #111a18;
+  --bg-elevated:    #172420;
+  --border-subtle:  rgba(0, 212, 160, 0.18);
+  --border-strong:  rgba(0, 212, 160, 0.38);
+  --text-primary:   #ffffff;
+  --text-secondary: #80f0d8;
+  --text-muted:     #40e8c0;
+  --text-heading:   #ffffff;
+  --accent:         #00d4a0;
+  --accent-glow:    rgba(0, 212, 160, 0.35);
+  --accent-subtle:  rgba(0, 212, 160, 0.08);
+  --brand-950: #0c1110;
+  --brand-900: #111918;
+  --brand-800: #162320;
+  --brand-700: #006a50;
+  --brand-600: #00aa80;
+  --brand-500: #00d4a0;
+  --brand-400: #33ddb3;
+  --brand-300: #66e8c8;
+  --brand-200: #99f3dc;
+  --shadow-card:   0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-modal:  0 40px 80px rgba(0, 0, 0, 0.65);
+  --shadow-accent: 0 4px 16px rgba(0, 212, 160, 0.35);
+}
+
+[data-theme="cosmic"] {
+  // Cosmic — deep plum with vivid violet (inspired by Virtual dashboard)
+  --bg-primary:     #12082d;
+  --bg-surface:     #1a1138;
+  --bg-elevated:    #231644;
+  --border-subtle:  rgba(168, 85, 247, 0.22);
+  --border-strong:  rgba(168, 85, 247, 0.45);
+  --text-primary:   #ffffff;
+  --text-secondary: #d8b4fe;
+  --text-muted:     #c084fc;
+  --text-heading:   #ffffff;
+  --accent:         #a855f7;
+  --accent-glow:    rgba(168, 85, 247, 0.35);
+  --accent-subtle:  rgba(168, 85, 247, 0.08);
+  --brand-950: #12082d;
+  --brand-900: #1a1037;
+  --brand-800: #221844;
+  --brand-700: #542a7b;
+  --brand-600: #8644c5;
+  --brand-500: #a855f7;
+  --brand-400: #bf7df8;
+  --brand-300: #d4a8fb;
+  --brand-200: #e8d0fd;
+  --shadow-card:   0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-modal:  0 40px 80px rgba(0, 0, 0, 0.65);
+  --shadow-accent: 0 4px 16px rgba(168, 85, 247, 0.4);
+}
+
+[data-theme="azure"] {
+  // Azure — midnight navy with electric blue (inspired by Eduplex dashboard)
+  --bg-primary:     #080e1a;
+  --bg-surface:     #0e1625;
+  --bg-elevated:    #152030;
+  --border-subtle:  rgba(59, 158, 245, 0.18);
+  --border-strong:  rgba(59, 158, 245, 0.38);
+  --text-primary:   #ffffff;
+  --text-secondary: #bae0fd;
+  --text-muted:     #7cc4fb;
+  --text-heading:   #ffffff;
+  --accent:         #3b9ef5;
+  --accent-glow:    rgba(59, 158, 245, 0.35);
+  --accent-subtle:  rgba(59, 158, 245, 0.08);
+  --brand-950: #080e1a;
+  --brand-900: #0d1522;
+  --brand-800: #121e2c;
+  --brand-700: #1d4f7a;
+  --brand-600: #2f7ec4;
+  --brand-500: #3b9ef5;
+  --brand-400: #6cb5f7;
+  --brand-300: #9accf9;
+  --brand-200: #c6e2fb;
+  --shadow-card:   0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-modal:  0 40px 80px rgba(0, 0, 0, 0.65);
+  --shadow-accent: 0 4px 16px rgba(59, 158, 245, 0.35);
+}
+
+[data-theme="lavender"] {
+  // Lavender — light purple corporate (inspired by TwitHR)
+  --bg-primary:     #f0f0fb;
+  --bg-surface:     #ffffff;
+  --bg-elevated:    #e8e8f8;
+  --border-subtle:  rgba(91, 94, 166, 0.14);
+  --border-strong:  rgba(91, 94, 166, 0.28);
+  --text-primary:   #7272a8;
+  --text-secondary: #4f46e5;
+  --text-muted:     #9898b8;
+  --text-heading:   #1e1b4b;
+  --accent:         #5b5ea6;
+  --accent-glow:    rgba(91, 94, 166, 0.22);
+  --accent-subtle:  rgba(91, 94, 166, 0.10);
+  --brand-950: #1e1b4b;
+  --brand-900: #312e81;
+  --brand-800: #3730a3;
+  --brand-700: #4338ca;
+  --brand-600: #4f46e5;
+  --brand-500: #5b5ea6;
+  --brand-400: #818cf8;
+  --brand-300: #a5b4fc;
+  --brand-200: #dde1ff;
+  --shadow-card:   0 2px 12px rgba(91, 94, 166, 0.10);
+  --shadow-modal:  0 20px 60px rgba(91, 94, 166, 0.18);
+  --shadow-accent: 0 4px 16px rgba(91, 94, 166, 0.28);
+}

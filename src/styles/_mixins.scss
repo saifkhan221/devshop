@@ -1,0 +1,33 @@
+@use './variables' as *;
+
+@mixin card {
+  background: $bg-surface;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  padding: $space-lg;
+}
+
+@mixin button-primary {
+  background: $brand-500;
+  color: white;
+  border: none;
+  border-radius: $radius-md;
+  padding: $space-sm $space-md;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-base;
+  &:hover { background: $brand-600; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+@mixin input-base {
+  background: $bg-elevated;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  color: $text-primary;
+  padding: $space-sm $space-md;
+  width: 100%;
+  font-family: inherit;
+  &:focus { outline: none; border-color: $brand-500; }
+  &::placeholder { color: $text-muted; }
+}

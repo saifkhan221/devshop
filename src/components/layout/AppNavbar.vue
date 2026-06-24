@@ -1,0 +1,119 @@
+<template>
+  <nav class="navbar">
+    <div class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-name">DevShop</span>
+    </div>
+    <slot name="center" />
+    <div class="nav-right">
+      <slot name="right" />
+      <ThemeSelector />
+      <span v-if="showUsername" class="nav-username">{{ user?.name || user?.email }}</span>
+      <div class="nav-avatar">{{ initials }}</div>
+      <button class="nav-logout" @click="logout" title="Logout">↩</button>
+    </div>
+  </nav>
+</template>
+
+<script setup>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import ThemeSelector from '@/components/ui/ThemeSelector.vue'
+
+defineProps({
+  showUsername: { type: Boolean, default: true }
+})
+
+const store = useStore()
+const router = useRouter()
+const user = computed(() => store.getters['auth/currentUser'])
+const initials = computed(() => store.getters['auth/userInitials'])
+
+async function logout() {
+  await store.dispatch('auth/logout')
+  router.push('/')
+}
+</script>
+
+<style lang="scss" scoped>
+@use '@/styles/variables' as *;
+
+.navbar {
+  height: 58px;
+  background: $bg-surface;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: 1;
+}
+
+.logo-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, $brand-600, $brand-500);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 10px var(--accent-glow);
+}
+
+.logo-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-heading);
+  letter-spacing: -0.3px;
+  line-height: 1;
+  align-self: center;
+  position: relative;
+  top: 1px; // nudge down 1px to optically center with the icon
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nav-username {
+  font-size: 13px;
+  font-weight: 500;
+  color: $brand-300;
+}
+
+.nav-avatar {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, $brand-600, $brand-500);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+.nav-logout {
+  width: 32px; height: 32px;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: $brand-400;
+  font-size: 14px;
+  transition: all 0.2s;
+  &:hover { background: $bg-elevated; color: #fff; }
+}
+</style>

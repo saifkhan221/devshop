@@ -1,0 +1,27 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.*.local
+.env.production
+.env.staging
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/settings.json
+.idea
+
+# Logs
+*.log
+npm-debug.log*
+
+# Firebase local emulator
+.firebase/
+firebase-debug.log

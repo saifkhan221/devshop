@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DevShop — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --brand-950: #0d0720;
+    --brand-900: #160d30;
+    --brand-800: #1f1245;
+    --brand-700: #2d1a62;
+    --brand-600: #4c2c99;
+    --brand-500: #7c3aed;
+    --brand-400: #a78bfa;
+    --brand-300: #c4b5fd;
+    --brand-200: #ddd6fe;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--brand-950);
+    min-height: 100vh;
+    color: #fff;
+  }
+
+  /* NAVBAR */
+  .navbar {
+    height: 58px;
+    background: var(--brand-900);
+    border-bottom: 1px solid rgba(45,26,98,0.8);
+    display: flex;
+    align-items: center;
+    padding: 0 28px;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex: 1;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #4c2c99, #7c3aed);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    box-shadow: 0 2px 10px rgba(124,58,237,0.35);
+  }
+
+  .logo-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .nav-avatar {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, var(--brand-600), var(--brand-500));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(124,58,237,0.3);
+  }
+
+  .nav-username {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--brand-300);
+  }
+
+  .nav-logout {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 1px solid rgba(45,26,98,0.8);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--brand-400);
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+
+  .nav-logout:hover {
+    background: var(--brand-800);
+    color: #fff;
+  }
+
+  /* MAIN */
+  .main {
+    padding: 36px 36px 100px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+
+  .page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+
+  .page-subtitle {
+    font-size: 13px;
+    color: var(--brand-400);
+    margin-top: 3px;
+  }
+
+  .btn-new {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 18px;
+    background: linear-gradient(135deg, var(--brand-600), var(--brand-500));
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(124,58,237,0.35);
+    letter-spacing: 0.01em;
+  }
+
+  .btn-new:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(124,58,237,0.5);
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .search-box {
+    flex: 1;
+    max-width: 320px;
+    position: relative;
+  }
+
+  .search-box input {
+    width: 100%;
+    background: var(--brand-900);
+    border: 1px solid rgba(45,26,98,0.9);
+    border-radius: 10px;
+    padding: 9px 14px 9px 38px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-box input:focus { border-color: var(--brand-500); }
+  .search-box input::placeholder { color: rgba(167,139,250,0.4); }
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--brand-400);
+    font-size: 13px;
+  }
+
+  .filter-select {
+    background: var(--brand-900);
+    border: 1px solid rgba(45,26,98,0.9);
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--brand-300);
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .stat-card {
+    flex: 1;
+    background: var(--brand-900);
+    border: 1px solid rgba(45,26,98,0.7);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .stat-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .stat-info .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+
+  .stat-info .stat-label {
+    font-size: 12px;
+    color: var(--brand-400);
+    margin-top: 1px;
+  }
+
+  /* PROJECTS GRID */
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--brand-400);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .project-card {
+    background: var(--brand-900);
+    border: 1px solid rgba(45,26,98,0.7);
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .project-card:hover {
+    border-color: rgba(124,58,237,0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .project-card:hover .card-actions { opacity: 1; }
+
+  .card-action-btn {
+    width: 28px;
+    height: 28px;
+    background: var(--brand-800);
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--brand-400);
+    transition: all 0.2s;
+  }
+
+  .card-action-btn:hover { background: var(--brand-700); color: #fff; }
+  .card-action-btn.delete:hover { background: rgba(239,68,68,0.2); color: #f87171; }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: var(--brand-400);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .tool-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--brand-800);
+    color: var(--brand-300);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 9px;
+    border-radius: 20px;
+  }
+
+  .card-date {
+    font-size: 11px;
+    color: rgba(167,139,250,0.5);
+  }
+
+  /* Modal overlay */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal {
+    background: var(--brand-900);
+    border: 1px solid rgba(45,26,98,0.9);
+    border-radius: 20px;
+    padding: 28px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+  }
+
+  .modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .modal-sub {
+    font-size: 13px;
+    color: var(--brand-400);
+    margin-bottom: 24px;
+  }
+
+  .modal label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--brand-300);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  .modal input,
+  .modal textarea {
+    width: 100%;
+    background: var(--brand-800);
+    border: 1px solid rgba(45,26,98,0.9);
+    border-radius: 10px;
+    padding: 10px 13px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 16px;
+    resize: vertical;
+  }
+
+  .modal input:focus,
+  .modal textarea:focus { border-color: var(--brand-500); }
+  .modal input::placeholder,
+  .modal textarea::placeholder { color: rgba(167,139,250,0.35); }
+
+  .color-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .color-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .color-dot.selected,
+  .color-dot:hover { border-color: #fff; transform: scale(1.15); }
+
+  .modal-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .btn-ghost {
+    padding: 9px 18px;
+    background: var(--brand-800);
+    border: none;
+    border-radius: 10px;
+    color: var(--brand-300);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-ghost:hover { background: var(--brand-700); color: #fff; }
+
+  .btn-primary {
+    padding: 9px 20px;
+    background: linear-gradient(135deg, var(--brand-600), var(--brand-500));
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 10px rgba(124,58,237,0.3);
+  }
+
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(124,58,237,0.45); }
+
+  .screen-nav {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    background: var(--brand-900);
+    border: 1px solid rgba(45,26,98,0.9);
+    border-radius: 50px;
+    padding: 8px 16px;
+    z-index: 200;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .screen-nav a {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--brand-400);
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 20px;
+    transition: all 0.2s;
+  }
+
+  .screen-nav a.active, .screen-nav a:hover {
+    background: var(--brand-700);
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo">
+    <div class="logo-icon">⚡</div>
+    <span class="logo-name">DevShop</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-username">Saif K.</span>
+    <div class="nav-avatar">SK</div>
+    <button class="nav-logout">↩</button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">My Projects</h1>
+      <p class="page-subtitle">3 active projects</p>
+    </div>
+    <button class="btn-new">+ New Project</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(124,58,237,0.15);">📁</div>
+      <div class="stat-info">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Total Projects</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(16,185,129,0.12);">🔧</div>
+      <div class="stat-info">
+        <div class="stat-value">14</div>
+        <div class="stat-label">Tools in Use</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(245,158,11,0.12);">✅</div>
+      <div class="stat-info">
+        <div class="stat-value">24</div>
+        <div class="stat-label">Tasks Completed</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(59,130,246,0.12);">🕐</div>
+      <div class="stat-info">
+        <div class="stat-value">Today</div>
+        <div class="stat-label">Last Active</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search toolbar -->
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search projects..."/>
+    </div>
+    <select class="filter-select">
+      <option>All Projects</option>
+      <option>Recent</option>
+      <option>Oldest</option>
+    </select>
+  </div>
+
+  <!-- Projects -->
+  <div class="section-label">Projects</div>
+  <div class="projects-grid">
+
+    <!-- Card 1 -->
+    <div class="project-card" style="--accent:#7c3aed;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#7c3aed,#a78bfa);border-radius:16px 16px 0 0;"></div>
+      <div class="card-top">
+        <div class="card-icon" style="background:rgba(124,58,237,0.15);">🛒</div>
+        <div class="card-actions">
+          <button class="card-action-btn" title="Open">↗</button>
+          <button class="card-action-btn delete" title="Delete">🗑</button>
+        </div>
+      </div>
+      <div class="card-name">E-Commerce Redesign</div>
+      <div class="card-desc">Redesigning the product page and checkout flow for better conversion.</div>
+      <div class="card-footer">
+        <span class="tool-badge">🔧 6 tools</span>
+        <span class="card-date">Jun 11, 2026</span>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="project-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#059669,#34d399);border-radius:16px 16px 0 0;"></div>
+      <div class="card-top">
+        <div class="card-icon" style="background:rgba(5,150,105,0.12);">📊</div>
+        <div class="card-actions">
+          <button class="card-action-btn" title="Open">↗</button>
+          <button class="card-action-btn delete" title="Delete">🗑</button>
+        </div>
+      </div>
+      <div class="card-name">Analytics Dashboard</div>
+      <div class="card-desc">Building a data visualization dashboard with real-time charts.</div>
+      <div class="card-footer">
+        <span class="tool-badge">🔧 4 tools</span>
+        <span class="card-date">Jun 9, 2026</span>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="project-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#f59e0b,#fcd34d);border-radius:16px 16px 0 0;"></div>
+      <div class="card-top">
+        <div class="card-icon" style="background:rgba(245,158,11,0.1);">📱</div>
+        <div class="card-actions">
+          <button class="card-action-btn" title="Open">↗</button>
+          <button class="card-action-btn delete" title="Delete">🗑</button>
+        </div>
+      </div>
+      <div class="card-name">Mobile App UI</div>
+      <div class="card-desc">Designing the onboarding flow and core screens for a fitness app.</div>
+      <div class="card-footer">
+        <span class="tool-badge">🔧 4 tools</span>
+        <span class="card-date">Jun 6, 2026</span>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- Modal (shown for preview) -->
+<div class="modal-overlay" style="display:none;">
+  <div class="modal">
+    <div class="modal-title">Create New Project</div>
+    <div class="modal-sub">Give your project a name and pick a color.</div>
+    <label>Project Name</label>
+    <input type="text" placeholder="e.g. Landing Page Redesign"/>
+    <label>Description <span style="color:var(--brand-600);font-size:11px;">(optional)</span></label>
+    <textarea rows="3" placeholder="What are you building?"></textarea>
+    <label>Accent Color</label>
+    <div class="color-row">
+      <div class="color-dot selected" style="background:#7c3aed;"></div>
+      <div class="color-dot" style="background:#059669;"></div>
+      <div class="color-dot" style="background:#f59e0b;"></div>
+      <div class="color-dot" style="background:#3b82f6;"></div>
+      <div class="color-dot" style="background:#ec4899;"></div>
+      <div class="color-dot" style="background:#ef4444;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost">Cancel</button>
+      <button class="btn-primary">Create Project →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Screen navigation -->
+<nav class="screen-nav">
+  <a href="01-auth.html">① Auth</a>
+  <a href="02-dashboard.html" class="active">② Dashboard</a>
+  <a href="03-tool-selector.html">③ Tools</a>
+  <a href="04-project-board.html">④ Board</a>
+</nav>
+
+</body>
+</html>

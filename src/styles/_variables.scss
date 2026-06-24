@@ -1,0 +1,46 @@
+// ─── Colour tokens — resolved at runtime via CSS custom properties ─────────
+// Themes are defined in _themes.scss and applied via [data-theme] on <html>
+
+$bg-primary:     var(--bg-primary);
+$bg-surface:     var(--bg-surface);
+$bg-elevated:    var(--bg-elevated);
+
+$border-subtle:  var(--border-subtle);
+$border-strong:  var(--border-strong);
+
+$text-primary:   var(--text-primary);
+$text-secondary: var(--text-secondary);
+$text-muted:     var(--text-muted);
+$text-heading:   var(--text-heading);
+
+$accent:         var(--accent);
+
+$brand-950: var(--brand-950);
+$brand-900: var(--brand-900);
+$brand-800: var(--brand-800);
+$brand-700: var(--brand-700);
+$brand-600: var(--brand-600);
+$brand-500: var(--brand-500);
+$brand-400: var(--brand-400);
+$brand-300: var(--brand-300);
+$brand-200: var(--brand-200);
+
+// ─── Non-colour tokens — static across all themes ─────────────────────────
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 24px;
+$space-xl: 32px;
+
+$radius-sm:  8px;
+$radius-md:  10px;
+$radius-lg:  14px;
+$radius-xl:  18px;
+$radius-2xl: 20px;
+
+$transition-fast: all 0.15s ease;
+$transition-base: all 0.2s ease;
+
+$shadow-card:   var(--shadow-card);
+$shadow-modal:  var(--shadow-modal);
+$shadow-accent: var(--shadow-accent);
