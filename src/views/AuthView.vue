@@ -103,7 +103,6 @@ async function handleLogin() {
   try {
     const ok = await store.dispatch('auth/login', { email: email.value, password: password.value })
     if (ok) {
-      try { await store.dispatch('projects/fetchProjects') } catch { /* Firestore loads on dashboard */ }
       router.push('/dashboard')
     } else {
       error.value = store.state.auth.error || 'Login failed'
@@ -124,7 +123,6 @@ async function handleSignup() {
   try {
     const ok = await store.dispatch('auth/signup', { name: name.value, email: email.value, password: password.value })
     if (ok) {
-      try { await store.dispatch('projects/fetchProjects') } catch { /* Firestore loads on dashboard */ }
       router.push('/dashboard')
     } else {
       error.value = store.state.auth.error || 'Signup failed'

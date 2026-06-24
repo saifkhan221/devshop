@@ -2,6 +2,20 @@ import { checkRateLimit, recordFailedAttempt, clearRateLimit, safeParseUser } fr
 
 const MODE = import.meta.env.VITE_AUTH_MODE
 
+// ─── Firebase module cache ─────────────────────────────────────────────────
+// Dynamic-imported once, then reused on every subsequent call (no per-call overhead)
+let _fb = null
+async function fb() {
+  if (!_fb) {
+    const [{ auth }, firebaseAuth] = await Promise.all([
+      import('./firebase'),
+      import('firebase/auth'),
+    ])
+    _fb = { auth, ...firebaseAuth }
+  }
+  return _fb
+}
+
 export const authService = {
   async login(email, password) {
     // Rate limit check
@@ -16,25 +30,18 @@ export const authService = {
         throw new Error('Invalid email or password.')
       }
       clearRateLimit()
-      const user = {
-        uid: 'dummy-user-001',
-        name: 'Saif K.',
-        email,
-        initials: 'SK'
-      }
+      const user = { uid: 'dummy-user-001', name: 'Saif K.', email, initials: 'SK' }
       localStorage.setItem('devshop_user', JSON.stringify(user))
       return user
     }
 
     try {
-      const { signInWithEmailAndPassword } = await import('firebase/auth')
-      const { auth } = await import('./firebase')
+      const { auth, signInWithEmailAndPassword } = await fb()
       const result = await signInWithEmailAndPassword(auth, email, password)
       clearRateLimit()
       return result.user
     } catch (e) {
       recordFailedAttempt()
-      // Don't expose internal Firebase error codes to the UI
       throw new Error('Invalid email or password.')
     }
   },
@@ -52,13 +59,11 @@ export const authService = {
     }
 
     try {
-      const { createUserWithEmailAndPassword, updateProfile } = await import('firebase/auth')
-      const { auth } = await import('./firebase')
+      const { auth, createUserWithEmailAndPassword, updateProfile } = await fb()
       const result = await createUserWithEmailAndPassword(auth, email, password)
       await updateProfile(result.user, { displayName: name })
       return result.user
     } catch (e) {
-      // Map Firebase error codes to safe messages
       if (e.code === 'auth/email-already-in-use') throw new Error('An account with this email already exists.')
       if (e.code === 'auth/weak-password') throw new Error('Password is too weak.')
       throw new Error('Could not create account. Please try again.')
@@ -70,29 +75,31 @@ export const authService = {
       localStorage.removeItem('devshop_user')
       return
     }
-    const { signOut } = await import('firebase/auth')
-    const { auth } = await import('./firebase')
+    const { auth, signOut } = await fb()
     await signOut(auth)
   },
 
   getCurrentUser() {
     if (MODE === 'dummy') {
       const stored = localStorage.getItem('devshop_user')
-      return safeParseUser(stored) // validate shape before trusting
+      return safeParseUser(stored)
     }
     return null
   },
 
-  // Waits for Firebase to restore the persisted session (async on page load).
-  // Returns the user object or null. Used by initAuth in the store.
+  // Restores Firebase session on page reload.
+  // Checks auth.currentUser first (synchronous, no round trip if already initialised),
+  // then falls back to onAuthStateChanged for the cold-boot case.
   waitForUser() {
     if (MODE === 'dummy') {
       return Promise.resolve(this.getCurrentUser())
     }
     return new Promise(async (resolve) => {
       try {
-        const { onAuthStateChanged } = await import('firebase/auth')
-        const { auth } = await import('./firebase')
+        const { auth, onAuthStateChanged } = await fb()
+        // Fast path: Firebase already has the user in memory
+        if (auth.currentUser) return resolve(auth.currentUser)
+        // Slow path: wait for Firebase to restore from IndexedDB persistence
         const unsub = onAuthStateChanged(auth, (user) => {
           unsub()
           resolve(user || null)

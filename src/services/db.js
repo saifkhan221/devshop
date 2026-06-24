@@ -1,6 +1,19 @@
 import { throttle } from '@/utils/requestThrottler'
 
 const MODE = import.meta.env.VITE_AUTH_MODE
+
+// ─── Firestore module cache ────────────────────────────────────────────────
+let _fs = null
+async function fs() {
+  if (!_fs) {
+    const [{ db }, firestore] = await Promise.all([
+      import('./firebase'),
+      import('firebase/firestore'),
+    ])
+    _fs = { db, ...firestore }
+  }
+  return _fs
+}
 const LS_KEY = 'devshop_projects'
 const getLocal = () => JSON.parse(localStorage.getItem(LS_KEY) || '[]')
 const saveLocal = (data) => localStorage.setItem(LS_KEY, JSON.stringify(data))
@@ -23,8 +36,7 @@ export const dbService = {
       return projects
     }
     return throttle('db:getProjects', async () => {
-      const { collection, query, where, getDocs } = await import('firebase/firestore')
-      const { db } = await import('./firebase')
+      const { db, collection, query, where, getDocs } = await fs()
       const q = query(collection(db,'projects'), where('userId','==',userId))
       const snap = await getDocs(q)
       return snap.docs.map(d => ({ id: d.id, ...d.data() }))
@@ -38,8 +50,7 @@ export const dbService = {
       projects.unshift(newProject); saveLocal(projects); return newProject
     }
     return throttle('db:createProject', async () => {
-      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore')
-      const { db } = await import('./firebase')
+      const { db, collection, addDoc, serverTimestamp } = await fs()
       const ref = await addDoc(collection(db,'projects'), { ...project, userId, createdAt: serverTimestamp() })
       return { id: ref.id, ...project }
     }, DB_THROTTLE)
@@ -53,8 +64,7 @@ export const dbService = {
       return
     }
     return throttle('db:updateProject', async () => {
-      const { doc, updateDoc } = await import('firebase/firestore')
-      const { db } = await import('./firebase')
+      const { db, doc, updateDoc } = await fs()
       await updateDoc(doc(db,'projects',projectId), data)
     }, DB_THROTTLE)
   },
@@ -62,8 +72,7 @@ export const dbService = {
   async deleteProject(projectId) {
     if (MODE === 'dummy') { saveLocal(getLocal().filter(p => p.id !== projectId)); return }
     return throttle('db:deleteProject', async () => {
-      const { doc, deleteDoc } = await import('firebase/firestore')
-      const { db } = await import('./firebase')
+      const { db, doc, deleteDoc } = await fs()
       await deleteDoc(doc(db,'projects',projectId))
     }, DB_THROTTLE)
   }
