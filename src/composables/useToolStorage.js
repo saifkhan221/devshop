@@ -59,7 +59,6 @@ export function useToolStorage(projectId, toolId, defaultValue) {
       const snap = await getDoc(doc(db, 'toolData', docId))
       if (snap.exists() && snap.data().data !== undefined) {
         const fresh = snap.data().data
-        // Update cache + reactive data with latest from Firestore
         localStorage.setItem(lsKey, JSON.stringify(fresh))
         data.value = fresh
       }
@@ -87,17 +86,19 @@ export function useToolStorage(projectId, toolId, defaultValue) {
       const { db, doc, setDoc } = await getFs()
       const { auth } = await import('@/services/firebase')
       const userId = auth.currentUser?.uid
-      if (!userId) return
+      if (!userId) {
+        console.warn('[useToolStorage] No authenticated user — skipping Firestore write for', docId)
+        return
+      }
 
       await setDoc(doc(db, 'toolData', docId), {
-        userId,
-        projectId,
-        toolId,
+        userId, projectId, toolId,
         data: payload,
         updatedAt: new Date().toISOString(),
       })
-    } catch {
-      // Firestore write failed — data is safe in localStorage
+      console.log('[useToolStorage] ✅ Saved to Firestore:', docId)
+    } catch (e) {
+      console.error('[useToolStorage] ❌ Firestore write failed for', docId, e)
     }
   }
 
