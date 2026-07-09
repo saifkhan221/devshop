@@ -90,7 +90,11 @@ export default {
 
     async logout({ commit }) {
       await authService.logout()
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('devshop_')) localStorage.removeItem(key)
+      })
       commit('SET_USER', null)
+      commit('projects/SET_PROJECTS', [], { root: true })
     },
 
     // Called once in main.js before the app mounts —
