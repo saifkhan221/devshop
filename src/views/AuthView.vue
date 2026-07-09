@@ -15,8 +15,8 @@
       <p class="tagline">Your frontend workspace, all in one place.</p>
 
       <div class="tab-switcher">
-        <button class="tab-btn" :class="{ active: tab === 'login' }" @click="tab = 'login'">Login</button>
-        <button class="tab-btn" :class="{ active: tab === 'signup' }" @click="tab = 'signup'">Sign Up</button>
+        <button class="tab-btn" :class="{ active: tab === 'login' }" @click="!loading && (tab = 'login')" :disabled="loading">Login</button>
+        <button class="tab-btn" :class="{ active: tab === 'signup' }" @click="!loading && (tab = 'signup')" :disabled="loading">Sign Up</button>
       </div>
 
       <!-- Error -->
@@ -26,11 +26,11 @@
       <form v-if="tab === 'login'" @submit.prevent="handleLogin">
         <div class="form-group">
           <label>Email address</label>
-          <input type="email" v-model="email" placeholder="you@example.com" required />
+          <input type="email" v-model="email" placeholder="you@example.com" required :disabled="loading" />
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" v-model="password" placeholder="Enter your password" required />
+          <input type="password" v-model="password" placeholder="Enter your password" required :disabled="loading" />
         </div>
         <button type="submit" class="btn-primary" :disabled="loading">
           <span v-if="loading" class="spinner"></span>
@@ -42,19 +42,19 @@
       <form v-if="tab === 'signup'" @submit.prevent="handleSignup">
         <div class="form-group">
           <label>Full Name</label>
-          <input type="text" v-model="name" placeholder="Saif Khan" required />
+          <input type="text" v-model="name" placeholder="Saif Khan" required :disabled="loading" />
         </div>
         <div class="form-group">
           <label>Email address</label>
-          <input type="email" v-model="email" placeholder="you@example.com" required />
+          <input type="email" v-model="email" placeholder="you@example.com" required :disabled="loading" />
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" v-model="password" placeholder="Create a password" required />
+          <input type="password" v-model="password" placeholder="Create a password" required :disabled="loading" />
         </div>
         <div class="form-group">
           <label>Confirm Password</label>
-          <input type="password" v-model="confirmPassword" placeholder="Confirm password" required />
+          <input type="password" v-model="confirmPassword" placeholder="Confirm password" required :disabled="loading" />
         </div>
         <button type="submit" class="btn-primary" :disabled="loading">
           <span v-if="loading" class="spinner"></span>
@@ -285,6 +285,7 @@ async function handleSignup() {
       box-shadow: 0 0 0 3px var(--accent-subtle);
     }
     &::placeholder { color: rgba(167,139,250,0.4); }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
   }
 }
 

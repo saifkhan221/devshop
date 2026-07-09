@@ -11,6 +11,8 @@
  * On save:
  *   1. Write localStorage immediately
  *   2. Write Firestore debounced 800ms
+ *
+ * Document ID includes userId so each user has their own isolated data.
  */
 
 import { ref } from 'vue'
@@ -31,6 +33,11 @@ async function getFs() {
   return _fs
 }
 
+async function getCurrentUserId() {
+  const { auth } = await import('@/services/firebase')
+  return auth.currentUser?.uid || null
+}
+
 function deepClone(val) {
   return JSON.parse(JSON.stringify(val))
 }
@@ -40,21 +47,22 @@ export function useToolStorage(projectId, toolId, defaultValue) {
   const loading = ref(true)
 
   const lsKey = `devshop_tool_${projectId}_${toolId}`
-  const docId = `${projectId}_${toolId}`
 
   // ─── Load ──────────────────────────────────────────────────────────────
   async function load() {
-    // Step 1: read localStorage cache — instant, no network
     const cached = localStorage.getItem(lsKey)
     if (cached) {
       try { data.value = JSON.parse(cached) } catch { /* corrupt — keep default */ }
     }
-    loading.value = false   // ← show tool immediately with cached data
+    loading.value = false
 
     if (MODE === 'dummy') return
 
-    // Step 2 (Firebase only): refresh from Firestore in background
     try {
+      const userId = await getCurrentUserId()
+      if (!userId) return
+
+      const docId = `${userId}_${projectId}_${toolId}`
       const { db, doc, getDoc } = await getFs()
       const snap = await getDoc(doc(db, 'toolData', docId))
       if (snap.exists() && snap.data().data !== undefined) {
@@ -63,7 +71,7 @@ export function useToolStorage(projectId, toolId, defaultValue) {
         data.value = fresh
       }
     } catch {
-      // Firestore unavailable — cached data already shown, nothing to do
+      // Firestore unavailable — cached data already shown
     }
   }
 
@@ -72,9 +80,7 @@ export function useToolStorage(projectId, toolId, defaultValue) {
 
   function save(valueToStore) {
     const payload = valueToStore !== undefined ? valueToStore : data.value
-    // Write localStorage immediately so cache is always fresh
     localStorage.setItem(lsKey, JSON.stringify(payload))
-    // Debounce the Firestore write
     if (_timer) clearTimeout(_timer)
     _timer = setTimeout(() => persistToFirestore(payload), DEBOUNCE_MS)
   }
@@ -83,22 +89,19 @@ export function useToolStorage(projectId, toolId, defaultValue) {
     if (MODE === 'dummy') return
 
     try {
+      const userId = await getCurrentUserId()
+      if (!userId) return
+
+      const docId = `${userId}_${projectId}_${toolId}`
       const { db, doc, setDoc } = await getFs()
-      const { auth } = await import('@/services/firebase')
-      const userId = auth.currentUser?.uid
-      if (!userId) {
-        console.warn('[useToolStorage] No authenticated user — skipping Firestore write for', docId)
-        return
-      }
 
       await setDoc(doc(db, 'toolData', docId), {
         userId, projectId, toolId,
         data: payload,
         updatedAt: new Date().toISOString(),
       })
-      console.log('[useToolStorage] ✅ Saved to Firestore:', docId)
     } catch (e) {
-      console.error('[useToolStorage] ❌ Firestore write failed for', docId, e)
+      console.error('[useToolStorage] Firestore write failed for', toolId, e)
     }
   }
 
