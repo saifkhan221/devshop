@@ -77,7 +77,9 @@ export default {
       commit('SET_LOADING', true)
       try {
         const user = rootGetters['auth/currentUser']
-        const projects = await dbService.getProjects(user?.uid)
+        const projects = await dbService.getProjects(user?.uid, (fresh) => {
+          commit('SET_PROJECTS', fresh)
+        })
         commit('SET_PROJECTS', projects)
       } finally {
         commit('SET_LOADING', false)
@@ -94,8 +96,9 @@ export default {
 
     // Partial update — pass only the fields you want to change
     // e.g. dispatch('projects/updateProject', { id, data: { name: 'New Name' } })
-    async updateProject({ commit }, { id, data }) {
-      await dbService.updateProject(id, data)
+    async updateProject({ commit, rootGetters }, { id, data }) {
+      const user = rootGetters['auth/currentUser']
+      await dbService.updateProject(id, data, user?.uid)
       commit('UPDATE_PROJECT', { id, data })
     },
 

@@ -30,7 +30,7 @@ const DUMMY_PROJECTS = [
 ]
 
 export const dbService = {
-  async getProjects(userId) {
+  async getProjects(userId, onRefresh) {
     if (MODE === 'dummy') {
       const projects = getLocal()
       if (projects.length === 0) { saveLocal(DUMMY_PROJECTS); return DUMMY_PROJECTS }
@@ -47,6 +47,7 @@ export const dbService = {
         const snap = await getDocs(q)
         const fresh = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         localStorage.setItem(cacheKey, JSON.stringify(fresh))
+        if (onRefresh) onRefresh(fresh)
         return fresh
       }, DB_THROTTLE).catch(() => {})
       return JSON.parse(cached)
