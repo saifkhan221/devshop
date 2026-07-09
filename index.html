@@ -5,27 +5,56 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DevShop — Your Frontend Workspace</title>
+
+    <!-- Apply theme + boot colors instantly before any paint -->
+    <script>
+      (function() {
+        var theme = localStorage.getItem('devshop_theme') || 'aurora';
+        document.documentElement.setAttribute('data-theme', theme);
+
+        var themes = {
+          aurora:   { bg: '#0d0720', from: '#5b21b6', to: '#7c3aed', glow: 'rgba(124,58,237,0.4)',  spin: 'rgba(124,58,237,0.15)', accent: '#7c3aed' },
+          slate:    { bg: '#0f1117', from: '#3730a3', to: '#6366f1', glow: 'rgba(99,102,241,0.4)',   spin: 'rgba(99,102,241,0.15)', accent: '#6366f1' },
+          ocean:    { bg: '#071520', from: '#0e7490', to: '#06b6d4', glow: 'rgba(6,182,212,0.4)',    spin: 'rgba(6,182,212,0.15)', accent: '#06b6d4' },
+          volt:     { bg: '#090909', from: '#647a1d', to: '#c8f53b', glow: 'rgba(200,245,59,0.4)',   spin: 'rgba(200,245,59,0.15)', accent: '#c8f53b' },
+          jade:     { bg: '#0c1110', from: '#006a50', to: '#00d4a0', glow: 'rgba(0,212,160,0.4)',    spin: 'rgba(0,212,160,0.15)', accent: '#00d4a0' },
+          cosmic:   { bg: '#12082d', from: '#542a7b', to: '#a855f7', glow: 'rgba(168,85,247,0.4)',   spin: 'rgba(168,85,247,0.15)', accent: '#a855f7' },
+          azure:    { bg: '#080e1a', from: '#1d4f7a', to: '#3b9ef5', glow: 'rgba(59,158,245,0.4)',   spin: 'rgba(59,158,245,0.15)', accent: '#3b9ef5' },
+          lavender: { bg: '#f0f0fb', from: '#4338ca', to: '#5b5ea6', glow: 'rgba(91,94,166,0.3)',    spin: 'rgba(91,94,166,0.15)', accent: '#5b5ea6' },
+        };
+        var t = themes[theme] || themes.aurora;
+        var r = document.documentElement;
+        r.style.setProperty('--boot-bg',     t.bg);
+        r.style.setProperty('--boot-from',   t.from);
+        r.style.setProperty('--boot-to',     t.to);
+        r.style.setProperty('--boot-glow',   t.glow);
+        r.style.setProperty('--boot-spin',   t.spin);
+        r.style.setProperty('--boot-accent', t.accent);
+      })();
+    </script>
+
     <style>
+      html, body { background: var(--boot-bg, #0d0720); margin: 0; }
       #app-boot {
         position: fixed; inset: 0;
-        display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px;
-        background: #0d0720;
+        display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 20px;
+        background: var(--boot-bg, #0d0720);
         z-index: 9999;
         transition: opacity 0.3s ease;
       }
       #app-boot.fade-out { opacity: 0; pointer-events: none; }
-      .boot-logo {
-        width: 44px; height: 44px;
-        background: linear-gradient(135deg, #5b21b6, #7c3aed);
-        border-radius: 12px;
+      .boot-logo-wrap {
+        width: 56px; height: 56px;
+        background: linear-gradient(135deg, var(--boot-from, #5b21b6), var(--boot-to, #7c3aed));
+        border-radius: 16px;
         display: flex; align-items: center; justify-content: center;
-        font-size: 22px;
-        box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+        font-size: 26px;
+        box-shadow: 0 4px 24px var(--boot-glow, rgba(124,58,237,0.4));
       }
       .boot-spinner {
         width: 20px; height: 20px;
-        border: 2px solid rgba(124,58,237,0.2);
-        border-top-color: #7c3aed;
+        border: 2px solid var(--boot-spin, rgba(124,58,237,0.15));
+        border-top-color: var(--boot-accent, #7c3aed);
         border-radius: 50%;
         animation: boot-spin 0.7s linear infinite;
       }
@@ -34,7 +63,7 @@
   </head>
   <body>
     <div id="app-boot">
-      <div class="boot-logo">⚡</div>
+      <div class="boot-logo-wrap">⚡</div>
       <div class="boot-spinner"></div>
     </div>
     <div id="app"></div>

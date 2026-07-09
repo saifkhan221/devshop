@@ -44,13 +44,53 @@
 
     <div class="tasks">
       <div v-if="filteredTasks.length === 0" class="empty">No tasks here yet</div>
-      <div v-for="task in filteredTasks" :key="task.id" class="task-item">
+      <VueDraggable
+        v-model="tasks"
+        :animation="200"
+        handle=".drag-handle"
+        class="drag-list"
+        @update="save(tasks)"
+      >
+      <div
+        v-for="task in filteredTasks"
+        :key="task.id"
+        class="task-item"
+        :class="{ 'is-editing': editingId === task.id }"
+      >
+        <!-- 9-dot drag handle -->
+        <div class="drag-handle" title="Drag to reorder">
+          <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor">
+            <circle cx="2" cy="2"  r="1.1"/>
+            <circle cx="8" cy="2"  r="1.1"/>
+            <circle cx="2" cy="7"  r="1.1"/>
+            <circle cx="8" cy="7"  r="1.1"/>
+            <circle cx="2" cy="12" r="1.1"/>
+            <circle cx="8" cy="12" r="1.1"/>
+          </svg>
+        </div>
+
         <input type="checkbox" :checked="task.done" @change="toggleTask(task.id)" class="task-check" />
-        <span class="task-label" :class="{ done: task.done }">{{ task.text }}</span>
+        <span
+          v-if="editingId !== task.id"
+          class="task-label"
+          :class="{ done: task.done }"
+          @dblclick="startEdit(task)"
+          title="Double-click to edit"
+        >{{ task.text }}</span>
+        <input
+          v-else
+          :ref="el => { if (el) editInputs[task.id] = el }"
+          v-model="editText"
+          class="task-edit-input"
+          @keydown.enter="commitEdit(task.id)"
+          @keydown.esc="cancelEdit"
+          @blur="commitEdit(task.id)"
+        />
         <span v-if="task.priority" class="priority-badge" :class="task.priority">{{ task.priority }}</span>
         <span v-if="task.due" class="due-date">📅 {{ formatDate(task.due) }}</span>
         <button class="task-delete" @click="deleteTask(task.id)">✕</button>
       </div>
+      </VueDraggable>
     </div>
 
     <div class="list-footer">
@@ -61,7 +101,8 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import { VueDraggable } from 'vue-draggable-plus'
 import { useToolStorage } from '@/composables/useToolStorage'
 import AppDatePicker from '@/components/ui/AppDatePicker.vue'
 
@@ -71,7 +112,7 @@ const { data: tasks, save } = useToolStorage(props.projectId, 'task-list', [])
 
 const newTask      = ref('')
 const newPriority  = ref('')
-const newDue       = ref('')
+const newDue       = ref(todayISO())   // default to today
 const filter       = ref('All')
 const filters      = ['All', 'Active', 'Completed']
 const priorities   = [
@@ -79,6 +120,11 @@ const priorities   = [
   { value: 'medium', label: 'Medium' },
   { value: 'low',    label: 'Low' },
 ]
+
+function todayISO() {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
 
 // Priority dropdown
 const priorityOpen   = ref(false)
@@ -118,7 +164,7 @@ function addTask() {
   })
   newTask.value     = ''
   newPriority.value = ''
-  newDue.value      = ''
+  newDue.value      = todayISO()  // reset to today after adding
 }
 
 function toggleTask(id) {
@@ -141,6 +187,34 @@ function formatDate(iso) {
 }
 
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1) }
+
+// ── Inline editing ───────────────────────────────────────────────────────────
+const editingId  = ref(null)
+const editText   = ref('')
+const editInputs = {}
+
+function startEdit(task) {
+  editingId.value = task.id
+  editText.value  = task.text
+  nextTick(() => {
+    const el = editInputs[task.id]
+    if (el) { el.focus(); el.select() }
+  })
+}
+
+function commitEdit(id) {
+  if (editingId.value !== id) return
+  const task = tasks.value.find(t => t.id === id)
+  if (task && editText.value.trim()) task.text = editText.value.trim()
+  editingId.value = null
+  editText.value  = ''
+}
+
+function cancelEdit() {
+  editingId.value = null
+  editText.value  = ''
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -282,21 +356,67 @@ function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1) }
 
 // ── Task items ──────────────────────────────────────────────────────────
 .empty { text-align: center; padding: 24px; color: $brand-400; font-size: 13px; }
+.drag-list { display: flex; flex-direction: column; gap: 0; }
 
 .task-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 14px;
+  padding: 12px 14px 12px 10px;
   background: $bg-elevated;
   border-radius: $radius-md;
   margin-bottom: 8px;
-  transition: all 0.2s;
+  transition: background 0.15s, border-color 0.15s, opacity 0.15s, transform 0.15s;
+  border: 1px solid transparent;
+  cursor: default;
+
   &:hover .task-delete { opacity: 1; }
 }
 
+// ── Drag handle ─────────────────────────────────────────────────────────
+.drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  flex-shrink: 0;
+  color: $brand-400;
+  opacity: 0.45;
+  cursor: grab;
+  transition: opacity 0.15s, color 0.15s;
+  padding: 2px 0;
+
+  &:hover { color: $brand-300; }
+  &:active { cursor: grabbing; }
+}
+
 .task-check { width: 16px; height: 16px; accent-color: $brand-500; cursor: pointer; flex-shrink: 0; }
-.task-label { flex: 1; font-size: 13px; color: #fff; &.done { text-decoration: line-through; color: $brand-400; } }
+
+.task-label {
+  flex: 1;
+  font-size: 13px;
+  color: #fff;
+  cursor: text;
+  &.done { text-decoration: line-through; color: $brand-400; }
+}
+
+.task-edit-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--accent);
+  border-radius: 0;
+  padding: 0 2px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: #fff;
+  outline: none;
+  min-width: 0;
+}
+
+.task-item.is-editing {
+  border-color: var(--border-subtle);
+}
 
 .priority-badge {
   font-size: 10px; font-weight: 600;

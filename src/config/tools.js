@@ -1,11 +1,11 @@
 export const TOOLS = [
   { id: 'px-to-rem',          name: 'PX to REM',              icon: '📐', category: 'CSS & Layout',  desc: 'Convert pixel values to REM units',           component: 'PxToRem' },
   { id: 'task-list',          name: 'Task List',              icon: '✅', category: 'Productivity',  desc: 'Manage todos and project tasks',              component: 'TaskList' },
+  { id: 'project-notes',      name: 'Callouts',               icon: '📝', category: 'Productivity',  desc: 'Colourful callout notes for your project',    component: 'ProjectNotes' },
   { id: 'svg-viewer',         name: 'SVG Viewer',             icon: '🖼️', category: 'Design',        desc: 'View, preview and inspect SVG files',         component: 'SvgViewer' },
   { id: 'kanban',             name: 'Kanban Board',           icon: '📌', category: 'Productivity',  desc: 'Trello-style task management board',          component: 'KanbanBoard' },
 
   // Coming soon — disabled
-  { id: 'rem-to-px',          name: 'REM to PX',              icon: '↔️', category: 'CSS & Layout',  desc: 'Convert REM values back to pixels',           component: 'RemToPx',               disabled: true },
   { id: 'box-shadow',         name: 'Box Shadow Generator',   icon: '🌫️', category: 'CSS & Layout',  desc: 'Build and preview CSS box shadows live',      component: 'BoxShadowGenerator',    disabled: true },
   { id: 'testing-checklist',  name: 'Testing Checklist',      icon: '📋', category: 'Testing',       desc: 'QA checklist to ship with confidence',        component: 'TestingChecklist',      disabled: true },
   { id: 'color-palette',      name: 'Color Palette',          icon: '🎨', category: 'Design',        desc: 'Generate and save color palettes',            component: 'ColorPalette',          disabled: true },

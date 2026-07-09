@@ -199,6 +199,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
+import { getPrefs, savePrefs } from '@/composables/useUserPrefs'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import AppNavbar from '@/components/layout/AppNavbar.vue'
@@ -308,12 +309,12 @@ const filteredProjects = computed(() => {
 // ─── Clock ────────────────────────────────────────────────────────
 const clock = ref('')
 const todayFull = ref('')
-const is24h = ref(localStorage.getItem('devshop_clock_24h') !== 'false')
+const is24h = ref(getPrefs().clock24h !== false)
 let clockTimer = null
 
 function toggleClockFormat() {
   is24h.value = !is24h.value
-  localStorage.setItem('devshop_clock_24h', is24h.value)
+  savePrefs({ clock24h: is24h.value })
   tickClock()
 }
 

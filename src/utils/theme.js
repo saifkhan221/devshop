@@ -14,6 +14,13 @@ const STORAGE_KEY      = 'devshop_theme'
 const CUSTOM_KEY       = 'devshop_custom_theme'
 const DEFAULT_THEME    = 'aurora'
 
+async function syncToFirebase(patch) {
+  try {
+    const { savePrefs } = await import('@/composables/useUserPrefs')
+    savePrefs(patch)
+  } catch { /* non-critical */ }
+}
+
 // ─── Preset themes ────────────────────────────────────────────────────────
 export const THEMES = [
   { id: 'aurora', name: 'Aurora', desc: 'Deep purple cosmos',    accent: '#7c3aed', bg: '#0d0720' },
@@ -34,6 +41,7 @@ export function applyTheme(id) {
   document.documentElement.setAttribute('data-theme', theme.id)
   localStorage.setItem(STORAGE_KEY, theme.id)
   localStorage.removeItem(CUSTOM_KEY)
+  syncToFirebase({ theme: theme.id, customTheme: null })
 }
 
 // ─── Apply a custom theme ──────────────────────────────────────────────────
@@ -50,6 +58,7 @@ export function applyCustomTheme({ accent, bg }) {
 
   localStorage.setItem(STORAGE_KEY, 'custom')
   localStorage.setItem(CUSTOM_KEY, JSON.stringify({ accent, bg }))
+  syncToFirebase({ theme: 'custom', customTheme: { accent, bg } })
 }
 
 // ─── Boot: restore saved theme ────────────────────────────────────────────
@@ -63,10 +72,21 @@ export function initTheme() {
     } else {
       applyTheme(DEFAULT_THEME)
     }
-    return
+  } else {
+    applyTheme(saved)
   }
 
-  applyTheme(saved)
+  // Background sync from Firestore — re-apply if remote differs
+  import('@/composables/useUserPrefs').then(({ syncPrefsFromFirestore }) => {
+    syncPrefsFromFirestore().then(remote => {
+      if (!remote) return
+      if (remote.theme === 'custom' && remote.customTheme) {
+        applyCustomTheme(remote.customTheme)
+      } else if (remote.theme && remote.theme !== saved) {
+        applyTheme(remote.theme)
+      }
+    })
+  })
 }
 
 export function getSavedTheme() {

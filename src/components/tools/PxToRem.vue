@@ -106,7 +106,7 @@
       <tbody>
         <tr v-for="row in quickRef" :key="row.px">
           <td class="px-val">{{ row.px }}px</td>
-          <td class="rem-val">{{ (row.px / base).toFixed(4).replace(/\.?0+$/, '') }}rem</td>
+          <td class="rem-val">{{ (row.px / base).toFixed(3).replace(/\.?0+$/, '') }}rem</td>
           <td class="use-val">{{ row.use }}</td>
         </tr>
       </tbody>
@@ -132,13 +132,13 @@ const rem  = ref(1)
 const base = ref(16)
 const copied = ref(false)
 
-function fmt(n) { return parseFloat(n.toFixed(4).replace(/\.?0+$/, '')) || 0 }
+function fmt(n) { return parseFloat(n.toFixed(3).replace(/\.?0+$/, '')) || 0 }
 function onPxInput()  { rem.value = fmt((parseFloat(px.value)  || 0) / base.value) }
 function onRemInput() { px.value  = fmt((parseFloat(rem.value) || 0) * base.value) }
 function recalc()     { rem.value = fmt((parseFloat(px.value)  || 0) / base.value) }
 
 function stepPx(n)  { px.value  = Math.max(0, (parseFloat(px.value) || 0) + n); onPxInput() }
-function stepRem(n) { rem.value = Math.max(0, parseFloat(((parseFloat(rem.value) || 0) + n).toFixed(4).replace(/\.?0+$/, ''))); onRemInput() }
+function stepRem(n) { rem.value = Math.max(0, parseFloat(((parseFloat(rem.value) || 0) + n).toFixed(3).replace(/\.?0+$/, ''))); onRemInput() }
 
 // ── Base pills ────────────────────────────────────────────────────
 const bases = computed({

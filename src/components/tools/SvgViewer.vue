@@ -101,7 +101,16 @@
       <div class="sv-status-right">
         <div class="sv-zoom-group">
           <button class="sv-zoom-btn" @click="zoomOut">−</button>
-          <span class="sv-zoom-val">{{ zoom }}%</span>
+          <input
+            class="sv-zoom-val"
+            :value="zoom"
+            @change="setZoom($event.target.value)"
+            @keydown.enter="$event.target.blur()"
+            type="number"
+            min="10"
+            max="800"
+          />
+          <span class="sv-zoom-pct">%</span>
           <button class="sv-zoom-btn" @click="zoomIn">+</button>
         </div>
         <button class="sv-export-btn" @click="exportSvg" :disabled="!svgContent">
@@ -360,8 +369,12 @@ function exportSvg() {
 }
 
 // ─── Zoom ─────────────────────────────────────────────────────────────────
-function zoomIn()  { zoom.value = Math.min(zoom.value + 25, 400) }
-function zoomOut() { zoom.value = Math.max(zoom.value - 25, 25) }
+function zoomIn()  { zoom.value = Math.min(zoom.value + 25, 800) }
+function zoomOut() { zoom.value = Math.max(zoom.value - 25, 10) }
+function setZoom(v) {
+  const n = parseInt(v, 10)
+  if (!isNaN(n)) zoom.value = Math.min(Math.max(n, 10), 800)
+}
 
 // ─── Load icon from library ───────────────────────────────────────────────
 function loadIcon(icon) {
@@ -769,7 +782,23 @@ const filteredIcons = computed(() => {
 
 .sv-zoom-val {
   font-size: 11px; font-weight: 600;
-  color: $brand-300; min-width: 36px; text-align: center;
+  color: $brand-300;
+  width: 36px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  appearance: none;
+  -moz-appearance: textfield;
+  &::-webkit-inner-spin-button { -webkit-appearance: none; }
+  &:hover, &:focus { color: #fff; }
+}
+
+.sv-zoom-pct {
+  font-size: 11px; font-weight: 600;
+  color: $brand-400;
+  margin-left: -2px;
 }
 
 .sv-export-btn {
