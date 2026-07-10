@@ -36,7 +36,7 @@ service cloud.firestore {
                     && request.resource.data.keys().hasAll(['userId', 'projectId', 'toolId', 'data']);
     }
 
-    // Feedback: users create their own, read their own; admin reads all
+    // Feedback: users create their own, read their own; admin reads + deletes all
     match /feedback/{feedbackId} {
       allow create: if request.auth != null
                     && request.resource.data.userId == request.auth.uid
@@ -45,6 +45,9 @@ service cloud.firestore {
       allow read: if request.auth != null
                   && (resource.data.userId == request.auth.uid
                       || request.auth.token.email == 'saif@radix.email');
+
+      allow delete: if request.auth != null
+                    && request.auth.token.email == 'saif@radix.email';
     }
 
     // Deny everything else by default

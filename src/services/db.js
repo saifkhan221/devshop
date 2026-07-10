@@ -23,6 +23,13 @@ const saveLocal    = (data) => localStorage.setItem(LS_KEY, JSON.stringify(data)
 // Max 30 DB calls per second per action key — prevents runaway loops hammering Firebase
 const DB_THROTTLE = { maxTokens: 30, refillRate: 10, windowMs: 1000, maxQueue: 5 }
 
+function toMs(ts) {
+  if (!ts) return 0
+  if (ts.toMillis) return ts.toMillis()
+  if (ts.seconds) return ts.seconds * 1000
+  return new Date(ts).getTime() || 0
+}
+
 const DUMMY_PROJECTS = [
   { id:'proj-001', name:'E-Commerce Redesign', description:'Redesigning the product page and checkout flow.', color:'#7c3aed', emoji:'🛒', tools:['px-to-rem','box-shadow','task-list','contrast-checker','kanban'], toolOrder:['px-to-rem','box-shadow','task-list','contrast-checker','kanban'], createdAt:'2026-06-11' },
   { id:'proj-002', name:'Analytics Dashboard', description:'Building a data visualization dashboard.', color:'#059669', emoji:'📊', tools:['px-to-rem','json-formatter','code-snippets','task-list'], toolOrder:['px-to-rem','json-formatter','code-snippets','task-list'], createdAt:'2026-06-09' },
@@ -129,10 +136,12 @@ export const dbService = {
       return list.filter(f => f.userId === userId)
     }
     return throttle('db:getUserFeedback', async () => {
-      const { db, collection, query, where, orderBy, getDocs } = await fs()
-      const q = query(collection(db, 'feedback'), where('userId', '==', userId), orderBy('createdAt', 'desc'))
+      const { db, collection, query, where, getDocs } = await fs()
+      const q = query(collection(db, 'feedback'), where('userId', '==', userId))
       const snap = await getDocs(q)
-      return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      const results = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      results.sort((a, b) => toMs(b.createdAt) - toMs(a.createdAt))
+      return results
     }, DB_THROTTLE)
   },
 
@@ -141,10 +150,24 @@ export const dbService = {
       return JSON.parse(localStorage.getItem('devshop_feedback') || '[]')
     }
     return throttle('db:getAllFeedback', async () => {
-      const { db, collection, query, orderBy, getDocs } = await fs()
-      const q = query(collection(db, 'feedback'), orderBy('createdAt', 'desc'))
-      const snap = await getDocs(q)
-      return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      const { db, collection, getDocs } = await fs()
+      const snap = await getDocs(collection(db, 'feedback'))
+      const results = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      results.sort((a, b) => toMs(b.createdAt) - toMs(a.createdAt))
+      return results
+    }, DB_THROTTLE)
+  },
+
+  async deleteFeedback(feedbackId) {
+    if (MODE === 'dummy') {
+      const key = 'devshop_feedback'
+      const list = JSON.parse(localStorage.getItem(key) || '[]')
+      localStorage.setItem(key, JSON.stringify(list.filter(f => f.id !== feedbackId)))
+      return
+    }
+    return throttle('db:deleteFeedback', async () => {
+      const { db, doc, deleteDoc } = await fs()
+      await deleteDoc(doc(db, 'feedback', feedbackId))
     }, DB_THROTTLE)
   },
 

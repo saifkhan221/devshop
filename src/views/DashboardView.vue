@@ -245,7 +245,7 @@ const timeGreeting = computed(() => {
 
 const firstName = computed(() => {
   const user = store.getters['auth/currentUser']
-  const raw  = user?.name || user?.email || 'Developer'
+  const raw  = user?.displayName || user?.name || user?.email || 'Developer'
   return raw.split('@')[0].split(' ')[0]
 })
 

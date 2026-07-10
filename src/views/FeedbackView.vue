@@ -133,6 +133,12 @@
                 @click="openLightbox(img)"
               />
             </div>
+            <div v-if="isAdmin" class="fb-card-actions">
+              <button class="fb-delete-btn" @click="deleteFeedback(fb)" :disabled="deleting === fb.id">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -254,6 +260,7 @@ async function submitFeedback() {
 const feedbackList = ref([])
 const loadingList = ref(true)
 const lightboxImg = ref(null)
+const deleting = ref(null)
 
 async function loadFeedback() {
   loadingList.value = true
@@ -271,6 +278,20 @@ async function loadFeedback() {
 }
 
 function openLightbox(img) { lightboxImg.value = img }
+
+async function deleteFeedback(fb) {
+  if (deleting.value) return
+  deleting.value = fb.id
+  try {
+    await dbService.deleteFeedback(fb.id)
+    feedbackList.value = feedbackList.value.filter(f => f.id !== fb.id)
+    store.dispatch('ui/toast', { message: 'Feedback deleted', type: 'info' })
+  } catch {
+    store.dispatch('ui/toast', { message: 'Failed to delete', type: 'error' })
+  } finally {
+    deleting.value = null
+  }
+}
 
 function formatDate(d) {
   if (!d) return ''
@@ -560,6 +581,27 @@ onMounted(() => {
   background: var(--accent-subtle);
   color: var(--accent);
   border: 1px solid rgba(124,58,237,.15);
+}
+
+.fb-card-actions {
+  display: flex; justify-content: flex-end;
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.fb-delete-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid rgba(239,68,68,.25);
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 500;
+  color: #f87171;
+  cursor: pointer;
+  transition: all 0.15s;
+  &:hover { background: rgba(239,68,68,.1); border-color: rgba(239,68,68,.4); }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
 }
 
 .fb-card-images { display: flex; flex-wrap: wrap; gap: 8px; }
