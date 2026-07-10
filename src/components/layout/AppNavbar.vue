@@ -7,6 +7,9 @@
     <slot name="center" />
     <div class="nav-right">
       <slot name="right" />
+      <router-link to="/feedback" class="nav-feedback" title="Feedback">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </router-link>
       <ThemeSelector />
       <span v-if="showUsername" class="nav-username">{{ user?.name || user?.email }}</span>
       <div class="nav-avatar">{{ initials }}</div>
@@ -108,6 +111,20 @@ async function logout() {
   font-size: 13px; font-weight: 600; color: #fff;
   cursor: pointer;
   box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+.nav-feedback {
+  width: 32px; height: 32px;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: $brand-400;
+  transition: all 0.2s;
+  text-decoration: none;
+  &:hover { border-color: var(--accent); color: var(--accent); }
+  &.router-link-active { border-color: $brand-500; color: var(--accent); background: var(--accent-subtle); }
 }
 
 .nav-logout {

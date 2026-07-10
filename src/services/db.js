@@ -101,6 +101,53 @@ export const dbService = {
     }, DB_THROTTLE)
   },
 
+  // ─── Feedback ──────────────────────────────────────────────────────
+
+  async submitFeedback(userId, data) {
+    if (MODE === 'dummy') {
+      const key = 'devshop_feedback'
+      const list = JSON.parse(localStorage.getItem(key) || '[]')
+      const item = { id: 'fb-' + Date.now(), userId, ...data, createdAt: new Date().toISOString() }
+      list.unshift(item)
+      localStorage.setItem(key, JSON.stringify(list))
+      return item
+    }
+    return throttle('db:submitFeedback', async () => {
+      const { db, collection, addDoc, serverTimestamp } = await fs()
+      const ref = await addDoc(collection(db, 'feedback'), {
+        userId,
+        ...data,
+        createdAt: serverTimestamp(),
+      })
+      return { id: ref.id, userId, ...data }
+    }, DB_THROTTLE)
+  },
+
+  async getUserFeedback(userId) {
+    if (MODE === 'dummy') {
+      const list = JSON.parse(localStorage.getItem('devshop_feedback') || '[]')
+      return list.filter(f => f.userId === userId)
+    }
+    return throttle('db:getUserFeedback', async () => {
+      const { db, collection, query, where, orderBy, getDocs } = await fs()
+      const q = query(collection(db, 'feedback'), where('userId', '==', userId), orderBy('createdAt', 'desc'))
+      const snap = await getDocs(q)
+      return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+    }, DB_THROTTLE)
+  },
+
+  async getAllFeedback() {
+    if (MODE === 'dummy') {
+      return JSON.parse(localStorage.getItem('devshop_feedback') || '[]')
+    }
+    return throttle('db:getAllFeedback', async () => {
+      const { db, collection, query, orderBy, getDocs } = await fs()
+      const q = query(collection(db, 'feedback'), orderBy('createdAt', 'desc'))
+      const snap = await getDocs(q)
+      return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+    }, DB_THROTTLE)
+  },
+
   async deleteProject(projectId, userId) {
     if (MODE === 'dummy') { saveLocal(getLocal().filter(p => p.id !== projectId)); return }
     return throttle('db:deleteProject', async () => {
