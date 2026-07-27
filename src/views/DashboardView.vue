@@ -114,10 +114,14 @@
           >
             <div class="proj-topbar" :style="{ background: `linear-gradient(90deg, ${p.color || '#7c3aed'}, ${lighten(p.color || '#7c3aed')})` }"></div>
             <div class="proj-body">
+              <div v-if="p.tags?.length" class="proj-tags">
+                <span v-for="t in p.tags" :key="t" class="proj-tag">{{ t }}</span>
+              </div>
               <div class="proj-row1">
                 <div class="proj-em" :style="{ background: hexToRgba(p.color || '#7c3aed', 0.14) }">{{ p.emoji || '📁' }}</div>
                 <div class="proj-acts">
                   <button class="pact" @click.stop="openProject(p.id)" title="Open">↗</button>
+                  <button class="pact" @click.stop="openEditModal(p)" title="Edit">✏️</button>
                   <button class="pact pact-del" @click.stop="confirmDelete(p)" title="Delete">🗑</button>
                 </div>
               </div>
@@ -153,6 +157,23 @@
         <textarea v-model="newProject.description" rows="3" placeholder="What are you building?"></textarea>
       </div>
       <div class="form-group">
+        <label>Tags <span class="opt">(optional)</span></label>
+        <div class="tag-pills" v-if="newProject.tags.length">
+          <span v-for="t in newProject.tags" :key="t" class="tag-pill">
+            {{ t }} <button class="tag-rm" @click="newProject.tags = newProject.tags.filter(x => x !== t)">&times;</button>
+          </span>
+        </div>
+        <div class="tag-add-row">
+          <input
+            class="tag-add-input"
+            v-model="tagInput"
+            placeholder="e.g. Frontend, MVP, Urgent"
+            @keydown.enter.prevent="addTag(newProject)"
+          />
+          <button type="button" class="tag-add-btn" @click="addTag(newProject)" :disabled="!tagInput.trim()">Add</button>
+        </div>
+      </div>
+      <div class="form-group">
         <label>Accent Colour</label>
         <div class="color-row">
           <div
@@ -180,6 +201,65 @@
         <button class="btn-primary" @click="createProject" :disabled="!newProject.name || creating">
           <span v-if="creating" class="spinner"></span>
           <span v-else>Create Project →</span>
+        </button>
+      </template>
+    </AppModal>
+
+    <!-- ── Edit Project Modal ────────────────────────────────────── -->
+    <AppModal :show="showEditModal" title="Edit Project" @close="showEditModal = false">
+      <div class="form-group">
+        <label>Project Name</label>
+        <input type="text" v-model="editProject.name" placeholder="Project name" />
+      </div>
+      <div class="form-group">
+        <label>Description <span class="opt">(optional)</span></label>
+        <textarea v-model="editProject.description" rows="3" placeholder="What are you building?"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Tags <span class="opt">(optional)</span></label>
+        <div class="tag-pills" v-if="editProject.tags.length">
+          <span v-for="t in editProject.tags" :key="t" class="tag-pill">
+            {{ t }} <button class="tag-rm" @click="editProject.tags = editProject.tags.filter(x => x !== t)">&times;</button>
+          </span>
+        </div>
+        <div class="tag-add-row">
+          <input
+            class="tag-add-input"
+            v-model="editTagInput"
+            placeholder="e.g. Frontend, MVP, Urgent"
+            @keydown.enter.prevent="addTag(editProject, true)"
+          />
+          <button type="button" class="tag-add-btn" @click="addTag(editProject, true)" :disabled="!editTagInput.trim()">Add</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Accent Colour</label>
+        <div class="color-row">
+          <div
+            v-for="c in colorOptions" :key="c"
+            class="color-dot"
+            :class="{ selected: editProject.color === c }"
+            :style="{ background: c }"
+            @click="editProject.color = c"
+          ></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Emoji</label>
+        <div class="emoji-row">
+          <div
+            v-for="e in emojiOptions" :key="e"
+            class="emoji-opt"
+            :class="{ selected: editProject.emoji === e }"
+            @click="editProject.emoji = e"
+          >{{ e }}</div>
+        </div>
+      </div>
+      <template #footer>
+        <button class="btn-ghost" @click="showEditModal = false">Cancel</button>
+        <button class="btn-primary" @click="saveEdit" :disabled="!editProject.name || saving">
+          <span v-if="saving" class="spinner"></span>
+          <span v-else>Save Changes</span>
         </button>
       </template>
     </AppModal>
@@ -223,10 +303,15 @@ function onSortOutside(e) {
   if (sortDropRef.value && !sortDropRef.value.contains(e.target)) sortOpen.value = false
 }
 const showModal     = ref(false)
+const showEditModal = ref(false)
 const showDeleteModal = ref(false)
 const deleteTarget  = ref(null)
 const creating      = ref(false)
-const newProject    = ref({ name: '', description: '', color: '#7c3aed', emoji: '📁' })
+const saving        = ref(false)
+const tagInput      = ref('')
+const editTagInput  = ref('')
+const newProject    = ref({ name: '', description: '', color: '#7c3aed', emoji: '📁', tags: [] })
+const editProject   = ref({ id: null, name: '', description: '', color: '#7c3aed', emoji: '📁', tags: [] })
 
 const colorOptions = ['#7c3aed', '#059669', '#f59e0b', '#3b82f6', '#ec4899', '#ef4444', '#06b6d4', '#a855f7']
 const emojiOptions = ['📁', '🛒', '📊', '📱', '🎨', '💻', '🚀', '⚡']
@@ -454,8 +539,18 @@ onUnmounted(() => {
 
 // ─── Actions ──────────────────────────────────────────────────────
 function openNewProjectModal() {
-  newProject.value = { name: '', description: '', color: '#7c3aed', emoji: '📁' }
+  newProject.value = { name: '', description: '', color: '#7c3aed', emoji: '📁', tags: [] }
+  tagInput.value = ''
   showModal.value  = true
+}
+
+function addTag(target, isEdit = false) {
+  const input = isEdit ? editTagInput : tagInput
+  const val = input.value.trim()
+  if (val && !target.tags.includes(val)) {
+    target.tags.push(val)
+  }
+  input.value = ''
 }
 
 async function createProject() {
@@ -466,6 +561,29 @@ async function createProject() {
   showModal.value  = false
   store.dispatch('ui/toast', { message: 'Project created!', type: 'success' })
   router.push(`/project/${project.id}/setup`)
+}
+
+function openEditModal(p) {
+  editProject.value = {
+    id: p.id,
+    name: p.name || '',
+    description: p.description || '',
+    color: p.color || '#7c3aed',
+    emoji: p.emoji || '📁',
+    tags: [...(p.tags || [])],
+  }
+  editTagInput.value = ''
+  showEditModal.value = true
+}
+
+async function saveEdit() {
+  if (!editProject.value.name || saving.value) return
+  saving.value = true
+  const { id, ...data } = editProject.value
+  await store.dispatch('projects/updateProject', { id, data })
+  saving.value = false
+  showEditModal.value = false
+  store.dispatch('ui/toast', { message: 'Project updated!', type: 'success' })
 }
 
 function openProject(id) { router.push(`/project/${id}`) }
@@ -897,6 +1015,7 @@ function lighten(hex) {
   display: flex;
   flex-direction: column;
   flex: 1;
+  position: relative;
 }
 
 .proj-row1 {
@@ -955,6 +1074,81 @@ function lighten(hex) {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.proj-tags {
+  position: absolute; top: 16px; right: 16px;
+  display: flex; flex-wrap: wrap; gap: 4px;
+  justify-content: flex-end;
+  max-width: 60%;
+  transition: opacity 0.15s;
+  .proj-card:hover & { opacity: 0; pointer-events: none; }
+}
+
+.proj-tag {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px; font-weight: 500;
+  background: var(--accent-subtle);
+  color: var(--accent);
+  border: 1px solid rgba(124,58,237,.12);
+  white-space: nowrap;
+}
+
+// ── Tag Input (modals) ──────────────────────────────────────────────
+.tag-pills {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;
+}
+
+.tag-pill {
+  display: flex; align-items: center; gap: 3px;
+  padding: 4px 11px;
+  border-radius: 14px;
+  font-size: 12px; font-weight: 500;
+  background: var(--accent-subtle);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.tag-rm {
+  background: none; border: none;
+  color: var(--accent); cursor: pointer;
+  font-size: 14px; line-height: 1;
+  padding: 0; margin-left: 2px;
+  opacity: 0.6;
+  &:hover { opacity: 1; }
+}
+
+.tag-add-row {
+  display: flex; gap: 8px; align-items: center;
+}
+
+.tag-add-input {
+  flex: 1;
+  background: $bg-elevated;
+  border: 1px solid var(--border-strong);
+  border-radius: $radius-md;
+  padding: 9px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px; color: #fff; outline: none;
+  transition: border-color 0.2s;
+  &:focus { border-color: $brand-500; }
+  &::placeholder { color: rgba(167,139,250,.35); }
+}
+
+.tag-add-btn {
+  padding: 9px 16px;
+  background: $bg-elevated;
+  border: 1px solid var(--border-strong);
+  border-radius: $radius-md;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  &:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-subtle); }
+  &:disabled { opacity: 0.35; cursor: not-allowed; }
 }
 
 .proj-foot {

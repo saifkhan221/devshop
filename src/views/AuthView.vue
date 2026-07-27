@@ -22,6 +22,9 @@
       <!-- Error -->
       <div v-if="error" class="error-box">{{ error }}</div>
 
+      <!-- Success -->
+      <div v-if="success" class="success-box">{{ success }}</div>
+
       <!-- Login form -->
       <form v-if="tab === 'login'" @submit.prevent="handleLogin">
         <div class="form-group">
@@ -31,6 +34,7 @@
         <div class="form-group">
           <label>Password</label>
           <input type="password" v-model="password" placeholder="Enter your password" required :disabled="loading" />
+          <a class="forgot-link" @click="handleForgotPassword" :class="{ disabled: loading }">Forgot password?</a>
         </div>
         <button type="submit" class="btn-primary" :disabled="loading">
           <span v-if="loading" class="spinner"></span>
@@ -86,6 +90,7 @@ const password = ref('')
 const name = ref('')
 const confirmPassword = ref('')
 const error = ref('')
+const success = ref('')
 const loading = ref(false)
 
 const particles = [
@@ -96,9 +101,33 @@ const particles = [
   { id: 5, style: 'left:45%;width:4px;height:4px;background:#a78bfa;animation-duration:14s;animation-delay:9s;' },
 ]
 
+async function handleForgotPassword() {
+  if (loading.value) return
+  if (!email.value) {
+    error.value = 'Enter your email address first'
+    return
+  }
+  error.value = ''
+  success.value = ''
+  loading.value = true
+  try {
+    const { auth, sendPasswordResetEmail } = await import('firebase/auth').then(async (mod) => {
+      const { auth } = await import('@/services/firebase')
+      return { auth, sendPasswordResetEmail: mod.sendPasswordResetEmail }
+    })
+    await sendPasswordResetEmail(auth, email.value)
+    success.value = 'Password reset email sent! Check your inbox.'
+  } catch {
+    error.value = 'Could not send reset email. Check your email and try again.'
+  } finally {
+    loading.value = false
+  }
+}
+
 async function handleLogin() {
   if (loading.value) return
   error.value = ''
+  success.value = ''
   loading.value = true
   try {
     const ok = await store.dispatch('auth/login', { email: email.value, password: password.value })
@@ -257,6 +286,29 @@ async function handleSignup() {
   font-size: 13px;
   color: #fca5a5;
   margin-bottom: 16px;
+}
+
+.success-box {
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.3);
+  border-radius: $radius-md;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #6ee7b7;
+  margin-bottom: 16px;
+}
+
+.forgot-link {
+  display: block;
+  text-align: right;
+  font-size: 12px;
+  color: $brand-400;
+  margin-top: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.15s;
+  &:hover { color: $brand-300; }
+  &.disabled { opacity: 0.5; pointer-events: none; }
 }
 
 .form-group {

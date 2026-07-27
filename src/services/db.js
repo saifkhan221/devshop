@@ -171,6 +171,53 @@ export const dbService = {
     }, DB_THROTTLE)
   },
 
+  // ─── Dev Log (admin only) ───────────────────────────────────────────
+
+  async getDevLog() {
+    if (MODE === 'dummy') {
+      return JSON.parse(localStorage.getItem('devshop_devlog') || '[]')
+    }
+    return throttle('db:getDevLog', async () => {
+      const { db, collection, getDocs } = await fs()
+      const snap = await getDocs(collection(db, 'devlog'))
+      const results = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      results.sort((a, b) => toMs(b.createdAt) - toMs(a.createdAt))
+      return results
+    }, DB_THROTTLE)
+  },
+
+  async addDevLogEntry(data) {
+    if (MODE === 'dummy') {
+      const key = 'devshop_devlog'
+      const list = JSON.parse(localStorage.getItem(key) || '[]')
+      const item = { id: 'dl-' + Date.now(), ...data, createdAt: new Date().toISOString() }
+      list.unshift(item)
+      localStorage.setItem(key, JSON.stringify(list))
+      return item
+    }
+    return throttle('db:addDevLogEntry', async () => {
+      const { db, collection, addDoc, serverTimestamp } = await fs()
+      const ref = await addDoc(collection(db, 'devlog'), {
+        ...data,
+        createdAt: serverTimestamp(),
+      })
+      return { id: ref.id, ...data }
+    }, DB_THROTTLE)
+  },
+
+  async deleteDevLogEntry(entryId) {
+    if (MODE === 'dummy') {
+      const key = 'devshop_devlog'
+      const list = JSON.parse(localStorage.getItem(key) || '[]')
+      localStorage.setItem(key, JSON.stringify(list.filter(e => e.id !== entryId)))
+      return
+    }
+    return throttle('db:deleteDevLogEntry', async () => {
+      const { db, doc, deleteDoc } = await fs()
+      await deleteDoc(doc(db, 'devlog', entryId))
+    }, DB_THROTTLE)
+  },
+
   async deleteProject(projectId, userId) {
     if (MODE === 'dummy') { saveLocal(getLocal().filter(p => p.id !== projectId)); return }
     return throttle('db:deleteProject', async () => {

@@ -50,6 +50,18 @@ service cloud.firestore {
                     && request.auth.token.email == 'saif@radix.email';
     }
 
+    // User preferences (theme, clock format)
+    match /userPrefs/{userId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+
+    // Dev log: admin only
+    match /devlog/{entryId} {
+      allow read, create, delete: if request.auth != null
+                                  && request.auth.token.email == 'saif@radix.email';
+    }
+
     // Deny everything else by default
     match /{document=**} {
       allow read, write: if false;
