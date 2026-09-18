@@ -10,7 +10,7 @@
     <div class="card">
       <div class="logo-row">
         <div class="logo-icon">⚡</div>
-        <span class="logo-name">DevShop</span>
+        <span class="logo-name">Dev Kit</span>
       </div>
       <p class="tagline">Your frontend workspace, all in one place.</p>
 
@@ -38,7 +38,7 @@
         </div>
         <button type="submit" class="btn-primary" :disabled="loading">
           <span v-if="loading" class="spinner"></span>
-          <span v-else>Sign in to DevShop</span>
+          <span v-else>Sign in to Dev Kit</span>
         </button>
       </form>
 

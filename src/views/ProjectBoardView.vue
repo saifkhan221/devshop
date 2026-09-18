@@ -191,6 +191,7 @@ const toolComponents = {
   JsonFormatter: defineAsyncComponent(() => import('@/components/tools/JsonFormatter.vue')),
   KanbanBoard: defineAsyncComponent(() => import('@/components/tools/KanbanBoard.vue')),
   ProjectNotes: defineAsyncComponent(() => import('@/components/tools/ProjectNotes.vue')),
+  ProjectDetails: defineAsyncComponent(() => import('@/components/tools/ProjectDetails.vue')),
   BreakpointTester: defineAsyncComponent(() => import('@/components/tools/BreakpointTester.vue')),
 }
 

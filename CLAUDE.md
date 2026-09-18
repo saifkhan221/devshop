@@ -1,4 +1,4 @@
-# DevShop
+# Dev Kit
 
 A Vue 3 frontend workspace app where developers organize tools by project. Firebase backend for auth, data, and hosting on Vercel.
 
@@ -21,7 +21,7 @@ src/
     tools/        # Tool components (TaskList, KanbanBoard, ProjectNotes, etc.)
     ui/           # Reusable UI (AppModal, AppToast, AppButton, ThemeSelector, etc.)
     layout/       # AppNavbar, AppSidebar
-  views/          # AuthView, DashboardView, ProjectBoardView, ToolSelectorView, FeedbackView, AdminView
+  views/          # AuthView, DashboardView, ProjectBoardView, ToolSelectorView, FeedbackView, LibraryView, AdminView
   services/       # firebase.js, auth.js, db.js
   store/modules/  # auth.js, projects.js, ui.js
   composables/    # useToolStorage.js, useUserPrefs.js
@@ -82,10 +82,13 @@ This pattern is used in `useToolStorage`, `useUserPrefs`, and `dbService.getProj
 | `projects` | Auto-generated | User projects (name, description, tools, toolOrder, tags, color, emoji) |
 | `toolData` | `{userId}_{projectId}_{toolId}` | Per-tool data (tasks, kanban columns, notes, etc.) |
 | `feedback` | Auto-generated | User feedback (title, description, tags, images as base64) |
+| `library` | Auto-generated | Shared team library entries (title, type, tags, body markdown, authorId, authorName) |
 | `devlog` | Auto-generated | Admin dev log entries (feature, tokens, model, commit) |
 | `userPrefs` | `{userId}` | Theme preferences, clock format |
 
-Security rules are in `firestore.rules`. All collections enforce `userId == auth.uid` ownership. Admin email (`saif@radix.email`) has read/delete access to `feedback` and full access to `devlog`.
+Security rules are in `firestore.rules`. Most collections enforce `userId == auth.uid` ownership. Admin email (`saif@radix.email`) has read/delete access to `feedback` and full access to `devlog`.
+
+**`library` is the exception — it is a shared, collaborative collection:** every signed-in user can read all entries; anyone can create their own; authors edit/delete their own entries (admin can moderate any). Cache is global (`devshop_library`), not per-user. Data access lives in `dbService.getLibraryEntries/createLibraryEntry/updateLibraryEntry/deleteLibraryEntry` (`services/db.js`); the page is `views/LibraryView.vue` at `/library`, reachable from the navbar icon and a Dashboard header button. Markdown is rendered with `marked` + sanitized with DOMPurify.
 
 ## Vuex Store Modules
 
@@ -104,6 +107,7 @@ Security rules are in `firestore.rules`. All collections enforce `userId == auth
 | `/` | AuthView | Guest only |
 | `/dashboard` | DashboardView | Auth required |
 | `/feedback` | FeedbackView | Auth required |
+| `/library` | LibraryView | Auth required (shared team library) |
 | `/admin` | AdminView | Auth required (admin-only in component) |
 | `/project/:id/setup` | ToolSelectorView | Auth required |
 | `/project/:id` | ProjectBoardView | Auth required |

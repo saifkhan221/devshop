@@ -15,6 +15,10 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
             <input v-model="search" placeholder="Search projects…" />
           </div>
+          <button class="btn-library" @click="$router.push('/library')" title="Shared prompts, skills & docs">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Library
+          </button>
           <button class="btn-new" @click="openNewProjectModal">+ New Project</button>
         </div>
       </div>
@@ -106,30 +110,42 @@
           </div>
         </div>
 
-        <div v-if="filteredProjects.length > 0" class="proj-grid">
-          <div
-            v-for="p in filteredProjects" :key="p.id"
-            class="proj-card"
-            @click="openProject(p.id)"
-          >
-            <div class="proj-topbar" :style="{ background: `linear-gradient(90deg, ${p.color || '#7c3aed'}, ${lighten(p.color || '#7c3aed')})` }"></div>
-            <div class="proj-body">
-              <div v-if="p.tags?.length" class="proj-tags">
-                <span v-for="t in p.tags" :key="t" class="proj-tag">{{ t }}</span>
-              </div>
-              <div class="proj-row1">
-                <div class="proj-em" :style="{ background: hexToRgba(p.color || '#7c3aed', 0.14) }">{{ p.emoji || '📁' }}</div>
-                <div class="proj-acts">
-                  <button class="pact" @click.stop="openProject(p.id)" title="Open">↗</button>
-                  <button class="pact" @click.stop="openEditModal(p)" title="Edit">✏️</button>
-                  <button class="pact pact-del" @click.stop="confirmDelete(p)" title="Delete">🗑</button>
+        <div v-if="filteredProjects.length > 0" class="proj-sections">
+          <div v-for="sec in projectSections" :key="sec.key" class="proj-section-group">
+            <div v-if="sec.label" class="quarter-hd">
+              <span class="quarter-title">{{ sec.label }}</span>
+              <span v-if="sec.months" class="quarter-months">{{ sec.months }}</span>
+              <span class="quarter-count">{{ sec.projects.length }}</span>
+            </div>
+            <div class="proj-grid">
+              <div
+                v-for="p in sec.projects" :key="p.id"
+                class="proj-card"
+                @click="openProject(p.id)"
+              >
+                <div class="proj-topbar" :style="{ background: `linear-gradient(90deg, ${p.color || '#7c3aed'}, ${lighten(p.color || '#7c3aed')})` }"></div>
+                <div class="proj-body">
+                  <div v-if="p.tags?.length" class="proj-tags">
+                    <span v-for="t in p.tags" :key="t" class="proj-tag">{{ t }}</span>
+                  </div>
+                  <div class="proj-row1">
+                    <div class="proj-em" :style="{ background: hexToRgba(p.color || '#7c3aed', 0.14) }">{{ p.emoji || '📁' }}</div>
+                    <div class="proj-acts">
+                      <button class="pact" @click.stop="openProject(p.id)" title="Open">↗</button>
+                      <button class="pact" @click.stop="openEditModal(p)" title="Edit">✏️</button>
+                      <button class="pact pact-del" @click.stop="confirmDelete(p)" title="Delete">🗑</button>
+                    </div>
+                  </div>
+                  <div class="proj-name">{{ p.name }}</div>
+                  <div class="proj-desc">{{ p.description || 'No description added' }}</div>
+                  <div class="proj-foot">
+                    <div class="proj-foot-l">
+                      <span class="pt-badge">🔧 {{ (p.tools || []).length }}</span>
+                      <span v-if="p.quarter" class="pt-quarter">{{ shortQuarter(p.quarter) }}</span>
+                    </div>
+                    <span class="pt-date">{{ formatDate(p.createdAt) }}</span>
+                  </div>
                 </div>
-              </div>
-              <div class="proj-name">{{ p.name }}</div>
-              <div class="proj-desc">{{ p.description || 'No description added' }}</div>
-              <div class="proj-foot">
-                <span class="pt-badge">🔧 {{ (p.tools || []).length }}</span>
-                <span class="pt-date">{{ formatDate(p.createdAt) }}</span>
               </div>
             </div>
           </div>
@@ -196,6 +212,29 @@
           >{{ e }}</div>
         </div>
       </div>
+      <div class="form-group">
+        <label>Quarter <span class="opt">(optional)</span></label>
+        <div class="quarter-picker">
+          <div class="qp-year">
+            <button type="button" class="qp-arrow" @click="npYear--" title="Previous year">‹</button>
+            <span class="qp-year-val">{{ npYear }}</span>
+            <button type="button" class="qp-arrow" @click="npYear++" title="Next year">›</button>
+          </div>
+          <div class="qp-quarters">
+            <button
+              v-for="qq in QUARTERS" :key="qq.q"
+              type="button"
+              class="qp-q"
+              :class="{ active: npQuarter === qq.q }"
+              @click="npQuarter = npQuarter === qq.q ? '' : qq.q"
+            >
+              <span class="qp-q-label">{{ qq.q }}</span>
+              <span class="qp-q-months">{{ qq.months }}</span>
+            </button>
+          </div>
+        </div>
+        <p class="qp-hint">{{ npQuarter ? `Grouped under ${npQuarter} ${npYear}.` : 'Not assigned to any quarter.' }}</p>
+      </div>
       <template #footer>
         <button class="btn-ghost" @click="showModal = false">Cancel</button>
         <button class="btn-primary" @click="createProject" :disabled="!newProject.name || creating">
@@ -255,6 +294,29 @@
           >{{ e }}</div>
         </div>
       </div>
+      <div class="form-group">
+        <label>Quarter <span class="opt">(optional)</span></label>
+        <div class="quarter-picker">
+          <div class="qp-year">
+            <button type="button" class="qp-arrow" @click="epYear--" title="Previous year">‹</button>
+            <span class="qp-year-val">{{ epYear }}</span>
+            <button type="button" class="qp-arrow" @click="epYear++" title="Next year">›</button>
+          </div>
+          <div class="qp-quarters">
+            <button
+              v-for="qq in QUARTERS" :key="qq.q"
+              type="button"
+              class="qp-q"
+              :class="{ active: epQuarter === qq.q }"
+              @click="epQuarter = epQuarter === qq.q ? '' : qq.q"
+            >
+              <span class="qp-q-label">{{ qq.q }}</span>
+              <span class="qp-q-months">{{ qq.months }}</span>
+            </button>
+          </div>
+        </div>
+        <p class="qp-hint">{{ epQuarter ? `Grouped under ${epQuarter} ${epYear}.` : 'Not assigned to any quarter.' }}</p>
+      </div>
       <template #footer>
         <button class="btn-ghost" @click="showEditModal = false">Cancel</button>
         <button class="btn-primary" @click="saveEdit" :disabled="!editProject.name || saving">
@@ -290,13 +352,14 @@ const router = useRouter()
 
 // ─── State ────────────────────────────────────────────────────────
 const search        = ref('')
-const sortBy        = ref('all')
+const sortBy        = ref('quarter')
 const sortOpen      = ref(false)
 const sortDropRef   = ref(null)
 const sortOptions   = [
-  { value: 'all',    label: 'All Projects' },
-  { value: 'recent', label: 'Most Recent'  },
-  { value: 'oldest', label: 'Oldest First' },
+  { value: 'all',     label: 'All Projects'     },
+  { value: 'recent',  label: 'Most Recent'      },
+  { value: 'oldest',  label: 'Oldest First'     },
+  { value: 'quarter', label: 'Group by Quarter' },
 ]
 function pickSort(val) { sortBy.value = val; sortOpen.value = false }
 function onSortOutside(e) {
@@ -315,6 +378,38 @@ const editProject   = ref({ id: null, name: '', description: '', color: '#7c3aed
 
 const colorOptions = ['#7c3aed', '#059669', '#f59e0b', '#3b82f6', '#ec4899', '#ef4444', '#06b6d4', '#a855f7']
 const emojiOptions = ['📁', '🛒', '📊', '📱', '🎨', '💻', '🚀', '⚡']
+
+// ─── Quarter picker ───────────────────────────────────────────────
+// A project's quarter is stored as a combined string e.g. "2026-Q3".
+// Empty / null means the project is not assigned to any quarter.
+const QUARTERS = [
+  { q: 'Q1', months: 'Jan–Mar' },
+  { q: 'Q2', months: 'Apr–Jun' },
+  { q: 'Q3', months: 'Jul–Sep' },
+  { q: 'Q4', months: 'Oct–Dec' },
+]
+const Q_MONTHS = { Q1: 'Jan–Mar', Q2: 'Apr–Jun', Q3: 'Jul–Sep', Q4: 'Oct–Dec' }
+const currentYear = new Date().getFullYear()
+
+// New-project picker state
+const npYear    = ref(currentYear)
+const npQuarter = ref('')
+// Edit-project picker state
+const epYear    = ref(currentYear)
+const epQuarter = ref('')
+
+function parseQuarter(val) {
+  if (!val || !val.includes('-')) return { year: currentYear, q: '' }
+  const [year, q] = val.split('-')
+  return { year: Number(year) || currentYear, q: q || '' }
+}
+// Combined string for storage, or null when no quarter chosen
+function composeQuarter(year, q) { return q ? `${year}-${q}` : null }
+// Short label for the card chip, e.g. "Q3 '26"
+function shortQuarter(val) {
+  const { year, q } = parseQuarter(val)
+  return q ? `${q} '${String(year).slice(-2)}` : ''
+}
 
 // ─── Store ────────────────────────────────────────────────────────
 const projects   = computed(() => store.getters['projects/allProjects'])
@@ -389,6 +484,34 @@ const filteredProjects = computed(() => {
   if (sortBy.value === 'recent') list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   if (sortBy.value === 'oldest') list.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
   return list
+})
+
+// ─── Quarter grouping ─────────────────────────────────────────────
+// Bucket the (already searched) projects by their quarter. Assigned
+// quarters come first, newest quarter on top; "Unassigned" sits last.
+const groupedProjects = computed(() => {
+  const groups = {}
+  for (const p of filteredProjects.value) {
+    const key = p.quarter || 'unassigned'
+    ;(groups[key] ||= []).push(p)
+  }
+  const assigned = Object.keys(groups)
+    .filter(k => k !== 'unassigned')
+    .sort((a, b) => b.localeCompare(a))
+  const ordered = groups.unassigned ? ['unassigned', ...assigned] : assigned
+  return ordered.map(key => {
+    if (key === 'unassigned') {
+      return { key, label: 'Unassigned', months: '', projects: groups[key] }
+    }
+    const { year, q } = parseQuarter(key)
+    return { key, label: `${q} ${year}`, months: Q_MONTHS[q] || '', projects: groups[key] }
+  })
+})
+
+// Render sections: one flat section normally, quarter groups when grouping.
+const projectSections = computed(() => {
+  if (sortBy.value === 'quarter') return groupedProjects.value
+  return [{ key: '_all', label: null, months: '', projects: filteredProjects.value }]
 })
 
 // ─── Clock ────────────────────────────────────────────────────────
@@ -541,6 +664,8 @@ onUnmounted(() => {
 function openNewProjectModal() {
   newProject.value = { name: '', description: '', color: '#7c3aed', emoji: '📁', tags: [] }
   tagInput.value = ''
+  npYear.value    = currentYear
+  npQuarter.value = ''
   showModal.value  = true
 }
 
@@ -556,7 +681,12 @@ function addTag(target, isEdit = false) {
 async function createProject() {
   if (!newProject.value.name) return
   creating.value   = true
-  const project    = await store.dispatch('projects/createProject', { ...newProject.value, tools: [], toolOrder: [] })
+  const project    = await store.dispatch('projects/createProject', {
+    ...newProject.value,
+    quarter: composeQuarter(npYear.value, npQuarter.value),
+    tools: [],
+    toolOrder: [],
+  })
   creating.value   = false
   showModal.value  = false
   store.dispatch('ui/toast', { message: 'Project created!', type: 'success' })
@@ -572,6 +702,9 @@ function openEditModal(p) {
     emoji: p.emoji || '📁',
     tags: [...(p.tags || [])],
   }
+  const { year, q } = parseQuarter(p.quarter)
+  epYear.value    = year
+  epQuarter.value = q
   editTagInput.value = ''
   showEditModal.value = true
 }
@@ -580,6 +713,7 @@ async function saveEdit() {
   if (!editProject.value.name || saving.value) return
   saving.value = true
   const { id, ...data } = editProject.value
+  data.quarter = composeQuarter(epYear.value, epQuarter.value)
   await store.dispatch('projects/updateProject', { id, data })
   saving.value = false
   showEditModal.value = false
@@ -694,6 +828,24 @@ function lighten(hex) {
     &:focus { border-color: var(--accent); }
     &::placeholder { color: rgba(167,139,250,.4); }
   }
+}
+
+.btn-library {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  background: $bg-surface;
+  border: 1px solid var(--border-subtle);
+  border-radius: $radius-md;
+  color: $brand-300;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  &:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
 }
 
 .btn-new {
@@ -1169,7 +1321,61 @@ function lighten(hex) {
   border-radius: 20px;
 }
 
+.proj-foot-l { display: flex; align-items: center; gap: 8px; }
+
+.pt-quarter {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-subtle);
+  padding: 4px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
 .pt-date { font-size: 11px; color: $text-muted; }
+
+// ── Quarter grouped sections ────────────────────────────────────────
+.proj-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+
+.quarter-hd {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.quarter-title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  color: $text-heading;
+  letter-spacing: -0.2px;
+}
+
+.quarter-months {
+  font-size: 12px;
+  line-height: 1;
+  color: $brand-400;
+}
+
+.quarter-count {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  color: $brand-300;
+  background: $bg-elevated;
+  border: 1px solid var(--border-subtle);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
 
 .proj-empty {
   display: flex;
@@ -1237,6 +1443,90 @@ function lighten(hex) {
   border: 2px solid transparent;
   transition: all 0.15s;
   &.selected, &:hover { border-color: $brand-500; background: var(--accent-subtle); }
+}
+
+// ── Quarter picker (modals) ─────────────────────────────────────────
+.quarter-picker {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.qp-year {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: $bg-elevated;
+  border: 1px solid var(--border-strong);
+  border-radius: $radius-md;
+  padding: 0 6px;
+  flex-shrink: 0;
+}
+
+.qp-arrow {
+  width: 24px; height: 28px;
+  background: none;
+  border: none;
+  color: $brand-300;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  &:hover { color: #fff; background: $brand-700; }
+}
+
+.qp-year-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: $text-heading;
+  min-width: 40px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.qp-quarters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  flex: 1;
+}
+
+.qp-q {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 4px;
+  background: $bg-elevated;
+  border: 1px solid var(--border-strong);
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all 0.15s;
+  &:hover { border-color: $brand-500; }
+  &.active {
+    border-color: var(--accent);
+    background: var(--accent-subtle);
+    .qp-q-label { color: var(--accent); }
+  }
+}
+
+.qp-q-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: $text-heading;
+}
+
+.qp-q-months {
+  font-size: 9px;
+  color: $brand-400;
+  white-space: nowrap;
+}
+
+.qp-hint {
+  font-size: 11px;
+  color: $brand-400;
+  margin-top: 8px;
 }
 
 .btn-ghost {

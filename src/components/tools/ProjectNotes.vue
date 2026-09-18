@@ -96,16 +96,11 @@
         </div>
       </div>
     </VueDraggable>
-
-    <!-- Backdrop to close icon picker -->
-    <teleport to="body">
-      <div v-if="iconPickerId" class="icon-picker-backdrop" @click="iconPickerId = null" />
-    </teleport>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 
 // Custom directive: sets innerText once on mount (avoids Vue fighting user edits)
@@ -156,6 +151,14 @@ const iconPickerId = ref(null)
 function toggleIconPicker(id) {
   iconPickerId.value = iconPickerId.value === id ? null : id
 }
+
+// Close the icon picker on any outside click. The trigger and the picker
+// itself both stop propagation, so only genuine outside clicks reach here.
+function onDocClick() {
+  iconPickerId.value = null
+}
+onMounted(() => document.addEventListener('click', onDocClick))
+onUnmounted(() => document.removeEventListener('click', onDocClick))
 
 function setIcon(note, iconName) {
   note.iconName = iconName
@@ -331,8 +334,6 @@ function onTextInput(note, e) {
   &:hover  { background: $bg-elevated; color: #fff; }
   &.active { border-color: var(--accent); background: var(--accent-subtle); color: var(--accent); }
 }
-
-.icon-picker-backdrop { position: fixed; inset: 0; z-index: 199; }
 
 // ── Text ──────────────────────────────────────────────────────────────────────
 .note-text {

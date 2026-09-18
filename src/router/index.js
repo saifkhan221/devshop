@@ -5,6 +5,7 @@ const routes = [
   { path: '/', name: 'auth', component: () => import('@/views/AuthView.vue'), meta: { guestOnly: true } },
   { path: '/dashboard', name: 'dashboard', component: () => import('@/views/DashboardView.vue'), meta: { requiresAuth: true } },
   { path: '/feedback', name: 'feedback', component: () => import('@/views/FeedbackView.vue'), meta: { requiresAuth: true } },
+  { path: '/library', name: 'library', component: () => import('@/views/LibraryView.vue'), meta: { requiresAuth: true } },
   { path: '/admin', name: 'admin', component: () => import('@/views/AdminView.vue'), meta: { requiresAuth: true } },
   { path: '/project/:id/setup', name: 'tool-selector', component: () => import('@/views/ToolSelectorView.vue'), meta: { requiresAuth: true } },
   { path: '/project/:id', name: 'project-board', component: () => import('@/views/ProjectBoardView.vue'), meta: { requiresAuth: true } },

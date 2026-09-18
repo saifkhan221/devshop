@@ -2,13 +2,16 @@
   <nav class="navbar">
     <div class="nav-logo">
       <div class="logo-icon">⚡</div>
-      <span class="logo-name">DevShop</span>
+      <span class="logo-name">Dev Kit</span>
     </div>
     <slot name="center" />
     <div class="nav-right">
       <slot name="right" />
       <router-link v-if="user?.email === 'saif@radix.email'" to="/admin" class="nav-admin" title="Dev Log">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </router-link>
+      <router-link to="/library" class="nav-feedback nav-library" title="Library">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
       </router-link>
       <router-link to="/feedback" class="nav-feedback" title="Feedback">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/><path d="M21 3l-4 4"/><path d="M18 2l3 3"/></svg>

@@ -4,6 +4,7 @@ export const TOOLS = [
   { id: 'project-notes',      name: 'Callouts',               icon: '📝', category: 'Productivity',  desc: 'Colourful callout notes for your project',    component: 'ProjectNotes' },
   { id: 'svg-viewer',         name: 'SVG Viewer',             icon: '🖼️', category: 'Design',        desc: 'View, preview and inspect SVG files',         component: 'SvgViewer' },
   { id: 'kanban',             name: 'Kanban Board',           icon: '📌', category: 'Productivity',  desc: 'Trello-style task management board',          component: 'KanbanBoard' },
+  { id: 'project-details',    name: 'Project Details',        icon: '🗂️', category: 'Productivity',  desc: 'Flexible project info: dates, links, notes',  component: 'ProjectDetails' },
 
   // Coming soon — disabled
   { id: 'box-shadow',         name: 'Box Shadow Generator',   icon: '🌫️', category: 'CSS & Layout',  desc: 'Build and preview CSS box shadows live',      component: 'BoxShadowGenerator',    disabled: true },

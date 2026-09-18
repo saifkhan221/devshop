@@ -10,7 +10,7 @@
             <button class="act-btn" @click="clear">Clear</button>
           </div>
         </div>
-        <textarea v-model="input" class="code-area" rows="20" placeholder='Paste JSON here...\n{\n  "name": "DevShop"\n}'></textarea>
+        <textarea v-model="input" class="code-area" rows="20" placeholder='Paste JSON here...\n{\n  "name": "Dev Kit"\n}'></textarea>
       </div>
       <div class="pane">
         <div class="pane-header">
