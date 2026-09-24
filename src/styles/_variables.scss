@@ -1,4 +1,4 @@
-// ─── Colour tokens — resolved at runtime via CSS custom properties ─────────
+// ─── Colour tokens - resolved at runtime via CSS custom properties ─────────
 // Themes are defined in _themes.scss and applied via [data-theme] on <html>
 
 $bg-primary:     var(--bg-primary);
@@ -25,7 +25,7 @@ $brand-400: var(--brand-400);
 $brand-300: var(--brand-300);
 $brand-200: var(--brand-200);
 
-// ─── Non-colour tokens — static across all themes ─────────────────────────
+// ─── Non-colour tokens - static across all themes ─────────────────────────
 $space-xs: 4px;
 $space-sm: 8px;
 $space-md: 16px;

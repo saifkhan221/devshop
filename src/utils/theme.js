@@ -76,7 +76,7 @@ export function initTheme() {
     applyTheme(saved)
   }
 
-  // Background sync from Firestore — re-apply if remote differs
+  // Background sync from Firestore - re-apply if remote differs
   import('@/composables/useUserPrefs').then(({ syncPrefsFromFirestore }) => {
     syncPrefsFromFirestore().then(remote => {
       if (!remote) return
@@ -150,16 +150,16 @@ function deriveThemeVars(accent, bg) {
   const [br, bg2, bb] = bgRgb
 
   return {
-    // Backgrounds — derived from bg colour
+    // Backgrounds - derived from bg colour
     '--bg-primary':    bg,
     '--bg-surface':    rgbToHex(shiftColor(bgRgb,  0.06)),
     '--bg-elevated':   rgbToHex(shiftColor(bgRgb,  0.12)),
 
-    // Borders — accent at low opacity
+    // Borders - accent at low opacity
     '--border-subtle': `rgba(${ar}, ${ag}, ${ab}, 0.25)`,
     '--border-strong': `rgba(${ar}, ${ag}, ${ab}, 0.5)`,
 
-    // Text — detect light bg (luminance > 0.5) to use dark headings
+    // Text - detect light bg (luminance > 0.5) to use dark headings
     '--text-primary':   '#ffffff',
     '--text-secondary': rgbToHex(shiftColor(accentRgb, 0.45)),
     '--text-muted':     rgbToHex(shiftColor(accentRgb, 0.25)),

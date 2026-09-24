@@ -94,7 +94,7 @@ const selectorRef = ref(null)
 const accentInput = ref(null)
 const bgInput     = ref(null)
 
-// Custom colour state — pre-fill from localStorage
+// Custom colour state - pre-fill from localStorage
 const savedCustom  = getSavedCustomColors()
 const customAccent = ref(savedCustom.accent)
 const customBg     = ref(savedCustom.bg)

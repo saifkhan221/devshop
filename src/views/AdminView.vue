@@ -150,11 +150,11 @@ const totalTokens = computed(() => {
   })
   if (sum >= 1000000) return (sum / 1000000).toFixed(1) + 'M'
   if (sum >= 1000) return Math.round(sum / 1000) + 'k'
-  return sum || '—'
+  return sum || '-'
 })
 
 const topModel = computed(() => {
-  if (!entries.value.length) return '—'
+  if (!entries.value.length) return '-'
   const counts = {}
   entries.value.forEach(e => { counts[e.model] = (counts[e.model] || 0) + 1 })
   return Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0]

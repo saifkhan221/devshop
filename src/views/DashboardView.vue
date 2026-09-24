@@ -76,9 +76,9 @@
             </button>
           </div>
           <div class="quote-text" :class="{ loading: quoteLoading }">
-            {{ quoteLoading ? '…' : (quote.content || '—') }}
+            {{ quoteLoading ? '…' : (quote.content || '-') }}
           </div>
-          <div class="quote-author">— {{ quote.author || '' }}</div>
+          <div class="quote-author">- {{ quote.author || '' }}</div>
         </div>
       </div>
 
@@ -383,12 +383,12 @@ const emojiOptions = ['📁', '🛒', '📊', '📱', '🎨', '💻', '🚀', '�
 // A project's quarter is stored as a combined string e.g. "2026-Q3".
 // Empty / null means the project is not assigned to any quarter.
 const QUARTERS = [
-  { q: 'Q1', months: 'Jan–Mar' },
-  { q: 'Q2', months: 'Apr–Jun' },
-  { q: 'Q3', months: 'Jul–Sep' },
-  { q: 'Q4', months: 'Oct–Dec' },
+  { q: 'Q1', months: 'Jan-Mar' },
+  { q: 'Q2', months: 'Apr-Jun' },
+  { q: 'Q3', months: 'Jul-Sep' },
+  { q: 'Q4', months: 'Oct-Dec' },
 ]
-const Q_MONTHS = { Q1: 'Jan–Mar', Q2: 'Apr–Jun', Q3: 'Jul–Sep', Q4: 'Oct–Dec' }
+const Q_MONTHS = { Q1: 'Jan-Mar', Q2: 'Apr-Jun', Q3: 'Jul-Sep', Q4: 'Oct-Dec' }
 const currentYear = new Date().getFullYear()
 
 // New-project picker state
@@ -443,7 +443,7 @@ const createdThisMonth = computed(() => {
 })
 
 const avgTools = computed(() => {
-  if (!projects.value.length) return '—'
+  if (!projects.value.length) return '-'
   return (totalTools.value / projects.value.length).toFixed(1)
 })
 
@@ -567,7 +567,7 @@ async function getCoords() {
         navigator.geolocation.getCurrentPosition(res, rej, { timeout: 5000 })
       )
       return { lat: pos.coords.latitude, lon: pos.coords.longitude, source: 'gps' }
-    } catch { /* denied or timed out — fall through to IP */ }
+    } catch { /* denied or timed out - fall through to IP */ }
   }
   // 2. Fall back to IP-based location (no permission needed)
   const ipRes = await fetch('https://ipapi.co/json/')

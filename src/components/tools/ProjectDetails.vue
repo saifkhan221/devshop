@@ -161,7 +161,7 @@
             'pv-value--empty': !item.value,
             'pv-value--multiline': item.type === 'textarea' && item.value,
           }"
-        >{{ item.type === 'date' ? (formatDate(item.value) || '—') : (item.value || '—') }}</span>
+        >{{ item.type === 'date' ? (formatDate(item.value) || '-') : (item.value || '-') }}</span>
       </div>
     </div>
   </div>

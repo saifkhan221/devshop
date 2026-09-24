@@ -11,9 +11,9 @@ import { authService } from '@/services/auth'
  *   error   → last auth error message (null if none)
  *
  * Getters:
- *   isLoggedIn   → boolean — use for route guards
+ *   isLoggedIn   → boolean - use for route guards
  *   currentUser  → full user object
- *   userInitials → 'SK' — for the avatar badge
+ *   userInitials → 'SK' - for the avatar badge
  *
  * Actions:
  *   login(email, password)        → returns true/false
@@ -97,7 +97,7 @@ export default {
       commit('projects/SET_PROJECTS', [], { root: true })
     },
 
-    // Called once in main.js before the app mounts —
+    // Called once in main.js before the app mounts -
     // restores the session (localStorage for dummy, Firebase persistence for firebase mode)
     async initAuth({ commit }) {
       const user = await authService.waitForUser()

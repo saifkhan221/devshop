@@ -1,5 +1,5 @@
 /**
- * Request Throttler — app-level DDoS defence
+ * Request Throttler - app-level DDoS defence
  *
  * Prevents any single user session from flooding Firebase/backend
  * with too many requests in a short time window.
@@ -85,7 +85,7 @@ export function throttle(key, fn, opts = {}) {
 /**
  * debounce(fn, delayMs)
  *
- * Standard debounce — collapses rapid calls into one.
+ * Standard debounce - collapses rapid calls into one.
  * Use for search inputs, live-preview saves, etc.
  */
 export function debounce(fn, delayMs = 300) {

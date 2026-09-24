@@ -13,7 +13,7 @@ import { dbService } from '@/services/db'
  * Getters:
  *   allProjects   → full projects array
  *   activeProject → the currently open project object
- *   projectById   → (id) => project — use for looking up a single project
+ *   projectById   → (id) => project - use for looking up a single project
  *
  * Actions:
  *   fetchProjects               → load all projects from DB on dashboard mount
@@ -94,7 +94,7 @@ export default {
       return project
     },
 
-    // Partial update — pass only the fields you want to change
+    // Partial update - pass only the fields you want to change
     // e.g. dispatch('projects/updateProject', { id, data: { name: 'New Name' } })
     async updateProject({ commit, rootGetters }, { id, data }) {
       const user = rootGetters['auth/currentUser']

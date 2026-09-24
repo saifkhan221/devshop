@@ -8,7 +8,7 @@ import { initTheme } from '@/utils/theme'
 const app = createApp(App)
 app.use(store)
 
-initTheme() // apply saved theme before mount — prevents flash of default theme
+initTheme() // apply saved theme before mount - prevents flash of default theme
 
 // ── Auth-first boot ────────────────────────────────────────────────────────
 // Router is installed AFTER initAuth resolves so the beforeEach guard

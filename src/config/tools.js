@@ -6,7 +6,7 @@ export const TOOLS = [
   { id: 'kanban',             name: 'Kanban Board',           icon: '📌', category: 'Productivity',  desc: 'Trello-style task management board',          component: 'KanbanBoard' },
   { id: 'project-details',    name: 'Project Details',        icon: '🗂️', category: 'Productivity',  desc: 'Flexible project info: dates, links, notes',  component: 'ProjectDetails' },
 
-  // Coming soon — disabled
+  // Coming soon - disabled
   { id: 'box-shadow',         name: 'Box Shadow Generator',   icon: '🌫️', category: 'CSS & Layout',  desc: 'Build and preview CSS box shadows live',      component: 'BoxShadowGenerator',    disabled: true },
   { id: 'testing-checklist',  name: 'Testing Checklist',      icon: '📋', category: 'Testing',       desc: 'QA checklist to ship with confidence',        component: 'TestingChecklist',      disabled: true },
   { id: 'color-palette',      name: 'Color Palette',          icon: '🎨', category: 'Design',        desc: 'Generate and save color palettes',            component: 'ColorPalette',          disabled: true },

@@ -247,7 +247,7 @@ const highlightedCode = computed(() => {
       const attr = m[5].slice(leading.length)
       out.push(`${escape(leading)}<span class="hl-attr">${escape(attr)}</span>`)
     } else if (m[6]) {
-      // quoted value — detect hex color inside
+      // quoted value - detect hex color inside
       const inner = m[6].slice(1, -1) // strip quotes
       const hexRe = /#([0-9a-fA-F]{3,8})\b/g
       let hm, hLast = 0, parts = []
@@ -630,12 +630,12 @@ const filteredIcons = computed(() => {
   z-index: 1;
 
   // Token colours
-  :deep(.hl-tag)     { color: #e06c75; }       // tag names  — red
-  :deep(.hl-punct)   { color: #abb2bf; }        // < > />     — grey
-  :deep(.hl-attr)    { color: #61afef; }        // attr names — blue
-  :deep(.hl-str)     { color: #98c379; }        // string val — green
-  :deep(.hl-quot)    { color: #56b6c2; }        // quotes     — teal
-  :deep(.hl-hex)     { color: var(--hc, #e5c07b); font-weight: 600; } // hex — its own color
+  :deep(.hl-tag)     { color: #e06c75; }       // tag names  - red
+  :deep(.hl-punct)   { color: #abb2bf; }        // < > />     - grey
+  :deep(.hl-attr)    { color: #61afef; }        // attr names - blue
+  :deep(.hl-str)     { color: #98c379; }        // string val - green
+  :deep(.hl-quot)    { color: #56b6c2; }        // quotes     - teal
+  :deep(.hl-hex)     { color: var(--hc, #e5c07b); font-weight: 600; } // hex - its own color
   :deep(.hl-comment) { color: #7f848e; font-style: italic; }
   :deep(.hl-plain)   { color: #abb2bf; }
 }

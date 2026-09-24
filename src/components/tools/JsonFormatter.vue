@@ -49,7 +49,7 @@ const highlighted = computed(() => {
       }
       return `<span class="${cls}">${match}</span>`
     })
-  // Sanitize: only allow span tags with specific classes — no scripts, no iframes
+  // Sanitize: only allow span tags with specific classes - no scripts, no iframes
   return DOMPurify.sanitize(raw, {
     ALLOWED_TAGS: ['span'],
     ALLOWED_ATTR: ['class']

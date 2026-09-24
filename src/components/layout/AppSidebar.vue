@@ -57,7 +57,7 @@
               <span class="del-opt-icon">📦</span>
               <div>
                 <div class="del-opt-label">Remove from project</div>
-                <div class="del-opt-desc">Keeps the data — you can re-add later</div>
+                <div class="del-opt-desc">Keeps the data - you can re-add later</div>
               </div>
             </button>
             <button class="del-opt del-opt--danger" @click="confirmRemove(true)">

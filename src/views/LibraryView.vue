@@ -14,7 +14,7 @@
       <div class="lib-header">
         <div>
           <h1 class="lib-title">Library</h1>
-          <p class="lib-sub">Shared prompts, skills &amp; docs — anyone on the team can add and copy.</p>
+          <p class="lib-sub">Shared prompts, skills &amp; docs. Anyone on the team can add and copy.</p>
         </div>
         <div class="lib-header-actions">
           <button class="btn-import" @click="triggerImport">
@@ -59,32 +59,14 @@
         <article v-for="e in filtered" :key="e.id" class="lib-card" @click="openReader(e)">
           <div class="lc-top">
             <span class="lc-type" :class="'lc-type--' + e.type">{{ typeMeta(e.type).icon }} {{ typeMeta(e.type).label }}</span>
-            <button class="lc-copy" @click.stop="copyEntry(e)" :title="copiedId === e.id ? 'Copied!' : 'Copy content'">
-              <svg v-if="copiedId !== e.id" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <button class="lc-download" @click.stop="downloadEntry(e)" title="Download as .md">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             </button>
           </div>
-
           <h3 class="lc-title">{{ e.title }}</h3>
-
-          <div class="lc-preview md-body" v-html="renderPreview(e.body)"></div>
-
-          <div v-if="e.tags?.length" class="lc-tags">
-            <span v-for="t in e.tags" :key="t" class="lc-tag">{{ t }}</span>
-          </div>
-
           <div class="lc-foot">
-            <div class="lc-author">
-              <span class="lc-avatar">{{ (e.authorName || '?')[0].toUpperCase() }}</span>
-              <span class="lc-author-name">{{ authorLabel(e) }}</span>
-            </div>
-            <div class="lc-foot-r">
-              <span class="lc-date">{{ formatDate(e.updatedAt || e.createdAt) }}</span>
-              <div v-if="canEdit(e)" class="lc-actions">
-                <button class="lc-act" @click.stop="openEdit(e)" title="Edit">✏️</button>
-                <button class="lc-act lc-act--del" @click.stop="confirmDelete(e)" title="Delete">🗑</button>
-              </div>
-            </div>
+            <span class="lc-author-name">{{ authorLabel(e) }}</span>
+            <span class="lc-date">{{ formatDate(e.updatedAt || e.createdAt) }}</span>
           </div>
         </article>
       </div>
@@ -111,9 +93,15 @@
             </div>
             <div class="ld-body md-body" v-html="renderFull(reader.body)"></div>
             <div class="ld-foot">
-              <button class="btn-copy-lg" @click="copyEntry(reader)">
-                {{ copiedId === reader.id ? '✓ Copied' : '📋 Copy content' }}
-              </button>
+              <div class="ld-foot-l">
+                <button class="btn-copy-lg" @click="copyEntry(reader)">
+                  {{ copiedId === reader.id ? '✓ Copied' : '📋 Copy content' }}
+                </button>
+                <button class="btn-download" @click="downloadEntry(reader)" title="Download as .md">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download .md
+                </button>
+              </div>
               <div v-if="canEdit(reader)" class="ld-foot-r">
                 <button class="btn-ghost" @click="openEdit(reader)">Edit</button>
               </div>
@@ -249,9 +237,23 @@ function typeMeta(v) { return TYPES.find(t => t.value === v) || TYPES[2] }
 // ─── Markdown ──────────────────────────────────────────────────────
 marked.setOptions({ breaks: true, gfm: true })
 function renderFull(md) { return DOMPurify.sanitize(marked.parse(md || '')) }
-function renderPreview(md) {
-  // Strip to a short plain-ish preview: render then let CSS clamp it
-  return DOMPurify.sanitize(marked.parse((md || '').slice(0, 400)))
+function plainExcerpt(md) {
+  if (!md) return ''
+  return md
+    .replace(/^#{1,6}\s+.*$/gm, '')
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/^[-*]\s+/gm, '')
+    .replace(/^\d+\.\s+/gm, '')
+    .replace(/^>\s+/gm, '')
+    .replace(/---/g, '')
+    .replace(/\n{2,}/g, ' ')
+    .replace(/\n/g, ' ')
+    .trim()
+    .slice(0, 180)
 }
 
 // ─── List / load ───────────────────────────────────────────────────
@@ -314,6 +316,27 @@ async function copyEntry(e) {
   } catch {
     store.dispatch('ui/toast', { message: 'Could not copy', type: 'error' })
   }
+}
+
+// ─── Download as .md ───────────────────────────────────────────────
+function slugify(s) {
+  return (s || 'untitled')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60) || 'untitled'
+}
+function downloadEntry(e) {
+  const blob = new Blob([e.body || ''], { type: 'text/markdown;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `${slugify(e.title)}.md`
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+  URL.revokeObjectURL(url)
+  store.dispatch('ui/toast', { message: 'Downloaded .md file', type: 'success' })
 }
 
 // ─── Editor ────────────────────────────────────────────────────────
@@ -634,83 +657,73 @@ onMounted(load)
 // ── Grid / Cards ────────────────────────────────────────────────────
 .lib-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;
 }
 
 .lib-card {
   background: $bg-surface;
   border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  padding: 18px;
+  border-radius: 14px;
+  padding: 20px 22px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  gap: 10px;
   transition: all 0.2s;
   &:hover {
     border-color: var(--accent);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 36px rgba(0,0,0,.32);
-    .lc-actions { opacity: 1; }
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0,0,0,.25);
   }
 }
 
-.lc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.lc-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+.lc-download {
+  width: 30px; height: 30px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: $brand-400;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.15s;
+  &:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-subtle); }
+}
+.lib-card:hover .lc-download { opacity: 1; }
 
 .lc-type {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 3px 10px;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 4px 12px;
   border-radius: 12px;
   font-size: 11px; font-weight: 600;
   background: var(--accent-subtle);
   color: var(--accent);
   border: 1px solid rgba(124,58,237,.15);
   white-space: nowrap;
+  width: fit-content;
   &--skill   { background: rgba(16,185,129,.12); color: #10b981; border-color: rgba(16,185,129,.2); }
   &--general { background: rgba(59,130,246,.12); color: #3b82f6; border-color: rgba(59,130,246,.2); }
   &--md      { background: rgba(245,158,11,.12); color: #f59e0b; border-color: rgba(245,158,11,.2); }
 }
 
-.lc-copy {
-  width: 28px; height: 28px;
-  display: flex; align-items: center; justify-content: center;
-  background: $bg-elevated;
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  color: $brand-400;
-  cursor: pointer;
-  transition: all 0.15s;
-  flex-shrink: 0;
-  &:hover { border-color: var(--accent); color: var(--accent); }
-}
-
 .lc-title {
   font-size: 15px; font-weight: 700; color: $text-heading;
   letter-spacing: -0.2px; line-height: 1.35;
-  margin-bottom: 8px;
 }
 
-.lc-preview {
-  font-size: 12.5px;
-  color: $text-secondary;
-  line-height: 1.55;
-  margin-bottom: 12px;
+.lc-excerpt {
+  font-size: 13px;
+  color: $brand-400;
+  line-height: 1.5;
   flex: 1;
-  max-height: 84px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  position: relative;
-  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent);
-          mask-image: linear-gradient(180deg, #000 55%, transparent);
-}
-
-.lc-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-.lc-tag {
-  padding: 2px 9px;
-  border-radius: 10px;
-  font-size: 10px; font-weight: 500;
-  background: $bg-elevated;
-  color: $brand-300;
-  border: 1px solid var(--border-subtle);
+  margin: 0;
 }
 
 .lc-foot {
@@ -720,7 +733,13 @@ onMounted(load)
   padding-top: 12px;
   border-top: 1px solid var(--border-subtle);
 }
-.lc-author { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.lc-author-name {
+  font-size: 11px; color: $brand-400;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.lc-date { font-size: 11px; color: $text-muted; white-space: nowrap; }
+
+// ── Shared (reader + cards) ────────────────────────────────────────
 .lc-avatar {
   width: 20px; height: 20px; flex-shrink: 0;
   background: linear-gradient(135deg, $brand-600, $brand-500);
@@ -728,24 +747,14 @@ onMounted(load)
   display: flex; align-items: center; justify-content: center;
   font-size: 10px; font-weight: 600; color: #fff;
 }
-.lc-author-name {
-  font-size: 11px; color: $brand-400;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.lc-foot-r { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.lc-date { font-size: 11px; color: $text-muted; white-space: nowrap; }
-
-.lc-actions { display: flex; gap: 4px; opacity: 0; transition: opacity 0.2s; }
-.lc-act {
-  width: 26px; height: 26px;
+.lc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.lc-tag {
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 10px; font-weight: 500;
   background: $bg-elevated;
-  border: none; border-radius: 7px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px;
-  transition: all 0.15s;
-  &:hover { background: $brand-700; }
-  &--del:hover { background: rgba(239,68,68,.2); }
+  color: $brand-300;
+  border: 1px solid var(--border-subtle);
 }
 
 // ── Overlay dialogs (reader + editor) ───────────────────────────────
@@ -763,30 +772,34 @@ onMounted(load)
   background: $bg-surface;
   border: 1px solid var(--border-strong);
   border-radius: 18px;
-  padding: 26px;
+  padding: 32px 36px;
   width: 100%;
   box-shadow: 0 24px 70px rgba(0,0,0,.5);
   &--reader { max-width: 720px; }
-  &--editor { max-width: 780px; }
+  &--editor { max-width: 780px; padding: 26px 28px; }
 }
 
-.ld-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
-.ld-head-l { display: flex; flex-direction: column; gap: 8px; }
-.ld-title { font-size: 19px; font-weight: 700; color: $text-heading; letter-spacing: -0.3px; line-height: 1.3; }
+.ld-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.ld-head-l { display: flex; flex-direction: column; gap: 12px; }
+.ld-title { font-size: 24px; font-weight: 800; color: $text-heading; letter-spacing: -0.5px; line-height: 1.25; }
 .ld-close {
-  width: 30px; height: 30px; flex-shrink: 0;
+  width: 32px; height: 32px; flex-shrink: 0;
   background: $bg-elevated; border: none; border-radius: 8px;
   color: $brand-300; font-size: 15px; cursor: pointer;
   transition: all 0.15s;
   &:hover { background: $brand-700; color: #fff; }
 }
 .ld-meta {
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; gap: 7px;
   font-size: 12px; color: $brand-400;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 
-.ld-body { margin-bottom: 22px; }
+.ld-body {
+  margin-bottom: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border-subtle);
+}
 
 .ld-foot {
   display: flex; align-items: center; justify-content: space-between;
@@ -794,6 +807,7 @@ onMounted(load)
   padding-top: 18px;
   border-top: 1px solid var(--border-subtle);
 }
+.ld-foot-l { display: flex; gap: 10px; align-items: center; }
 .ld-foot-r { display: flex; gap: 10px; }
 
 .btn-copy-lg {
@@ -807,6 +821,20 @@ onMounted(load)
   cursor: pointer;
   transition: all 0.15s;
   &:hover { background: rgba(124,58,237,.2); }
+}
+
+.btn-download {
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 16px;
+  background: $bg-elevated;
+  border: 1px solid var(--border-subtle);
+  border-radius: $radius-md;
+  color: $brand-300;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  &:hover { border-color: var(--accent); color: var(--accent); }
 }
 
 // ── Editor form ─────────────────────────────────────────────────────
@@ -961,80 +989,84 @@ onMounted(load)
 .drop-sub { font-size: 13px; color: $brand-400; }
 
 // ── Responsive ──────────────────────────────────────────────────────
-@media (max-width: 900px) {
-  .lib-grid { grid-template-columns: repeat(2, 1fr); }
-}
 @media (max-width: 620px) {
   .lib-grid { grid-template-columns: 1fr; }
   .ed-row { flex-direction: column; gap: 0; }
   .srch input { width: 100%; }
   .srch { flex: 1; }
+  .lib-header { flex-direction: column; align-items: flex-start; }
 }
 </style>
 
-<!-- Rendered-markdown styling — not scoped so v-html content is styled -->
+<!-- Rendered-markdown styling - not scoped so v-html content is styled -->
 <style lang="scss">
 @use '@/styles/variables' as *;
 
 .md-body {
   color: $text-secondary;
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.7;
   word-break: break-word;
 
-  h1, h2, h3, h4 { color: $text-heading; font-weight: 700; line-height: 1.3; margin: 0.8em 0 0.4em; }
-  h1 { font-size: 19px; }
+  h1, h2, h3, h4 {
+    color: $text-heading; font-weight: 700; line-height: 1.35;
+    margin: 1.9em 0 0.7em; letter-spacing: -0.2px;
+  }
+  h1 { font-size: 18px; }
   h2 { font-size: 16px; }
   h3 { font-size: 14px; }
   h4 { font-size: 13px; }
-  p { margin: 0 0 0.7em; }
-  a { color: var(--accent); text-decoration: underline; }
-  strong { color: $text-heading; font-weight: 700; }
+  p { margin: 0 0 1.15em; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(124,58,237,.35); }
+  a:hover { border-bottom-color: var(--accent); }
+  strong { color: $text-heading; font-weight: 600; }
   em { font-style: italic; }
 
   // Tailwind's Preflight resets list-style to none globally, so re-enable
   // markers explicitly or ordered lists render with no numbers (look plain).
-  ul, ol { margin: 0 0 0.7em; padding-left: 1.6em; }
+  ul, ol { margin: 0 0 1.15em; padding-left: 1.5em; }
   ul { list-style: disc; }
   ol { list-style: decimal; }
-  li { margin-bottom: 0.3em; }
-  li::marker { color: $brand-400; }
-  ul ul, ol ol, ul ol, ol ul { margin: 0.3em 0; }
+  li { margin-bottom: 0.6em; padding-left: 0.25em; }
+  li:last-child { margin-bottom: 0; }
+  li::marker { color: $brand-500; }
+  ul ul, ol ol, ul ol, ol ul { margin: 0.6em 0; }
 
   code {
     font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 0.88em;
-    background: rgba(124,58,237,.12);
-    color: var(--accent);
-    padding: 1px 6px;
+    font-size: 0.85em;
+    background: rgba(255,255,255,.06);
+    color: $text-heading;
+    padding: 2px 6px;
     border-radius: 5px;
   }
   pre {
-    background: $bg-elevated;
+    background: $bg-primary;
     border: 1px solid var(--border-subtle);
     border-radius: 10px;
-    padding: 12px 14px;
+    padding: 16px 18px;
     overflow-x: auto;
-    margin: 0 0 0.8em;
-    code { background: none; color: $text-secondary; padding: 0; }
+    margin: 1.3em 0;
+    line-height: 1.65;
+    code { background: none; color: $text-secondary; padding: 0; font-size: 0.9em; }
   }
 
   blockquote {
     border-left: 3px solid $brand-500;
-    margin: 0 0 0.8em;
-    padding: 2px 0 2px 14px;
+    margin: 1.3em 0;
+    padding: 4px 0 4px 16px;
     color: $brand-300;
   }
 
-  hr { border: none; border-top: 1px solid var(--border-subtle); margin: 1em 0; }
+  hr { border: none; border-top: 1px solid var(--border-subtle); margin: 2em 0; }
 
   table {
     border-collapse: collapse;
     width: 100%;
-    margin: 0 0 0.8em;
-    font-size: 12px;
+    margin: 1.3em 0;
+    font-size: 13px;
   }
-  th, td { border: 1px solid var(--border-subtle); padding: 6px 10px; text-align: left; }
+  th, td { border: 1px solid var(--border-subtle); padding: 8px 12px; text-align: left; }
   th { background: $bg-elevated; color: $text-heading; font-weight: 600; }
 
   img { max-width: 100%; border-radius: 8px; }

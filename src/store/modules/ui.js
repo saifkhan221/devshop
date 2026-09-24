@@ -1,7 +1,7 @@
 /**
  * UI Module
  *
- * Manages global UI state — toasts, modals, and the active tool.
+ * Manages global UI state - toasts, modals, and the active tool.
  *
  * State:
  *   toasts      → array of active toast notifications

@@ -1,7 +1,7 @@
 /**
- * useUserPrefs — user-level preferences synced to Firestore
+ * useUserPrefs - user-level preferences synced to Firestore
  *
- * Stores: theme, customTheme, clock24h — anything that belongs to the user
+ * Stores: theme, customTheme, clock24h - anything that belongs to the user
  * not a specific project/tool.
  *
  * Same stale-while-revalidate pattern as useToolStorage:

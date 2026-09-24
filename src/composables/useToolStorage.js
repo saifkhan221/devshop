@@ -1,5 +1,5 @@
 /**
- * useToolStorage — per-tool data persistence with stale-while-revalidate
+ * useToolStorage - per-tool data persistence with stale-while-revalidate
  *
  * Dummy mode    → localStorage only
  * Firebase mode → localStorage as instant cache (L1) + Firestore as source of truth (L2)
@@ -52,7 +52,7 @@ export function useToolStorage(projectId, toolId, defaultValue) {
   async function load() {
     const cached = localStorage.getItem(lsKey)
     if (cached) {
-      try { data.value = JSON.parse(cached) } catch { /* corrupt — keep default */ }
+      try { data.value = JSON.parse(cached) } catch { /* corrupt - keep default */ }
     }
     loading.value = false
 
@@ -71,7 +71,7 @@ export function useToolStorage(projectId, toolId, defaultValue) {
         data.value = fresh
       }
     } catch {
-      // Firestore unavailable — cached data already shown
+      // Firestore unavailable - cached data already shown
     }
   }
 

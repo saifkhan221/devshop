@@ -20,7 +20,7 @@ const getLocal     = () => JSON.parse(localStorage.getItem(LS_KEY) || '[]')
 const saveLocal    = (data) => localStorage.setItem(LS_KEY, JSON.stringify(data))
 
 // Throttle config for Firestore operations
-// Max 30 DB calls per second per action key — prevents runaway loops hammering Firebase
+// Max 30 DB calls per second per action key - prevents runaway loops hammering Firebase
 const DB_THROTTLE = { maxTokens: 30, refillRate: 10, windowMs: 1000, maxQueue: 5 }
 
 function toMs(ts) {
@@ -42,23 +42,24 @@ const DUMMY_PROJECTS = [
 // Cache is global (not per-user) since the content is the same for the whole team.
 const LS_LIBRARY = 'devshop_library'
 const LS_LIBRARY_SEEDED = 'devshop_library_seeded'  // one-shot guard for the starter seed
+const LS_LIBRARY_DASHFIX = 'devshop_library_dashfix'  // one-shot: strip em/en dashes from legacy entries
 
 // Two landing-page dev briefs from the design team. The Core Rules block is
 // identical across both variants, so it's shared here and only the intro differs.
 const LANDER_TAIL = [
   '',
-  'Read the [Core Rules](#core-rules) before writing any code — they are non-negotiable.',
+  'Read the [Core Rules](#core-rules) before writing any code - they are non-negotiable.',
   '',
   '---',
   '',
   '## Core Rules',
   '',
   '1. **SCSS only.** No plain CSS files, no inline styles, no utility-class frameworks.',
-  '2. **Use `rem`, never `px`** — the only exceptions are hairline borders and shadows (`1px`).',
+  '2. **Use `rem`, never `px`** - the only exceptions are hairline borders and shadows (`1px`).',
   '3. **Rem scale:** `1rem = 5px` on mobile (default), `1rem = 10px` on desktop (`>= 1400px`). See [Rem Scale](#rem-scale). Practical consequence: to get a 24px-at-desktop font size, write `2.4rem`.',
   '',
   '   ```css',
-  '   /* Paste this block at the TOP of your stylesheet — do not change it */',
+  '   /* Paste this block at the TOP of your stylesheet - do not change it */',
   '',
   '   html { font-size: 5px; }',
   '   @media (min-width: 576px)  { html { font-size: 6px; } }',
@@ -69,28 +70,28 @@ const LANDER_TAIL = [
   '   ```',
   '',
   '4. **Use CSS custom properties (CSS variables)** for values that are themed, animated, or shared across components (durations, delays, radii, dynamic viewport heights).',
-  '5. **Media queries live inside the selector they affect**, using SCSS nesting — never in separate "responsive" files or grouped at the bottom.',
+  '5. **Media queries live inside the selector they affect**, using SCSS nesting - never in separate "responsive" files or grouped at the bottom.',
   '6. **BEM naming:** `.block__element--modifier`. The block is the section or component name.',
   '7. **No comments unless the reason is non-obvious.** A comment explains *why*, never *what*.',
   '8. **Images: proper `alt` text, and always use `<picture>` tags.** Every image needs a descriptive, accurate `alt` attribute (empty `alt=""` only for purely decorative images) and should be marked up with `<picture>` (with appropriate `<source>` variants), not a bare `<img>`.',
   '9. **Lazy-load below the fold, eager-load the first section.** Images inside the first section/hero load eagerly (`loading="eager"`, and mark the LCP image with `fetchpriority="high"`); every image after the first section uses `loading="lazy"`.',
-  '10. **Google PageSpeed scores must be good, accessibility included.** Treat Lighthouse/PageSpeed performance *and* accessibility scores as non-negotiable — this covers the above (alt text, picture tags, lazy/eager loading) plus general a11y basics (semantic HTML, sufficient color contrast, keyboard navigability).',
+  '10. **Google PageSpeed scores must be good, accessibility included.** Treat Lighthouse/PageSpeed performance *and* accessibility scores as non-negotiable - this covers the above (alt text, picture tags, lazy/eager loading) plus general a11y basics (semantic HTML, sufficient color contrast, keyboard navigability).',
 ].join('\n')
 
 const landerBody = (intro) =>
-  ['# Landing Page Development — Getting Started', '', intro, LANDER_TAIL].join('\n')
+  ['# Landing Page Development - Getting Started', '', intro, LANDER_TAIL].join('\n')
 
 // The two design-team briefs, defined once so they can be used as dummy-mode
 // seed data AND written into Firestore as shared starter content (see
 // seedLibrary). The fixed docId keeps the Firestore seed idempotent.
 const LANDER_SEED = [
   {
-    docId: 'lander-new', type: 'prompt', title: 'New Landing Page — Dev Brief (Laravel)',
+    docId: 'lander-new', type: 'prompt', title: 'New Landing Page - Dev Brief (Laravel)',
     tags: ['landing-page', 'laravel', 'scss', 'brief'],
     body: landerBody('I am a designer. Instructions for building a new marketing landing page, following our brand guidelines and front-end conventions. The page should be developed using Laravel, SCSS & ES6 to keep it scalable & maintainable.'),
   },
   {
-    docId: 'lander-existing', type: 'prompt', title: 'Existing Landing Page — Dev Brief (HTML handoff)',
+    docId: 'lander-existing', type: 'prompt', title: 'Existing Landing Page - Dev Brief (HTML handoff)',
     tags: ['landing-page', 'html', 'scss', 'brief'],
     body: landerBody('I am a designer. Instructions for building a new marketing landing page, following our brand guidelines and front-end conventions. The page will be integrated into a Laravel codebase that uses SCSS & ES6. Please output the page as basic HTML so a dev can integrate it easily, but do suggest a better way of doing this if you have any ideas.'),
   },
@@ -106,14 +107,14 @@ const DUMMY_LIBRARY = [
   {
     id: 'lib-001', type: 'prompt', title: 'Component-from-Figma prompt',
     tags: ['vue', 'figma', 'frontend'],
-    body: '## Convert this Figma frame to a Vue component\n\nBuild a **single-file Vue 3 component** from the selected frame.\n\n- Use `<script setup>` and the Composition API\n- Match spacing, colours and typography exactly — use `rem` units\n- Extract repeated values into props\n- Keep it accessible (labels, roles, focus states)\n\n> Ask me before adding any new dependency.',
+    body: '## Convert this Figma frame to a Vue component\n\nBuild a **single-file Vue 3 component** from the selected frame.\n\n- Use `<script setup>` and the Composition API\n- Match spacing, colours and typography exactly - use `rem` units\n- Extract repeated values into props\n- Keep it accessible (labels, roles, focus states)\n\n> Ask me before adding any new dependency.',
     authorId: 'dummy-user', authorName: 'saif@gmail.com',
     createdAt: '2026-08-20T10:00:00.000Z', updatedAt: '2026-08-20T10:00:00.000Z',
   },
   {
     id: 'lib-002', type: 'skill', title: 'Design review checklist',
     tags: ['design', 'qa'],
-    body: '# Design Review Skill\n\nWhen reviewing a screen, check in order:\n\n1. **Hierarchy** — is the primary action obvious?\n2. **Spacing** — consistent 4/8px rhythm?\n3. **Contrast** — text passes WCAG AA?\n4. **States** — hover, focus, disabled, empty, error?\n5. **Responsive** — does it hold at 375px?\n\nReturn findings as a short bulleted list, most important first.',
+    body: '# Design Review Skill\n\nWhen reviewing a screen, check in order:\n\n1. **Hierarchy** - is the primary action obvious?\n2. **Spacing** - consistent 4/8px rhythm?\n3. **Contrast** - text passes WCAG AA?\n4. **States** - hover, focus, disabled, empty, error?\n5. **Responsive** - does it hold at 375px?\n\nReturn findings as a short bulleted list, most important first.',
     authorId: 'dummy-user', authorName: 'saif@gmail.com',
     createdAt: '2026-08-22T09:00:00.000Z', updatedAt: '2026-08-22T09:00:00.000Z',
   },
@@ -130,7 +131,7 @@ function sortLibrary(list) {
   return [...list].sort((a, b) => toMs(b.updatedAt || b.createdAt) - toMs(a.updatedAt || a.createdAt))
 }
 
-// Writes the starter briefs into Firestore with fixed doc IDs (idempotent —
+// Writes the starter briefs into Firestore with fixed doc IDs (idempotent -
 // re-running overwrites the same docs instead of duplicating). authorId must be
 // the current uid to satisfy the library security rules.
 async function seedLibrary(auth) {
@@ -145,6 +146,29 @@ async function seedLibrary(auth) {
   return seeded
 }
 
+// One-time cleanup: the original starter briefs were seeded with em/en dashes in
+// their title/body. Rewrite any entry that still contains them. Best-effort: the
+// security rules only let the author or admin write, so entries the current user
+// can't edit are left for someone who can (the shared doc gets fixed either way).
+async function migrateLibraryDashes(list) {
+  if (localStorage.getItem(LS_LIBRARY_DASHFIX)) return list
+  const hasDash = (s) => /[—–]/.test(s || '')
+  const strip = (s) => (s || '').replace(/[—–]/g, '-')
+  const targets = list.filter(e => hasDash(e.title) || hasDash(e.body))
+  if (targets.length) {
+    const { db, doc, updateDoc } = await fs()
+    for (const e of targets) {
+      const title = strip(e.title), body = strip(e.body)
+      try {
+        await updateDoc(doc(db, 'library', e.id), { title, body })
+        e.title = title; e.body = body
+      } catch { /* not permitted for this user */ }
+    }
+  }
+  localStorage.setItem(LS_LIBRARY_DASHFIX, '1')
+  return list
+}
+
 export const dbService = {
   async getProjects(userId, onRefresh) {
     if (MODE === 'dummy') {
@@ -156,7 +180,7 @@ export const dbService = {
     const cacheKey = LS_FB_CACHE(userId)
     const cached = localStorage.getItem(cacheKey)
     if (cached) {
-      // Kick off background refresh — caller gets cache immediately
+      // Kick off background refresh - caller gets cache immediately
       throttle('db:getProjects', async () => {
         const { db, collection, query, where, getDocs } = await fs()
         const q = query(collection(db,'projects'), where('userId','==',userId))
@@ -168,7 +192,7 @@ export const dbService = {
       }, DB_THROTTLE).catch(() => {})
       return JSON.parse(cached)
     }
-    // First load — must wait for Firestore
+    // First load - must wait for Firestore
     return throttle('db:getProjects', async () => {
       const { db, collection, query, where, getDocs } = await fs()
       const q = query(collection(db,'projects'), where('userId','==',userId))
@@ -295,7 +319,8 @@ export const dbService = {
       throttle('db:getLibrary', async () => {
         const { db, collection, getDocs } = await fs()
         const snap = await getDocs(collection(db, 'library'))
-        const fresh = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+        let fresh = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+        fresh = await migrateLibraryDashes(fresh)
         localStorage.setItem(LS_LIBRARY, JSON.stringify(fresh))
         if (onRefresh) onRefresh(sortLibrary(fresh))
         return fresh
@@ -313,6 +338,7 @@ export const dbService = {
         list = await seedLibrary(auth)
         localStorage.setItem(LS_LIBRARY_SEEDED, '1')
       }
+      list = await migrateLibraryDashes(list)
       localStorage.setItem(LS_LIBRARY, JSON.stringify(list))
       return sortLibrary(list)
     }, DB_THROTTLE)

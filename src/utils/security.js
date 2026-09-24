@@ -23,7 +23,7 @@ export function sanitizeText(str) {
     .slice(0, 500) // max length guard
 }
 
-// Rate limiter — blocks login after N failed attempts within a window
+// Rate limiter - blocks login after N failed attempts within a window
 const RATE_LIMIT_KEY = 'devshop_auth_attempts'
 const MAX_ATTEMPTS = 5
 const WINDOW_MS = 15 * 60 * 1000 // 15 minutes
