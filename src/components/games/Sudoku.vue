@@ -183,7 +183,7 @@ onMounted(() => { newPuzzle('easy'); root.value?.focus() })
   font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums;
   cursor: pointer;
   transition: background-color 100ms;
-  &:disabled { cursor: default; }
+  &:disabled { cursor: default; opacity: 1; }  // given clues stay full-strength
   &.given { color: var(--ink); font-weight: 700; }
   &.peer { background: var(--bg-200); }
   &.same { background: var(--peach-soft); }

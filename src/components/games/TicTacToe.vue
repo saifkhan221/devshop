@@ -170,7 +170,9 @@ function reset() {
     box-shadow: inset 0 0 22px color-mix(in srgb, var(--peach) 12%, transparent);
     .ghost { opacity: 0.5; }
   }
-  &:disabled { cursor: default; }
+  // Filled / locked cells are disabled to block clicks — but the DS global
+  // [disabled] rule dims them to 45%; keep them full-strength here.
+  &:disabled { cursor: default; opacity: 1; }
   &.win {
     border-color: var(--peach);
     background: var(--peach-soft);
@@ -184,8 +186,8 @@ function reset() {
 }
 
 .mark { font-size: 56px; font-weight: 800; line-height: 1; animation: pop 0.18s ease; }
-.mark--x { color: var(--peach); text-shadow: 0 0 18px color-mix(in srgb, var(--peach) 70%, transparent); }
-.mark--o { color: var(--violet-text); text-shadow: 0 0 18px color-mix(in srgb, var(--violet) 65%, transparent); }
+.mark--x { color: var(--peach-text); text-shadow: 0 0 20px color-mix(in srgb, var(--peach-strong) 70%, transparent); }
+.mark--o { color: var(--violet-text); text-shadow: 0 0 20px color-mix(in srgb, var(--violet-strong) 65%, transparent); }
 
 .ghost {
   position: absolute;
