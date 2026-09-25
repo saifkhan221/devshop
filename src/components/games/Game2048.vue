@@ -26,6 +26,8 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
+const emit = defineEmits(['result'])
+
 const SIZE = 4
 const BEST_KEY = 'devshop_2048_best'
 
@@ -83,7 +85,11 @@ function move(dir) {
   if (JSON.stringify(g) === JSON.stringify(grid.value)) return  // no change
   spawn(g)
   grid.value = g
-  if (score.value > best.value) { best.value = score.value; localStorage.setItem(BEST_KEY, String(best.value)) }
+  if (score.value > best.value) {
+    best.value = score.value
+    localStorage.setItem(BEST_KEY, String(best.value))
+    emit('result', { game: '2048', score: best.value })
+  }
   if (!canMove(g)) over.value = true
 }
 

@@ -26,6 +26,7 @@
                 <button :class="{ active: tab === 'ttt' }" @click="tab = 'ttt'">Tic-Tac-Toe</button>
                 <button :class="{ active: tab === 'sudoku' }" @click="tab = 'sudoku'">Sudoku</button>
                 <button :class="{ active: tab === '2048' }" @click="tab = '2048'">2048</button>
+                <button :class="{ active: tab === 'board' }" @click="tab = 'board'">Leaderboard</button>
               </div>
               <button class="ds-icon-btn ds-icon-btn-sm wyw-close" @click="open = false" aria-label="Close">
                 <svg class="ds-icon ds-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
@@ -34,9 +35,10 @@
 
             <div class="wyw-content">
               <NewsPanel v-if="tab === 'news'" />
-              <TicTacToe v-else-if="tab === 'ttt'" />
-              <Sudoku v-else-if="tab === 'sudoku'" />
-              <Game2048 v-else-if="tab === '2048'" />
+              <TicTacToe v-else-if="tab === 'ttt'" @result="onGameResult" />
+              <Sudoku v-else-if="tab === 'sudoku'" @result="onGameResult" />
+              <Game2048 v-else-if="tab === '2048'" @result="onGameResult" />
+              <Leaderboard v-else-if="tab === 'board'" />
             </div>
           </div>
         </div>
@@ -46,15 +48,25 @@
 </template>
 
 <script setup>
-import { ref, defineAsyncComponent } from 'vue'
+import { ref, computed, defineAsyncComponent } from 'vue'
+import { useStore } from 'vuex'
+import { dbService } from '@/services/db'
 
-const NewsPanel = defineAsyncComponent(() => import('./NewsPanel.vue'))
-const TicTacToe = defineAsyncComponent(() => import('@/components/games/TicTacToe.vue'))
-const Sudoku    = defineAsyncComponent(() => import('@/components/games/Sudoku.vue'))
-const Game2048  = defineAsyncComponent(() => import('@/components/games/Game2048.vue'))
+const NewsPanel   = defineAsyncComponent(() => import('./NewsPanel.vue'))
+const TicTacToe   = defineAsyncComponent(() => import('@/components/games/TicTacToe.vue'))
+const Sudoku      = defineAsyncComponent(() => import('@/components/games/Sudoku.vue'))
+const Game2048    = defineAsyncComponent(() => import('@/components/games/Game2048.vue'))
+const Leaderboard = defineAsyncComponent(() => import('@/components/games/Leaderboard.vue'))
+
+const store = useStore()
+const user = computed(() => store.getters['auth/currentUser'])
 
 const open = ref(false)
 const tab = ref('news')
+
+function onGameResult(patch) {
+  dbService.recordGame({ uid: user.value?.uid, email: user.value?.email, name: user.value?.name }, patch)
+}
 </script>
 
 <style lang="scss" scoped>

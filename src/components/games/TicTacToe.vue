@@ -33,6 +33,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 
+const emit = defineEmits(['result'])
+
 const board = ref(Array(9).fill(null))
 const turn = ref('X')          // 'X' = player, 'O' = computer
 const winner = ref(null)
@@ -66,10 +68,11 @@ function settle() {
       winner.value = p
       winLine.value = line
       score.value[p === 'X' ? 'x' : 'o']++
+      emit('result', { game: 'ttt', outcome: p === 'X' ? 'win' : 'loss' })
       return true
     }
   }
-  if (board.value.every(Boolean)) { score.value.d++; return true }
+  if (board.value.every(Boolean)) { score.value.d++; emit('result', { game: 'ttt', outcome: 'draw' }); return true }
   return false
 }
 

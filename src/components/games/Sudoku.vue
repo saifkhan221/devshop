@@ -45,7 +45,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
+
+const emit = defineEmits(['result'])
 
 const DIFFS = [
   { key: 'easy',   label: 'Easy',   clues: 44 },
@@ -58,6 +60,7 @@ const cells = ref([])        // [{ value, given }] length 81
 const solution = ref([])     // length 81
 const selected = ref(null)
 const root = ref(null)
+const startedAt = ref(0)
 
 function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] } return a }
 function patternAt(r, c) { return (3 * (r % 3) + Math.floor(r / 3) + c) % 9 }
@@ -80,6 +83,7 @@ function newPuzzle(diff) {
   const keep = new Set(shuffle([...Array(81).keys()]).slice(0, clues))
   cells.value = sol.map((v, i) => keep.has(i) ? { value: v, given: true } : { value: 0, given: false })
   selected.value = null
+  startedAt.value = Date.now()
   root.value?.focus()
 }
 
@@ -145,6 +149,13 @@ function onKey(e) {
     if (ni >= 0 && ni < 81) selected.value = ni
   }
 }
+
+watch(solved, (v) => {
+  if (v && startedAt.value) {
+    emit('result', { game: 'sudoku', diff: difficulty.value, timeSec: Math.round((Date.now() - startedAt.value) / 1000) })
+    startedAt.value = 0
+  }
+})
 
 onMounted(() => { newPuzzle('easy'); root.value?.focus() })
 </script>

@@ -16,6 +16,23 @@ async function fs() {
 }
 const LS_KEY       = 'devshop_projects'
 const LS_FB_CACHE  = (uid) => `devshop_projects_cache_${uid}`   // Firebase project cache per user
+const LS_GAMESTATS = 'devshop_gamestats'
+
+// Apply a game result to a player's stat doc (win counters, best score, best time).
+function applyGamePatch(cur, patch) {
+  const s = { ...cur }
+  if (patch.game === 'ttt') {
+    if (patch.outcome === 'win') s.tttWins = (s.tttWins || 0) + 1
+    else if (patch.outcome === 'loss') s.tttLosses = (s.tttLosses || 0) + 1
+    else if (patch.outcome === 'draw') s.tttDraws = (s.tttDraws || 0) + 1
+  } else if (patch.game === '2048') {
+    s.best2048 = Math.max(s.best2048 || 0, patch.score || 0)
+  } else if (patch.game === 'sudoku') {
+    const key = 'sudokuBest' + patch.diff.charAt(0).toUpperCase() + patch.diff.slice(1)
+    if (!s[key] || patch.timeSec < s[key]) s[key] = patch.timeSec
+  }
+  return s
+}
 const getLocal     = () => JSON.parse(localStorage.getItem(LS_KEY) || '[]')
 const saveLocal    = (data) => localStorage.setItem(LS_KEY, JSON.stringify(data))
 
@@ -453,6 +470,64 @@ export const dbService = {
         const cached = JSON.parse(localStorage.getItem(cacheKey) || '[]')
         localStorage.setItem(cacheKey, JSON.stringify(cached.filter(p => p.id !== projectId)))
       }
+    }, DB_THROTTLE)
+  },
+
+  // ─── Game leaderboard (shared, one doc per player) ──────────────────
+  async getGameStats(onRefresh) {
+    if (MODE === 'dummy') {
+      const raw = localStorage.getItem(LS_GAMESTATS)
+      return raw ? [JSON.parse(raw)] : []
+    }
+    const cacheKey = LS_GAMESTATS + '_all'
+    const cached = localStorage.getItem(cacheKey)
+    if (cached) {
+      throttle('db:getGameStats', async () => {
+        const { db, collection, getDocs } = await fs()
+        const snap = await getDocs(collection(db, 'gameStats'))
+        const fresh = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+        localStorage.setItem(cacheKey, JSON.stringify(fresh))
+        if (onRefresh) onRefresh(fresh)
+        return fresh
+      }, DB_THROTTLE).catch(() => {})
+      return JSON.parse(cached)
+    }
+    return throttle('db:getGameStats', async () => {
+      const { db, collection, getDocs } = await fs()
+      const snap = await getDocs(collection(db, 'gameStats'))
+      const list = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      localStorage.setItem(cacheKey, JSON.stringify(list))
+      return list
+    }, DB_THROTTLE)
+  },
+
+  async recordGame(auth, patch) {
+    if (MODE === 'dummy') {
+      const raw = localStorage.getItem(LS_GAMESTATS)
+      const cur = raw ? JSON.parse(raw) : { id: 'dummy-user', uid: 'dummy-user', name: auth?.email || 'You' }
+      const next = applyGamePatch(cur, patch)
+      localStorage.setItem(LS_GAMESTATS, JSON.stringify(next))
+      return next
+    }
+    if (!auth?.uid) return
+    return throttle('db:recordGame', async () => {
+      const { db, doc, getDoc, setDoc, serverTimestamp } = await fs()
+      const ref = doc(db, 'gameStats', auth.uid)
+      const snap = await getDoc(ref)
+      const next = applyGamePatch(snap.exists() ? snap.data() : {}, patch)
+      next.uid = auth.uid
+      next.name = auth.email || auth.name || 'Player'
+      await setDoc(ref, { ...next, updatedAt: serverTimestamp() }, { merge: true })
+      // keep the leaderboard cache in sync
+      try {
+        const cacheKey = LS_GAMESTATS + '_all'
+        const all = JSON.parse(localStorage.getItem(cacheKey) || '[]')
+        const rec = { id: auth.uid, ...next }
+        const idx = all.findIndex(x => x.id === auth.uid)
+        if (idx !== -1) all[idx] = rec; else all.push(rec)
+        localStorage.setItem(cacheKey, JSON.stringify(all))
+      } catch { /* cache is best-effort */ }
+      return next
     }, DB_THROTTLE)
   }
 }
