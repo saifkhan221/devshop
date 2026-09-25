@@ -22,15 +22,21 @@
           <div class="wyw-dialog">
             <div class="wyw-head">
               <div class="wyw-tabs">
-                <button :class="{ active: tab === 'news' }" @click="tab = 'news'">📰 News</button>
-                <button :class="{ active: tab === 'game' }" @click="tab = 'game'">🎮 Tic-Tac-Toe</button>
+                <button :class="{ active: tab === 'news' }" @click="tab = 'news'">News</button>
+                <button :class="{ active: tab === 'ttt' }" @click="tab = 'ttt'">Tic-Tac-Toe</button>
+                <button :class="{ active: tab === 'sudoku' }" @click="tab = 'sudoku'">Sudoku</button>
+                <button :class="{ active: tab === '2048' }" @click="tab = '2048'">2048</button>
               </div>
-              <button class="wyw-close" @click="open = false">✕</button>
+              <button class="ds-icon-btn ds-icon-btn-sm wyw-close" @click="open = false" aria-label="Close">
+                <svg class="ds-icon ds-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+              </button>
             </div>
 
             <div class="wyw-content">
               <NewsPanel v-if="tab === 'news'" />
-              <TicTacToe v-else />
+              <TicTacToe v-else-if="tab === 'ttt'" />
+              <Sudoku v-else-if="tab === 'sudoku'" />
+              <Game2048 v-else-if="tab === '2048'" />
             </div>
           </div>
         </div>
@@ -44,6 +50,8 @@ import { ref, defineAsyncComponent } from 'vue'
 
 const NewsPanel = defineAsyncComponent(() => import('./NewsPanel.vue'))
 const TicTacToe = defineAsyncComponent(() => import('@/components/games/TicTacToe.vue'))
+const Sudoku    = defineAsyncComponent(() => import('@/components/games/Sudoku.vue'))
+const Game2048  = defineAsyncComponent(() => import('@/components/games/Game2048.vue'))
 
 const open = ref(false)
 const tab = ref('news')
@@ -93,40 +101,34 @@ const tab = ref('news')
   box-shadow: var(--shadow-overlay);
   width: 100%;
   max-width: 560px;
-  box-shadow: 0 24px 70px rgba(0,0,0,.5);
   overflow: hidden;
 }
 
 .wyw-head {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-subtle);
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line);
 }
 .wyw-tabs {
-  display: flex; gap: 4px;
-  background: $bg-elevated;
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  padding: 4px;
+  display: flex; gap: 2px; flex-wrap: wrap;
+  background: var(--bg-200);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 3px;
   button {
     padding: 7px 14px;
-    background: transparent; border: none; border-radius: 7px;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px; font-weight: 500;
-    color: $brand-400; cursor: pointer;
-    transition: all 0.15s;
-    &.active { background: $brand-600; color: #fff; }
+    background: transparent; border: 0; border-radius: 6px;
+    font: inherit; font-size: 13px; font-weight: 600;
+    color: var(--ink-muted); cursor: pointer;
+    transition: background-color 120ms, color 120ms;
+    &:hover { color: var(--ink); }
+    &.active { background: var(--peach-soft); color: var(--peach-text); }
   }
 }
-.wyw-close {
-  width: 32px; height: 32px; flex-shrink: 0;
-  background: $bg-elevated; border: none; border-radius: 8px;
-  color: $brand-300; font-size: 15px; cursor: pointer;
-  transition: all 0.15s;
-  &:hover { background: $brand-700; color: #fff; }
-}
+.wyw-close { flex: none; }
 
-.wyw-content { padding: 20px 22px 24px; }
+.wyw-content { padding: var(--space-5) var(--space-6) var(--space-6); }
 
 .wyw-fade-enter-active, .wyw-fade-leave-active { transition: opacity 0.2s ease; }
 .wyw-fade-enter-from, .wyw-fade-leave-to { opacity: 0; }

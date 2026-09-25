@@ -25,7 +25,7 @@
         <span class="sc sc--d">Draw <b>{{ score.d }}</b></span>
         <span class="sc sc--o">CPU <b>{{ score.o }}</b></span>
       </div>
-      <button class="ttt-reset" @click="reset">New round</button>
+      <button class="ds-btn ds-btn-primary" @click="reset">New round</button>
     </div>
   </div>
 </template>
@@ -111,120 +111,102 @@ function reset() {
 </script>
 
 <style lang="scss" scoped>
-@use '@/styles/variables' as *;
-
-.ttt { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 6px 0 10px; }
+.ttt { display: flex; flex-direction: column; align-items: center; gap: var(--space-5); padding: var(--space-1) 0 var(--space-2); }
 
 // ── Status pill ─────────────────────────────────────────────────────
 .ttt-status {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 7px 16px;
-  border-radius: 20px;
-  font-size: 13.5px; font-weight: 600;
-  background: rgba(255,255,255,.04);
-  border: 1px solid var(--border-subtle);
-  transition: all 0.2s;
-  .ttt-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: 13px; font-weight: 600;
+  background: var(--bg-200);
+  border: 1px solid var(--line);
+  color: var(--ink-muted);
+  transition: color 120ms, border-color 120ms;
+  .ttt-dot { width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--ink-faint); flex: none; }
 }
-.ttt-status--you  { color: #22d3ee; border-color: rgba(34,211,238,.35);
-  .ttt-dot { background: #22d3ee; box-shadow: 0 0 8px #22d3ee; animation: pulse 1.4s infinite; } }
-.ttt-status--wait { color: $brand-300;
-  .ttt-dot { background: $brand-400; animation: pulse 0.8s infinite; } }
-.ttt-status--win  { color: #22d3ee; border-color: rgba(34,211,238,.5); background: rgba(34,211,238,.08);
-  .ttt-dot { background: #22d3ee; box-shadow: 0 0 10px #22d3ee; } }
-.ttt-status--lose { color: #f472b6; border-color: rgba(244,114,182,.4);
-  .ttt-dot { background: #f472b6; box-shadow: 0 0 8px #f472b6; } }
-.ttt-status--draw { color: $brand-300;
-  .ttt-dot { background: $brand-400; } }
+.ttt-status--you  { color: var(--peach-text); border-color: var(--peach);
+  .ttt-dot { background: var(--peach); animation: pulse 1.4s infinite; } }
+.ttt-status--wait { color: var(--ink-muted);
+  .ttt-dot { background: var(--ink-faint); animation: pulse 0.8s infinite; } }
+.ttt-status--win  { color: var(--success-text); border-color: var(--success);
+  .ttt-dot { background: var(--success); } }
+.ttt-status--lose { color: var(--violet-text); border-color: var(--violet);
+  .ttt-dot { background: var(--violet); } }
+.ttt-status--draw { color: var(--ink-muted);
+  .ttt-dot { background: var(--ink-faint); } }
 
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
 
 // ── Board ───────────────────────────────────────────────────────────
 .ttt-board {
-  position: relative;
   display: grid;
-  grid-template-columns: repeat(3, 88px);
-  grid-template-rows: repeat(3, 88px);
-  gap: 12px;
-  padding: 18px;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(34,211,238,.06), transparent 60%),
-    radial-gradient(circle at 50% 100%, rgba(244,114,182,.05), transparent 60%),
-    #0b0b16;
-  border: 1px solid rgba(124,58,237,.28);
-  border-radius: 20px;
-  box-shadow:
-    inset 0 0 50px rgba(124,58,237,.14),
-    0 0 40px rgba(124,58,237,.12);
-  &.done { box-shadow: inset 0 0 50px rgba(34,211,238,.18), 0 0 50px rgba(34,211,238,.15); }
+  grid-template-columns: repeat(3, 104px);
+  grid-template-rows: repeat(3, 104px);
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--bg-000);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 44px color-mix(in srgb, var(--peach) 12%, transparent);
+  transition: box-shadow 200ms;
+  &.done { box-shadow: 0 0 56px color-mix(in srgb, var(--peach) 24%, transparent); }
 }
 
 .ttt-cell {
   position: relative;
-  background: linear-gradient(160deg, #14142400, #12121f);
-  border: 1px solid rgba(124,58,237,.22);
-  border-radius: 14px;
+  background: var(--bg-100);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
-  transition: all 0.18s;
+  transition: background-color 120ms, border-color 120ms, box-shadow 120ms;
   &:hover:not(:disabled) {
-    border-color: rgba(34,211,238,.6);
-    box-shadow: inset 0 0 20px rgba(34,211,238,.12), 0 0 18px rgba(34,211,238,.2);
-    .ghost { opacity: 0.22; transform: scale(1); }
+    background: var(--bg-200);
+    border-color: var(--peach);
+    box-shadow: inset 0 0 22px color-mix(in srgb, var(--peach) 12%, transparent);
+    .ghost { opacity: 0.5; }
   }
   &:disabled { cursor: default; }
   &.win {
-    border-color: rgba(34,211,238,.95);
-    box-shadow: inset 0 0 26px rgba(34,211,238,.25), 0 0 26px rgba(34,211,238,.55);
-    animation: winpulse 1s ease infinite;
+    border-color: var(--peach);
+    background: var(--peach-soft);
+    box-shadow: 0 0 24px color-mix(in srgb, var(--peach) 45%, transparent);
+    animation: winpulse 1.1s ease infinite;
   }
 }
 @keyframes winpulse {
-  0%,100% { box-shadow: inset 0 0 26px rgba(34,211,238,.25), 0 0 26px rgba(34,211,238,.55); }
-  50%     { box-shadow: inset 0 0 30px rgba(34,211,238,.4),  0 0 38px rgba(34,211,238,.8); }
+  0%,100% { box-shadow: 0 0 24px color-mix(in srgb, var(--peach) 40%, transparent); }
+  50%     { box-shadow: 0 0 34px color-mix(in srgb, var(--peach) 70%, transparent); }
 }
 
-.mark { font-size: 48px; font-weight: 700; line-height: 1; animation: pop 0.2s ease; }
-.mark--x { color: #22d3ee; text-shadow: 0 0 10px rgba(34,211,238,.9), 0 0 24px rgba(34,211,238,.6); }
-.mark--o { color: #f472b6; text-shadow: 0 0 10px rgba(244,114,182,.9), 0 0 24px rgba(244,114,182,.55); }
+.mark { font-size: 56px; font-weight: 800; line-height: 1; animation: pop 0.18s ease; }
+.mark--x { color: var(--peach); text-shadow: 0 0 18px color-mix(in srgb, var(--peach) 70%, transparent); }
+.mark--o { color: var(--violet-text); text-shadow: 0 0 18px color-mix(in srgb, var(--violet) 65%, transparent); }
 
 .ghost {
   position: absolute;
-  font-size: 44px; font-weight: 700; line-height: 1;
-  color: #22d3ee;
-  opacity: 0; transform: scale(0.7);
+  font-size: 48px; font-weight: 800; line-height: 1;
+  color: var(--peach);
+  opacity: 0;
   pointer-events: none;
-  transition: all 0.18s;
+  transition: opacity 120ms;
 }
 
-@keyframes pop { from { transform: scale(0.35); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes pop { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 // ── Footer ──────────────────────────────────────────────────────────
-.ttt-footer { display: flex; flex-direction: column; align-items: center; gap: 16px; width: 100%; }
-.ttt-score { display: flex; gap: 10px; }
+.ttt-footer { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); width: 100%; }
+.ttt-score { display: flex; gap: var(--space-2); }
 .sc {
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 14px;
-  background: rgba(255,255,255,.03);
-  border: 1px solid var(--border-subtle);
-  border-radius: 20px;
-  font-size: 11.5px; font-weight: 500; color: $brand-400;
-  b { font-size: 14px; }
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: var(--space-1) var(--space-3);
+  background: var(--bg-200);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-full);
+  font-size: 12px; font-weight: 500; color: var(--ink-muted);
+  b { font-size: 14px; color: var(--ink); }
 }
-.sc--x { border-color: rgba(34,211,238,.25); b { color: #22d3ee; } }
-.sc--o { border-color: rgba(244,114,182,.25); b { color: #f472b6; } }
-.sc--d b { color: #fff; }
-
-.ttt-reset {
-  padding: 10px 24px;
-  background: linear-gradient(135deg, rgba(34,211,238,.15), rgba(124,58,237,.2));
-  border: 1px solid $brand-500;
-  border-radius: $radius-md;
-  color: #fff;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px; font-weight: 600;
-  cursor: pointer;
-  transition: all 0.18s;
-  &:hover { border-color: #22d3ee; box-shadow: 0 0 20px rgba(34,211,238,.3); transform: translateY(-1px); }
-}
+.sc--x { border-color: var(--peach); b { color: var(--peach-text); } }
+.sc--o { border-color: var(--violet); b { color: var(--violet-text); } }
 </style>
