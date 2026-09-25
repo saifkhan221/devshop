@@ -469,7 +469,10 @@ const FALLBACK_QUOTES = [
   { content: 'Strive not to be a success, but rather to be of value.', author: 'Albert Einstein' },
 ]
 
-const quote = ref({ content: '', author: '' })
+// DEMO: pin this quote on every page load/refresh. The refresh button still
+// randomizes. Temporary — remove this pin (restore fetchQuote on mount) later.
+const DEMO_QUOTE = { content: 'Don\'t watch the clock; do what it does. Keep going.', author: 'Sam Levenson' }
+const quote = ref({ ...DEMO_QUOTE })
 const quoteLoading = ref(false)
 let quoteTimer = null
 
@@ -503,9 +506,8 @@ onMounted(async () => {
   tickClock()
   clockTimer = setInterval(tickClock, 1000)
   fetchWeather()
-  fetchQuote()
-  // Auto-refresh quote every 30 mins
-  quoteTimer = setInterval(fetchQuote, 30 * 60 * 1000)
+  // DEMO: quote is pinned to DEMO_QUOTE on load (see above); no initial fetch or
+  // auto-refresh so a reload always shows it. The refresh button still randomizes.
 })
 onUnmounted(() => {
   document.removeEventListener('mousedown', onSortOutside)
