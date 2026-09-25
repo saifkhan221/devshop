@@ -15,7 +15,7 @@ const DEBOUNCE_MS = 800
 const DOC_PATH    = 'userPrefs'   // collection name
 
 const DEFAULTS = {
-  theme:       'aurora',
+  theme:       'slate',
   customTheme: null,   // { accent, bg } or null
   clock24h:    true,
 }

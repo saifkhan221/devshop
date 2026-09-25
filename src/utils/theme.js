@@ -12,7 +12,7 @@
 
 const STORAGE_KEY      = 'devshop_theme'
 const CUSTOM_KEY       = 'devshop_custom_theme'
-const DEFAULT_THEME    = 'aurora'
+const DEFAULT_THEME    = 'slate'
 
 async function syncToFirebase(patch) {
   try {
