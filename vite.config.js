@@ -19,6 +19,18 @@ export default defineConfig(({ mode }) => ({
     }
   },
 
+  // Proxy Google News RSS through our own origin so the browser never hits a
+  // cross-origin request (matches the Vercel rewrite used in production).
+  server: {
+    proxy: {
+      '/gnews': {
+        target: 'https://news.google.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/gnews/, ''),
+      },
+    },
+  },
+
   css: {
     preprocessorOptions: {
       scss: {

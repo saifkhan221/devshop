@@ -82,6 +82,9 @@
         </div>
       </div>
 
+      <!-- ── While-you-wait banner ─────────────────────────────────── -->
+      <WhileYouWait class="wyw-slot" />
+
       <!-- ── Projects ─────────────────────────────────────────────── -->
       <div class="projects-section">
         <div class="proj-section-hd">
@@ -346,6 +349,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import AppNavbar from '@/components/layout/AppNavbar.vue'
 import AppModal from '@/components/ui/AppModal.vue'
+import WhileYouWait from '@/components/dashboard/WhileYouWait.vue'
 
 const store = useStore()
 const router = useRouter()
