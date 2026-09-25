@@ -1,0 +1,19 @@
+<!-- @dsCard group="Actions" height=88 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>SegmentedControl — preview</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></head>
+<body>
+<div class="ds-preview">
+  <div class="ds-segmented" id="seg">
+    <button class="ds-seg-item" aria-pressed="false">Day</button>
+    <button class="ds-seg-item" aria-pressed="true">Week</button>
+    <button class="ds-seg-item" aria-pressed="false">Month</button>
+  </div>
+  <div class="ds-segmented">
+    <button class="ds-seg-item" aria-pressed="true">List</button>
+    <button class="ds-seg-item" aria-pressed="false">Board</button>
+  </div>
+</div>
+<script>window.DevShop && DevShop.bindTabs(document.getElementById('seg'));</script>
+</body>
+</html>

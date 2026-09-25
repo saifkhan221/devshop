@@ -3,16 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dev Kit - Your Frontend Workspace</title>
 
     <!-- Apply theme + boot colors instantly before any paint -->
     <script>
       (function() {
-        var theme = localStorage.getItem('devshop_theme') || 'aurora';
+        var theme = localStorage.getItem('devshop_theme') || 'charcoal';
         document.documentElement.setAttribute('data-theme', theme);
 
         var themes = {
+          charcoal: { bg: '#141419', from: '#ffb27a', to: '#ff7e5f', glow: 'rgba(245,168,120,0.35)', spin: 'rgba(245,168,120,0.2)', accent: '#f5a878' },
           aurora:   { bg: '#0d0720', from: '#5b21b6', to: '#7c3aed', glow: 'rgba(124,58,237,0.4)',  spin: 'rgba(124,58,237,0.15)', accent: '#7c3aed' },
           slate:    { bg: '#0f1117', from: '#3730a3', to: '#6366f1', glow: 'rgba(99,102,241,0.4)',   spin: 'rgba(99,102,241,0.15)', accent: '#6366f1' },
           ocean:    { bg: '#071520', from: '#0e7490', to: '#06b6d4', glow: 'rgba(6,182,212,0.4)',    spin: 'rgba(6,182,212,0.15)', accent: '#06b6d4' },
@@ -22,7 +25,7 @@
           azure:    { bg: '#080e1a', from: '#1d4f7a', to: '#3b9ef5', glow: 'rgba(59,158,245,0.4)',   spin: 'rgba(59,158,245,0.15)', accent: '#3b9ef5' },
           lavender: { bg: '#f0f0fb', from: '#4338ca', to: '#5b5ea6', glow: 'rgba(91,94,166,0.3)',    spin: 'rgba(91,94,166,0.15)', accent: '#5b5ea6' },
         };
-        var t = themes[theme] || themes.aurora;
+        var t = themes[theme] || themes.charcoal;
         var r = document.documentElement;
         r.style.setProperty('--boot-bg',     t.bg);
         r.style.setProperty('--boot-from',   t.from);
@@ -34,11 +37,11 @@
     </script>
 
     <style>
-      html, body { background: var(--boot-bg, #0d0720); margin: 0; }
+      html, body { background: var(--boot-bg, #141419); margin: 0; }
       #app-boot {
         position: fixed; inset: 0;
         display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 20px;
-        background: var(--boot-bg, #0d0720);
+        background: var(--boot-bg, #141419);
         z-index: 9999;
         transition: opacity 0.3s ease;
       }

@@ -31,6 +31,61 @@
   --shadow-accent: 0 4px 16px rgba(124, 58, 237, 0.35);
 }
 
+[data-theme="charcoal"] {
+  // Charcoal — THE design-system theme. The app's legacy variables resolve to
+  // design-system tokens (src/styles/tokens.css) so old components and new
+  // ds- components paint from one palette. Peach is the accent here.
+  --bg-primary:     var(--bg-000);
+  --bg-surface:     var(--bg-100);
+  --bg-elevated:    var(--bg-200);
+  --border-subtle:  var(--line);
+  --border-strong:  var(--line-strong);
+  --text-primary:   var(--ink);
+  --text-secondary: var(--ink-muted);
+  --text-muted:     var(--ink-faint);
+  --text-heading:   var(--ink);
+  --accent:         var(--peach);
+  --accent-glow:    var(--shadow-glow-peach);
+  --accent-subtle:  var(--peach-soft);
+  --brand-950: var(--bg-000);
+  --brand-900: var(--bg-100);
+  --brand-800: var(--bg-200);
+  --brand-700: var(--bg-300);
+  --brand-600: var(--peach-strong);
+  --brand-500: var(--peach);
+  --brand-400: var(--peach-text);
+  --brand-300: var(--ink-muted);
+  --brand-200: var(--ink);
+  --shadow-modal:  var(--shadow-overlay);
+  --shadow-accent: var(--shadow-glow-peach);
+}
+
+// Legacy presets (aurora, slate, ocean, …): point the design-system tokens at the
+// preset's own colours so ds- components follow the picked theme instead of
+// staying peach. Custom themes (inline vars on :root) get the same bridge.
+html[data-theme]:not([data-theme="charcoal"]):not([data-theme="dark"]):not([data-theme="light"]) {
+  --bg-000: var(--bg-primary);
+  --bg-100: var(--bg-surface);
+  --bg-200: var(--bg-elevated);
+  --bg-300: var(--brand-700);
+  --line-soft: var(--border-subtle);
+  --line: var(--border-subtle);
+  --line-strong: var(--border-strong);
+  --ink: var(--text-primary);
+  --ink-muted: var(--text-secondary);
+  --ink-faint: var(--text-muted);
+  --peach: var(--accent);
+  --peach-strong: var(--brand-400);
+  --peach-soft: var(--accent-subtle);
+  --peach-text: var(--brand-300);
+  --on-peach: #ffffff;
+  --focus-ring: var(--accent);
+  --chart-track: var(--brand-800);
+  --gradient-peach-start: var(--brand-400);
+  --gradient-peach-end: var(--brand-600);
+  --shadow-glow-peach: var(--shadow-accent);
+}
+
 [data-theme="slate"] {
   // Slate - cool grey with indigo
   --bg-primary:     #0f1117;

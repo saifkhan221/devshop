@@ -1,0 +1,20 @@
+<!-- @dsCard group="Navigation" height=120 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Tabs — preview</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></head>
+<body>
+<div class="ds-preview ds-preview-col">
+  <div class="ds-tabs" role="tablist" id="t1">
+    <button class="ds-tab" role="tab" aria-selected="true">Overview</button>
+    <button class="ds-tab" role="tab" aria-selected="false">Runs <span class="ds-badge">24</span></button>
+    <button class="ds-tab" role="tab" aria-selected="false">Settings</button>
+  </div>
+  <div class="ds-tabs ds-tabs-pill" role="tablist" id="t2">
+    <button class="ds-tab" role="tab" aria-selected="true">All</button>
+    <button class="ds-tab" role="tab" aria-selected="false">Mine</button>
+    <button class="ds-tab" role="tab" aria-selected="false">Shared</button>
+  </div>
+</div>
+<script>DevShop.bindTabs(document.getElementById('t1'));DevShop.bindTabs(document.getElementById('t2'));</script>
+</body>
+</html>

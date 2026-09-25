@@ -1,0 +1,31 @@
+<!-- @dsCard group="Data" height=300 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>ChartCard — preview</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></head>
+<body>
+<div class="ds-preview-grid" style="grid-template-columns:2fr 1fr">
+  <div class="ds-card">
+    <div class="ds-card-header"><div><h3 class="ds-card-title">Tool runs</h3><div class="ds-muted" style="font-size:12px">per day · last 14 days</div></div><div class="ds-legend"><span><i style="background:var(--data-1)"></i>This week</span><span><i style="background:var(--data-2)"></i>Last week</span></div></div>
+    <svg class="ds-chart" viewBox="0 0 520 180">
+      <g class="grid"><line x1="0" y1="140" x2="520" y2="140"/><line x1="0" y1="100" x2="520" y2="100"/><line x1="0" y1="60" x2="520" y2="60"/><line x1="0" y1="20" x2="520" y2="20"/></g>
+      <g class="axis"><text x="0" y="135">0</text><text x="0" y="95">2k</text><text x="0" y="55">4k</text><text x="0" y="15">6k</text><text x="20" y="165">Mon</text><text x="180" y="165">Thu</text><text x="340" y="165">Sun</text><text x="490" y="165">Wed</text></g>
+      <path class="area2" d="M20 110 100 96 180 104 260 80 340 92 420 70 500 84 L500 140 20 140z"/>
+      <path class="line s2" d="M20 110 100 96 180 104 260 80 340 92 420 70 500 84" style="stroke-dasharray:4 4"/>
+      <path class="area1" d="M20 100 100 78 180 86 260 52 340 60 420 34 500 44 L500 140 20 140z"/>
+      <path class="line s1" d="M20 100 100 78 180 86 260 52 340 60 420 34 500 44"/>
+      <circle class="pt" cx="500" cy="44" r="4"/><circle class="pt2" cx="500" cy="84" r="4"/>
+    </svg>
+  </div>
+  <div class="ds-card">
+    <div class="ds-card-header"><h3 class="ds-card-title">By tool</h3></div>
+    <svg class="ds-chart" viewBox="0 0 240 180">
+      <g class="axis"><text x="0" y="22">JSON</text><text x="0" y="62">Regex</text><text x="0" y="102">Base64</text><text x="0" y="142">px→rem</text></g>
+      <rect class="bar-track" x="70" y="10" width="170" height="16" rx="4"/><rect class="bar1" x="70" y="10" width="150" height="16" rx="4"/>
+      <rect class="bar-track" x="70" y="50" width="170" height="16" rx="4"/><rect class="bar1" x="70" y="50" width="112" height="16" rx="4"/>
+      <rect class="bar-track" x="70" y="90" width="170" height="16" rx="4"/><rect class="bar1" x="70" y="90" width="74" height="16" rx="4"/>
+      <rect class="bar-track" x="70" y="130" width="170" height="16" rx="4"/><rect class="bar1" x="70" y="130" width="40" height="16" rx="4"/>
+    </svg>
+  </div>
+</div>
+</body>
+</html>

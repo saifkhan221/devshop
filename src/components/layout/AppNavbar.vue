@@ -56,8 +56,8 @@ async function logout() {
 
 .navbar {
   height: 58px;
-  background: $bg-surface;
-  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-100);              // ds bg-100 (step 1)
+  border-bottom: 1px solid var(--line);   // ds line (step 1)
   display: flex;
   align-items: center;
   padding: 0 28px;
@@ -94,7 +94,7 @@ async function logout() {
 .logo-name {
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-heading);
+  color: var(--ink);   // ds ink (step 1)
   letter-spacing: -0.3px;
   line-height: 1;
   align-self: center;
@@ -111,7 +111,7 @@ async function logout() {
 .nav-username {
   font-size: 13px;
   font-weight: 500;
-  color: $brand-300;
+  color: var(--ink-muted);   // ds ink-muted (step 1)
 }
 
 .nav-avatar {
@@ -127,41 +127,44 @@ async function logout() {
 .nav-admin {
   width: 32px; height: 32px;
   background: transparent;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--line);          // ds line (step 1)
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
-  color: $brand-400;
+  color: var(--ink-muted);                // ds ink-muted (step 1)
   transition: all 0.2s;
   text-decoration: none;
-  &:hover { border-color: #f59e0b; color: #f59e0b; }
-  &.router-link-active { border-color: #f59e0b; color: #f59e0b; background: rgba(245,158,11,.08); }
+  // admin is a distinct role signal, kept on warning (not the peach primary)
+  &:hover { border-color: var(--warning); color: var(--warning-text); }
+  &.router-link-active { border-color: var(--warning); color: var(--warning-text); background: var(--warning-soft); }
 }
 
 .nav-feedback {
   width: 32px; height: 32px;
   background: transparent;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--line);          // ds line (step 1)
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
-  color: $brand-400;
+  color: var(--ink-muted);                // ds ink-muted (step 1)
   transition: all 0.2s;
   text-decoration: none;
-  &:hover { border-color: var(--accent); color: var(--accent); }
-  &.router-link-active { border-color: $brand-500; color: var(--accent); background: var(--accent-subtle); }
+  // "you are here" / hover signal -> peach (step 2)
+  &:hover { border-color: var(--peach); color: var(--peach-text); }
+  &.router-link-active { border-color: var(--peach); color: var(--peach-text); background: var(--peach-soft); }
 }
 
 .nav-logout {
   width: 32px; height: 32px;
   background: transparent;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--line);          // ds line (step 1)
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
-  color: $brand-400;
+  color: var(--ink-muted);                // ds ink-muted (step 1)
   font-size: 14px;
   transition: all 0.2s;
-  &:hover { background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.3); color: #f87171; }
+  // destructive action keeps danger tones
+  &:hover { background: var(--danger-soft); border-color: var(--danger); color: var(--danger-text); }
 }
 </style>

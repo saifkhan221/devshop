@@ -1,0 +1,62 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DevShop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@800&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; height:100%; }
+  body { background:var(--bg-000); color:var(--ink); font-family:var(--font-sans); overflow:hidden; }
+  .cover { position:relative; height:288px; overflow:hidden; }
+  .art { position:absolute; top:0; left:480px; width:480px; height:288px; overflow:hidden; }
+  .art svg { display:block; width:480px; height:288px; }
+  .peach { fill:var(--peach); }
+  .hot { fill:var(--peach-strong); }
+  .violet { fill:var(--violet); }
+  .stone { fill:var(--line-strong); }
+  .deep { fill:var(--ink); }
+  .ground { fill:var(--bg-000); }
+  .slab { rx:var(--radius-lg); }
+  .blk { rx:var(--radius-md); }
+  .tile { rx:var(--radius-sm); }
+  .words { position:absolute; left:var(--space-8); bottom:var(--space-8); max-width:440px; }
+  .name { margin:0; font-size:100px; line-height:.92; font-weight:800; letter-spacing:-.03em; color:var(--ink); }
+  .tag { margin:var(--space-3) 0 0 4px; font-size:14px; line-height:20px; font-weight:500; color:var(--ink-muted); }
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="art" aria-hidden="true">
+<svg viewBox="480 0 480 288" width="480" height="288">
+<!--
+  blocks      peach 192×224 slab (the primary, largest) · violet 128×104 · line-strong 128×104 (the stone tint for relief; bg-cream would merge with the ink block in the light theme) · ink 128 wide bled off the top, right and bottom (the deep block) — ≈38% of 960×288
+  arrangement one tall peach slab with two satellites stacked beside it and the ink block bleeding off the right edge; space-4 gutters, blocks start space-4 in from x=480
+  pattern     tiles, from "geometric, modular, dense UI → tiles cut by the radius tokens, some merged two-wide like the components": 32px tiles at a space-12 pitch cut into the peach slab in peach-strong, two merged two-wide; three ground-cut tiles on the ink block
+  scales      sides in space-4 multiples (192 = 12×16, 224 = 14×16, 128 = 8×16, 104 = 6.5×16); gutters space-4; pitch space-12 (48); slab corners radius-lg, satellites radius-md, tiles radius-sm
+-->
+<rect class="peach slab" x="496" y="32" width="192" height="224" rx="16"/>
+<rect class="violet blk" x="704" y="32" width="128" height="104" rx="12"/>
+<rect class="stone blk" x="704" y="152" width="128" height="104" rx="12"/>
+<rect class="deep slab" x="848" y="-16" width="128" height="320" rx="16"/>
+<rect class="hot tile" x="520" y="56" width="32" height="32" rx="8"/>
+<rect class="hot tile" x="568" y="56" width="80" height="32" rx="8"/>
+<rect class="hot tile" x="520" y="104" width="32" height="32" rx="8"/>
+<rect class="hot tile" x="568" y="104" width="32" height="32" rx="8"/>
+<rect class="hot tile" x="616" y="104" width="32" height="32" rx="8"/>
+<rect class="hot tile" x="520" y="152" width="80" height="32" rx="8"/>
+<rect class="hot tile" x="616" y="152" width="32" height="32" rx="8"/>
+<rect class="hot tile" x="520" y="200" width="32" height="32" rx="8"/>
+<rect class="hot tile" x="568" y="200" width="32" height="32" rx="8"/>
+<rect class="ground tile" x="872" y="56" width="32" height="32" rx="8"/>
+<rect class="ground tile" x="872" y="104" width="80" height="32" rx="8"/>
+<rect class="ground tile" x="872" y="200" width="32" height="32" rx="8"/>
+</svg>
+</div>
+<div class="words">
+<h1 class="name">DevShop</h1>
+<p class="tag">Dark, calm, one peach action per screen.</p>
+</div>
+</div>
+</body>
+</html>

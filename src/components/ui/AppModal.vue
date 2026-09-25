@@ -1,16 +1,18 @@
 <template>
   <teleport to="body">
     <transition name="modal">
-      <div v-if="show" class="modal-overlay" @click.self="$emit('close')">
-        <div class="modal">
-          <div v-if="title" class="modal-header">
-            <h2 class="modal-title">{{ title }}</h2>
-            <button class="modal-close" @click="$emit('close')">✕</button>
+      <div v-if="show" class="ds-scrim" @click.self="$emit('close')">
+        <div class="ds-modal app-modal" role="dialog" aria-modal="true" :aria-label="title || 'Dialog'">
+          <div v-if="title" class="app-modal-head">
+            <h2 class="ds-modal-title">{{ title }}</h2>
+            <button class="ds-icon-btn ds-icon-btn-sm" @click="$emit('close')" aria-label="Close">
+              <svg class="ds-icon ds-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+            </button>
           </div>
-          <div class="modal-body">
+          <div class="ds-modal-body app-modal-body">
             <slot />
           </div>
-          <div v-if="$slots.footer" class="modal-footer">
+          <div v-if="$slots.footer" class="ds-modal-actions">
             <slot name="footer" />
           </div>
         </div>
@@ -28,62 +30,8 @@ defineEmits(['close'])
 </script>
 
 <style lang="scss" scoped>
-@use '@/styles/variables' as *;
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(4px);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.modal {
-  background: $bg-surface;
-  border: 1px solid $border-strong;
-  border-radius: $radius-2xl;
-  padding: 28px;
-  width: 100%;
-  max-width: 440px;
-  box-shadow: $shadow-modal;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.modal-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
-}
-
-.modal-close {
-  width: 28px; height: 28px;
-  background: $bg-elevated;
-  border: none;
-  border-radius: 7px;
-  color: $brand-400;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  transition: all 0.2s;
-  &:hover { background: $brand-700; color: #fff; }
-}
-
-.modal-footer {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-}
+.app-modal { position: relative; max-width: 560px; max-height: calc(100vh - var(--space-8)); display: flex; flex-direction: column; }
+.app-modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-4); }
+.app-modal-head .ds-modal-title { margin: 0; }
+.app-modal-body { overflow: auto; color: var(--ink); }
 </style>

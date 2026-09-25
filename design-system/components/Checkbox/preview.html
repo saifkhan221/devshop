@@ -1,0 +1,18 @@
+<!-- @dsCard group="Forms" height=100 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Checkbox — preview</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></head>
+<body>
+<div class="ds-preview" style="gap:24px">
+  <label class="ds-check"><input type="checkbox" checked><span class="ds-check-box"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-9"/></svg></span>Remember this device</label>
+  <label class="ds-check"><input type="checkbox"><span class="ds-check-box"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-9"/></svg></span>Send weekly digest</label>
+  <label class="ds-check"><input type="checkbox" id="ind"><span class="ds-check-box"><svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg></span>Some selected</label>
+</div>
+<div class="ds-preview" style="gap:24px;padding-top:0">
+  <label class="ds-radio"><input type="radio" name="r" checked><span class="ds-radio-dot"></span>Two spaces</label>
+  <label class="ds-radio"><input type="radio" name="r"><span class="ds-radio-dot"></span>Four spaces</label>
+  <label class="ds-radio"><input type="radio" name="r"><span class="ds-radio-dot"></span>Tabs</label>
+</div>
+<script>document.getElementById('ind').indeterminate = true;</script>
+</body>
+</html>

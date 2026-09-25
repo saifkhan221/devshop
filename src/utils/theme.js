@@ -12,7 +12,7 @@
 
 const STORAGE_KEY      = 'devshop_theme'
 const CUSTOM_KEY       = 'devshop_custom_theme'
-const DEFAULT_THEME    = 'slate'
+const DEFAULT_THEME    = 'charcoal'
 
 async function syncToFirebase(patch) {
   try {
@@ -23,6 +23,7 @@ async function syncToFirebase(patch) {
 
 // ─── Preset themes ────────────────────────────────────────────────────────
 export const THEMES = [
+  { id: 'charcoal', name: 'Charcoal', desc: 'Warm charcoal, peach accent', accent: '#f5a878', bg: '#141419' },
   { id: 'aurora', name: 'Aurora', desc: 'Deep purple cosmos',    accent: '#7c3aed', bg: '#0d0720' },
   { id: 'slate',  name: 'Slate',  desc: 'Cool grey & indigo',    accent: '#6366f1', bg: '#0f1117' },
   { id: 'ocean',  name: 'Ocean',  desc: 'Deep sea vibes',        accent: '#06b6d4', bg: '#071520' },

@@ -1,0 +1,11 @@
+<!-- @dsCard group="Forms" height=88 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Slider — preview</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></head>
+<body>
+<div class="ds-preview" style="align-items:flex-start">
+  <label class="ds-field" style="min-width:320px"><span class="ds-label" style="display:flex;justify-content:space-between">Compression quality <span class="ds-num" id="q">72</span></span><input class="ds-slider" type="range" min="0" max="100" value="72" id="s"></label>
+</div>
+<script>var s=document.getElementById('s');function u(){DevShop.syncSlider(s);document.getElementById('q').textContent=s.value}s.addEventListener('input',u);u();</script>
+</body>
+</html>

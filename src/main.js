@@ -2,6 +2,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+// Design-system foundation (tokens + ds- component classes) — loaded before
+// main.scss so Tailwind's Preflight follows the DS reset, per guideline 10.
+import './styles/tokens.css'
+import './styles/ds-bundle.css'
 import './styles/main.scss'
 import { initTheme } from '@/utils/theme'
 

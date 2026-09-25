@@ -3,16 +3,28 @@
 @use './components' as *;
 @use './themes';
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+// Design-system type: Manrope for UI, JetBrains Mono for code and numbers.
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; }
-button, input, select, textarea { outline: none; }
-button:focus, input:focus, select:focus, textarea:focus { outline: none; box-shadow: none; }
+html { background: var(--bg-000); }
+body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 22px;
+  background: var(--bg-000);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select, textarea { font-family: inherit; }
+// Keyboard focus is the design-system ring; mouse focus shows nothing.
+:focus:not(:focus-visible) { outline: none; }
+:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 
-::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--brand-700); border-radius: 3px; &:hover { background: var(--brand-600); } }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; &:hover { background: var(--ink-faint); } }
