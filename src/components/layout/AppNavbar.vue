@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar">
-    <div class="nav-logo">
+    <router-link to="/dashboard" class="nav-logo" title="Go to dashboard">
       <div class="logo-icon">⚡</div>
       <span class="logo-name">Dev Kit</span>
-    </div>
+    </router-link>
     <slot name="center" />
     <div class="nav-right">
       <slot name="right" />
@@ -73,7 +73,12 @@ async function logout() {
   display: flex;
   align-items: center;
   gap: 9px;
-  flex: 1;
+  flex: 0 0 auto;
+  margin-right: auto;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  &:hover { opacity: 0.82; }
 }
 
 .logo-icon {
