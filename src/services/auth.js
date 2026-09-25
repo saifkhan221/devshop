@@ -98,7 +98,16 @@ export const authService = {
       if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
         const err = new Error('Sign-in cancelled.'); err.code = 'cancelled'; throw err
       }
-      throw new Error('Google sign-in failed. Please try again.')
+      if (e.code === 'auth/popup-blocked') {
+        throw new Error('Your browser blocked the sign-in popup. Allow popups for this site and try again.')
+      }
+      if (e.code === 'auth/operation-not-allowed') {
+        throw new Error('Google sign-in is not enabled yet. Enable it in Firebase Console → Authentication → Sign-in method → Google.')
+      }
+      if (e.code === 'auth/unauthorized-domain') {
+        throw new Error('This domain is not authorized. Add it in Firebase Console → Authentication → Settings → Authorized domains.')
+      }
+      throw new Error(`Google sign-in failed (${e.code || 'unknown'}). Please try again.`)
     }
   },
 
