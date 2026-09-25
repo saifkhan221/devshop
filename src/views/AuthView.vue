@@ -25,6 +25,24 @@
       <!-- Success -->
       <div v-if="success" class="success-box">{{ success }}</div>
 
+      <!-- Account-linking prompt (Google email already has a password account) -->
+      <div v-if="linkPending" class="link-box">
+        <p class="link-msg">
+          <strong>{{ linkPending.email }}</strong> already has a password account.
+          Enter your password once to connect Google sign-in — they'll share the same workspace.
+        </p>
+        <div class="form-group">
+          <input type="password" v-model="linkPassword" placeholder="Your password"
+                 :disabled="loading" @keydown.enter.prevent="handleCompleteLink" autofocus />
+        </div>
+        <button type="button" class="btn-primary" :disabled="loading || !linkPassword" @click="handleCompleteLink">
+          <span v-if="loading" class="spinner"></span>
+          <span v-else>Connect &amp; sign in</span>
+        </button>
+        <a class="link-cancel" @click="cancelLink">Cancel</a>
+      </div>
+
+      <template v-else>
       <!-- Login form -->
       <form v-if="tab === 'login'" @submit.prevent="handleLogin">
         <div class="form-group">
@@ -66,11 +84,22 @@
         </button>
       </form>
 
-      <div class="toggle-link" v-if="tab === 'login'">
-        Don't have an account? <a @click="tab = 'signup'">Create one free</a>
-      </div>
-      <div class="toggle-link" v-else>
-        Already have an account? <a @click="tab = 'login'">Sign in</a>
+      <div class="divider"><span>or</span></div>
+
+      <button type="button" class="btn-google" :disabled="loading" @click="handleGoogle">
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+          <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.71-1.57 2.68-3.89 2.68-6.62z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18z"/>
+          <path fill="#FBBC05" d="M3.97 10.72a5.41 5.41 0 0 1 0-3.44V4.95H.96a9 9 0 0 0 0 8.1l3.01-2.33z"/>
+          <path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.46.9 11.43 0 9 0A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/>
+        </svg>
+        Continue with Google
+      </button>
+      </template>
+
+      <div v-if="!linkPending" class="toggle-link">
+        <template v-if="tab === 'login'">Don't have an account? <a @click="tab = 'signup'">Create one free</a></template>
+        <template v-else>Already have an account? <a @click="tab = 'login'">Sign in</a></template>
       </div>
     </div>
   </div>
@@ -92,6 +121,8 @@ const confirmPassword = ref('')
 const error = ref('')
 const success = ref('')
 const loading = ref(false)
+const linkPending = ref(null)   // { email, pendingCred } when Google needs linking
+const linkPassword = ref('')
 
 const particles = [
   { id: 1, style: 'left:10%;width:6px;height:6px;background:#7c3aed;animation-duration:12s;animation-delay:0s;' },
@@ -139,6 +170,53 @@ async function handleLogin() {
   } finally {
     loading.value = false
   }
+}
+
+async function handleGoogle() {
+  if (loading.value) return
+  error.value = ''
+  success.value = ''
+  loading.value = true
+  try {
+    const res = await store.dispatch('auth/loginWithGoogle')
+    if (res.ok) {
+      router.push('/dashboard')
+    } else if (res.linkRequired) {
+      linkPending.value = { email: res.email, pendingCred: res.pendingCred }
+      linkPassword.value = ''
+    } else {
+      error.value = store.state.auth.error || ''
+    }
+  } finally {
+    loading.value = false
+  }
+}
+
+async function handleCompleteLink() {
+  if (loading.value || !linkPassword.value) return
+  error.value = ''
+  loading.value = true
+  try {
+    const ok = await store.dispatch('auth/completeGoogleLink', {
+      email: linkPending.value.email,
+      password: linkPassword.value,
+      pendingCred: linkPending.value.pendingCred,
+    })
+    if (ok) {
+      linkPending.value = null
+      router.push('/dashboard')
+    } else {
+      error.value = store.state.auth.error || 'Could not connect the account'
+    }
+  } finally {
+    loading.value = false
+  }
+}
+
+function cancelLink() {
+  linkPending.value = null
+  linkPassword.value = ''
+  error.value = ''
 }
 
 async function handleSignup() {
@@ -382,6 +460,57 @@ async function handleSignup() {
     color: $brand-300;
     text-decoration: none;
     font-weight: 500;
+    cursor: pointer;
+    &:hover { color: #fff; }
+  }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 16px;
+  color: $brand-500;
+  font-size: 12px;
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+}
+
+.btn-google {
+  width: 100%;
+  padding: 11px;
+  background: $bg-elevated;
+  border: 1px solid var(--border-subtle);
+  border-radius: $radius-md;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  &:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-subtle); }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+.link-box {
+  .link-msg {
+    font-size: 13px;
+    color: $brand-300;
+    line-height: 1.55;
+    margin-bottom: 16px;
+    strong { color: #fff; }
+  }
+  .link-cancel {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    color: $brand-400;
+    margin-top: 14px;
     cursor: pointer;
     &:hover { color: #fff; }
   }

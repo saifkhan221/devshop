@@ -88,6 +88,39 @@ export default {
       }
     },
 
+    async loginWithGoogle({ commit }) {
+      commit('SET_LOADING', true)
+      commit('SET_ERROR', null)
+      try {
+        const user = await authService.loginWithGoogle()
+        commit('SET_USER', user)
+        return { ok: true }
+      } catch (e) {
+        if (e.code === 'link-required') {
+          return { ok: false, linkRequired: true, email: e.email, pendingCred: e.pendingCred }
+        }
+        if (e.code !== 'cancelled') commit('SET_ERROR', e.message)
+        return { ok: false }
+      } finally {
+        commit('SET_LOADING', false)
+      }
+    },
+
+    async completeGoogleLink({ commit }, { email, password, pendingCred }) {
+      commit('SET_LOADING', true)
+      commit('SET_ERROR', null)
+      try {
+        const user = await authService.completeGoogleLink(email, password, pendingCred)
+        commit('SET_USER', user)
+        return true
+      } catch (e) {
+        commit('SET_ERROR', 'Could not connect the account. Check your password and try again.')
+        return false
+      } finally {
+        commit('SET_LOADING', false)
+      }
+    },
+
     async logout({ commit }) {
       await authService.logout()
       Object.keys(localStorage).forEach(key => {

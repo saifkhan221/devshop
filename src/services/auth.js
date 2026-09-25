@@ -70,6 +70,47 @@ export const authService = {
     }
   },
 
+  // Google SSO. Firebase's "one account per email" setting means a Google sign-in
+  // for an email that already has a password account collides instead of creating
+  // a second user. We catch that collision and hand the UI what it needs to LINK
+  // Google onto the existing account, so both providers share one uid (and thus
+  // all the same projects, tool data and prefs).
+  async loginWithGoogle() {
+    if (MODE === 'dummy') {
+      const user = { uid: 'dummy-user-001', name: 'Saif K.', email: 'saif@gmail.com', initials: 'SK' }
+      localStorage.setItem('devshop_user', JSON.stringify(user))
+      return user
+    }
+    const { auth, GoogleAuthProvider, signInWithPopup } = await fb()
+    const provider = new GoogleAuthProvider()
+    provider.setCustomParameters({ prompt: 'select_account' })
+    try {
+      const result = await signInWithPopup(auth, provider)
+      return result.user
+    } catch (e) {
+      if (e.code === 'auth/account-exists-with-different-credential') {
+        const err = new Error('This email already has a password account. Enter your password once to connect Google sign-in.')
+        err.code = 'link-required'
+        err.email = e.customData?.email || ''
+        err.pendingCred = GoogleAuthProvider.credentialFromError(e)
+        throw err
+      }
+      if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
+        const err = new Error('Sign-in cancelled.'); err.code = 'cancelled'; throw err
+      }
+      throw new Error('Google sign-in failed. Please try again.')
+    }
+  },
+
+  // Sign in with the existing password account, then attach the pending Google
+  // credential to it. After this the same uid works with either provider.
+  async completeGoogleLink(email, password, pendingCred) {
+    const { auth, signInWithEmailAndPassword, linkWithCredential } = await fb()
+    const result = await signInWithEmailAndPassword(auth, email, password)
+    await linkWithCredential(result.user, pendingCred)
+    return result.user
+  },
+
   async logout() {
     if (MODE === 'dummy') {
       localStorage.removeItem('devshop_user')
