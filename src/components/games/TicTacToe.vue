@@ -121,7 +121,7 @@ function reset() {
   display: inline-flex; align-items: center; gap: var(--space-2);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
-  font-size: 13px; font-weight: 600;
+  font-size: 14px; font-weight: 600;
   background: var(--bg-200);
   border: 1px solid var(--line);
   color: var(--ink-muted);
@@ -209,8 +209,8 @@ function reset() {
   background: var(--bg-200);
   border: 1px solid var(--line);
   border-radius: var(--radius-full);
-  font-size: 12px; font-weight: 500; color: var(--ink-muted);
-  b { font-size: 14px; color: var(--ink); }
+  font-size: 13px; font-weight: 500; color: var(--ink-muted);
+  b { font-size: 15px; color: var(--ink); }
 }
 .sc--x { border-color: var(--peach); b { color: var(--peach-text); } }
 .sc--o { border-color: var(--violet); b { color: var(--violet-text); } }

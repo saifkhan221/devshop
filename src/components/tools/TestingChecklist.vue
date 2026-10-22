@@ -123,7 +123,7 @@ function exportText() {
 
 .overall-progress {
   margin-bottom: 24px;
-  .prog-label { display: flex; justify-content: space-between; font-size: 13px; color: $brand-300; margin-bottom: 8px; }
+  .prog-label { display: flex; justify-content: space-between; font-size: 14px; color: $brand-300; margin-bottom: 8px; }
   .prog-pct { color: #fff; font-weight: 600; }
 }
 
@@ -134,8 +134,8 @@ function exportText() {
 
 .cat-header {
   display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
-  .cat-name { font-size: 13px; font-weight: 600; color: #fff; }
-  .cat-count { font-size: 12px; color: $brand-400; margin-left: auto; flex-shrink: 0; }
+  .cat-name { font-size: 14px; font-weight: 600; color: #fff; }
+  .cat-count { font-size: 13px; color: $brand-400; margin-left: auto; flex-shrink: 0; }
 }
 
 .cat-bar { width: 80px; height: 4px; background: $bg-surface; border-radius: 2px; overflow: hidden; }
@@ -146,7 +146,7 @@ function exportText() {
 .check-item {
   display: flex; align-items: center; gap: 10px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 14px;
   color: $brand-300;
   span.done { text-decoration: line-through; color: $brand-400; }
 }
@@ -162,7 +162,7 @@ function exportText() {
   border-radius: $radius-md;
   color: $brand-300;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   cursor: pointer; transition: all 0.2s;
   &:hover { background: $brand-700; color: #fff; }
   &.primary { background: $brand-600; color: #fff; border-color: $brand-500; &:hover { background: $brand-500; } }

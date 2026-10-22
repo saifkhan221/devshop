@@ -13,13 +13,16 @@
 html { background: var(--bg-000); }
 body {
   font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 22px;
+  font-size: 15px;
+  line-height: 24px;
   background: var(--bg-000);
   color: var(--ink);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
+// Headings that don't set their own line-height would inherit body's fixed
+// 24px, which is too tight once a title is 20px+. Components still override.
+h1, h2, h3, h4, h5, h6 { line-height: 1.25; }
 button, input, select, textarea { font-family: inherit; }
 // Keyboard focus is the design-system ring; mouse focus shows nothing.
 :focus:not(:focus-visible) { outline: none; }

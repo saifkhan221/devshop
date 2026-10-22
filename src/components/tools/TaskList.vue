@@ -229,7 +229,7 @@ function cancelEdit() {
   border-radius: $radius-md;
   padding: 10px 14px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   color: #fff;
   outline: none;
   min-width: 0;
@@ -247,7 +247,7 @@ function cancelEdit() {
   border: 1px solid var(--border-subtle);
   border-radius: 10px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: $brand-300;
   cursor: pointer;
@@ -289,7 +289,7 @@ function cancelEdit() {
   border: none;
   border-radius: 8px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: $brand-300;
   cursor: pointer;
@@ -321,7 +321,7 @@ function cancelEdit() {
   border: none; border-radius: $radius-md;
   color: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 13px; font-weight: 600;
+  font-size: 14px; font-weight: 600;
   cursor: pointer; transition: all 0.2s;
   white-space: nowrap;
   &:hover { background: $brand-500; }
@@ -337,7 +337,7 @@ function cancelEdit() {
   border: 1px solid var(--border-subtle);
   border-radius: 20px;
   color: $brand-400;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   transition: all 0.2s;
   &.active { background: $brand-700; color: #fff; border-color: $brand-600; }
@@ -348,14 +348,14 @@ function cancelEdit() {
   background: rgba(255,255,255,0.1);
   border-radius: 20px;
   padding: 1px 6px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
 }
 
-.remaining { margin-left: auto; font-size: 12px; color: $brand-400; }
+.remaining { margin-left: auto; font-size: 13px; color: $brand-400; }
 
 // ── Task items ──────────────────────────────────────────────────────────
-.empty { text-align: center; padding: 24px; color: $brand-400; font-size: 13px; }
+.empty { text-align: center; padding: 24px; color: $brand-400; font-size: 14px; }
 .drag-list { display: flex; flex-direction: column; gap: 0; }
 
 .task-item {
@@ -394,7 +394,7 @@ function cancelEdit() {
 
 .task-label {
   flex: 1;
-  font-size: 13px;
+  font-size: 14px;
   color: #fff;
   cursor: text;
   &.done { text-decoration: line-through; color: $brand-400; }
@@ -408,7 +408,7 @@ function cancelEdit() {
   border-radius: 0;
   padding: 0 2px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   color: #fff;
   outline: none;
   min-width: 0;
@@ -419,7 +419,7 @@ function cancelEdit() {
 }
 
 .priority-badge {
-  font-size: 10px; font-weight: 600;
+  font-size: 11px; font-weight: 600;
   padding: 2px 8px; border-radius: 20px;
   white-space: nowrap; flex-shrink: 0;
   &.high   { background: rgba(239,68,68,0.15);  color: #f87171; }
@@ -427,12 +427,12 @@ function cancelEdit() {
   &.low    { background: rgba(16,185,129,0.15); color: #34d399; }
 }
 
-.due-date { font-size: 11px; color: $brand-400; white-space: nowrap; flex-shrink: 0; }
+.due-date { font-size: 12px; color: $brand-400; white-space: nowrap; flex-shrink: 0; }
 
 .task-delete {
   width: 20px; height: 20px;
   background: transparent; border: none;
-  color: $brand-400; cursor: pointer; font-size: 10px;
+  color: $brand-400; cursor: pointer; font-size: 11px;
   opacity: 0; transition: all 0.2s;
   display: flex; align-items: center; justify-content: center;
   border-radius: 4px; flex-shrink: 0;
@@ -444,9 +444,9 @@ function cancelEdit() {
 
 .clear-btn {
   background: transparent; border: none;
-  color: $brand-400; font-size: 12px; cursor: pointer;
+  color: $brand-400; font-size: 13px; cursor: pointer;
   &:hover { color: #f87171; }
 }
 
-.enter-hint { font-size: 11px; color: $brand-400; opacity: 0.6; margin-left: auto; }
+.enter-hint { font-size: 12px; color: $brand-400; opacity: 0.6; margin-left: auto; }
 </style>

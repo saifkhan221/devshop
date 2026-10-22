@@ -238,7 +238,7 @@ function fmt(iso) {
   border: 1px solid var(--border-subtle);
   border-radius: 10px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: $brand-300;
   cursor: pointer;
@@ -278,10 +278,10 @@ function fmt(iso) {
 }
 
 .dp-strip-num   { font-size: 32px; font-weight: 800; color: var(--accent); line-height: 1; letter-spacing: -1px; }
-.dp-strip-day   { font-size: 13px; font-weight: 600; color: $text-heading; }
-.dp-strip-sep   { font-size: 13px; color: $brand-400; }
-.dp-strip-month { font-size: 13px; font-weight: 600; color: $text-heading; }
-.dp-strip-year  { font-size: 13px; font-weight: 500; color: $brand-400; margin-left: 2px; }
+.dp-strip-day   { font-size: 14px; font-weight: 600; color: $text-heading; }
+.dp-strip-sep   { font-size: 14px; color: $brand-400; }
+.dp-strip-month { font-size: 14px; font-weight: 600; color: $text-heading; }
+.dp-strip-year  { font-size: 14px; font-weight: 500; color: $brand-400; margin-left: 2px; }
 
 .dp-nav {
   display: flex;
@@ -300,7 +300,7 @@ function fmt(iso) {
   background: transparent;
   border: none;
   color: $brand-400;
-  font-size: 16px;
+  font-size: 17px;
   cursor: pointer;
   border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
@@ -309,7 +309,7 @@ function fmt(iso) {
 }
 
 .dp-nav-label {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: $text-heading;
   min-width: 70px;
@@ -322,7 +322,7 @@ function fmt(iso) {
   margin-bottom: 8px;
   span {
     text-align: center;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--accent);
     padding: 4px 0;
@@ -338,7 +338,7 @@ function fmt(iso) {
 .dp-cell {
   aspect-ratio: 1;
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   color: $text-heading;
   background: transparent;
@@ -378,7 +378,7 @@ function fmt(iso) {
   background: transparent;
   border: none;
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   padding: 4px 8px;

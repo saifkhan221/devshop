@@ -134,14 +134,14 @@ async function copyCSS() {
   margin-bottom: 12px;
 }
 
-.section-title { font-size: 11px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
+.section-title { font-size: 12px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
 
 .add-shadow-btn {
   padding: 5px 12px;
   background: $brand-700;
   border: none; border-radius: 6px;
   color: $brand-300;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   cursor: pointer; transition: all 0.2s;
   &:hover { background: $brand-600; color: #fff; }
 }
@@ -159,7 +159,7 @@ async function copyCSS() {
   border: 1px solid var(--border-subtle);
   border-radius: 6px;
   color: $brand-400;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   transition: all 0.2s;
   &.active { background: $brand-700; color: #fff; border-color: $brand-600; }
@@ -171,7 +171,7 @@ async function copyCSS() {
   border: 1px solid rgba(239,68,68,0.2);
   border-radius: 6px;
   color: #f87171;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
 }
 
@@ -179,7 +179,7 @@ async function copyCSS() {
 
 .control-row {
   margin-bottom: 14px;
-  label { display: block; font-size: 12px; color: $brand-300; margin-bottom: 6px; }
+  label { display: block; font-size: 13px; color: $brand-300; margin-bottom: 6px; }
   input[type="range"] { width: 100%; accent-color: $brand-500; }
   &.color-row { display: flex; align-items: center; gap: 12px; label { margin-bottom: 0; } }
 }
@@ -199,10 +199,10 @@ async function copyCSS() {
   border-radius: $radius-md;
   padding: 16px;
   position: relative;
-  code { display: block; font-size: 13px; color: $brand-300; font-family: monospace; word-break: break-all; margin: 8px 0; }
+  code { display: block; font-size: 14px; color: $brand-300; font-family: monospace; word-break: break-all; margin: 8px 0; }
 }
 
-.css-label { font-size: 11px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.css-label { font-size: 12px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
 
 .copy-btn {
   padding: 6px 14px;
@@ -210,7 +210,7 @@ async function copyCSS() {
   border: none; border-radius: 8px;
   color: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   cursor: pointer; transition: all 0.2s;
   &:hover { background: $brand-500; }
 }

@@ -2,7 +2,7 @@
   <div class="tool-selector">
     <AppNavbar :show-username="false">
       <template #right>
-        <span style="font-size:13px;font-weight:500;color:#c4b5fd;">{{ user?.name || user?.email }}</span>
+        <span style="font-size:14px;font-weight:500;color:#c4b5fd;">{{ user?.name || user?.email }}</span>
       </template>
     </AppNavbar>
 
@@ -137,7 +137,7 @@ async function saveTools() {
   align-items: center;
   gap: 6px;
   color: $brand-400;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
@@ -148,8 +148,8 @@ async function saveTools() {
 }
 
 .page-header { margin-bottom: 8px; }
-.page-title { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
-.page-subtitle { font-size: 13px; color: $brand-400; margin-top: 5px; line-height: 1.5; }
+.page-title { font-size: 24px; line-height: 1.25; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+.page-subtitle { font-size: 14px; color: $brand-400; margin-top: 5px; line-height: 1.5; }
 
 .project-pill {
   display: inline-flex;
@@ -159,7 +159,7 @@ async function saveTools() {
   border: 1px solid var(--border-subtle);
   border-radius: 20px;
   padding: 5px 12px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   color: $brand-300;
   margin: 14px 0 28px;
@@ -181,7 +181,7 @@ async function saveTools() {
   background: transparent;
   color: $brand-400;
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
@@ -229,7 +229,7 @@ async function saveTools() {
   background: var(--border-strong);
   border: 1px solid var(--border-strong);
   border-radius: 20px;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
   color: $brand-400;
   padding: 2px 7px;
@@ -244,7 +244,7 @@ async function saveTools() {
   background: $brand-500;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 10px;
+  font-size: 11px;
   color: #fff;
   box-shadow: 0 2px 8px var(--accent-glow);
 }
@@ -253,17 +253,17 @@ async function saveTools() {
   width: 40px; height: 40px;
   border-radius: 11px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 12px;
   background: $bg-elevated;
 }
 
-.tool-name { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 4px; letter-spacing: -0.1px; }
-.tool-desc { font-size: 11px; color: $brand-400; line-height: 1.5; }
+.tool-name { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 4px; letter-spacing: -0.1px; }
+.tool-desc { font-size: 12px; color: $brand-400; line-height: 1.5; }
 
 .tool-tag {
   display: inline-block;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   padding: 2px 7px;
   border-radius: 20px;
@@ -292,11 +292,11 @@ async function saveTools() {
   background: $brand-600;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; color: #fff;
+  font-size: 14px; font-weight: 700; color: #fff;
   box-shadow: 0 2px 8px var(--accent-glow);
 }
 
-.count-text { font-size: 13px; color: $brand-300; strong { color: #fff; } }
+.count-text { font-size: 14px; color: $brand-300; strong { color: #fff; } }
 
 .bar-actions { display: flex; gap: 10px; align-items: center; }
 
@@ -307,7 +307,7 @@ async function saveTools() {
   border-radius: $radius-md;
   color: $brand-300;
   font-family: 'Inter', sans-serif;
-  font-size: 13px; font-weight: 500;
+  font-size: 14px; font-weight: 500;
   cursor: pointer; transition: all 0.2s;
   &:hover { background: $brand-700; color: #fff; }
 }
@@ -319,7 +319,7 @@ async function saveTools() {
   border-radius: $radius-md;
   color: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 13px; font-weight: 600;
+  font-size: 14px; font-weight: 600;
   cursor: pointer; transition: all 0.2s;
   box-shadow: 0 2px 10px var(--accent-glow);
   display: flex; align-items: center; gap: 6px;

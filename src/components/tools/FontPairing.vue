@@ -85,12 +85,12 @@ async function copyCSS() {
 @use '@/styles/variables' as *;
 
 .controls-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-.control-group { label { display: block; font-size: 11px; font-weight: 600; color: $brand-400; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; } select, input[type="range"] { width: 100%; } select { background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-sm; padding: 8px 10px; font-family: 'Inter', sans-serif; font-size: 13px; color: #fff; outline: none; &:focus { border-color: $brand-500; } } input[type="range"] { accent-color: $brand-500; margin-top: 6px; } }
+.control-group { label { display: block; font-size: 12px; font-weight: 600; color: $brand-400; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; } select, input[type="range"] { width: 100%; } select { background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-sm; padding: 8px 10px; font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; outline: none; &:focus { border-color: $brand-500; } } input[type="range"] { accent-color: $brand-500; margin-top: 6px; } }
 
 .preview-card { background: $bg-elevated; border-radius: $radius-lg; padding: 28px; margin-bottom: 20px; h2 { color: #fff; font-weight: 700; margin-bottom: 16px; line-height: 1.2; } p { color: $brand-300; line-height: 1.7; margin-bottom: 8px; } }
 
 .css-output { background: $bg-elevated; border-radius: $radius-md; padding: 16px; }
-.css-label { font-size: 11px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
-code { display: block; font-size: 12px; color: $brand-300; font-family: monospace; white-space: pre; margin-bottom: 12px; }
-.copy-btn { padding: 6px 14px; background: $brand-600; border: none; border-radius: 8px; color: #fff; font-size: 12px; font-weight: 500; cursor: pointer; &:hover { background: $brand-500; } }
+.css-label { font-size: 12px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+code { display: block; font-size: 13px; color: $brand-300; font-family: monospace; white-space: pre; margin-bottom: 12px; }
+.copy-btn { padding: 6px 14px; background: $brand-600; border: none; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 500; cursor: pointer; &:hover { background: $brand-500; } }
 </style>

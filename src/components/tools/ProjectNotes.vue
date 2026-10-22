@@ -229,7 +229,7 @@ function onTextInput(note, e) {
   justify-content: space-between;
 }
 
-.notes-count { font-size: 12px; color: $brand-400; }
+.notes-count { font-size: 13px; color: $brand-400; }
 
 .add-btn {
   display: flex; align-items: center; gap: 6px;
@@ -238,7 +238,7 @@ function onTextInput(note, e) {
   border: none; border-radius: $radius-md;
   color: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 13px; font-weight: 600;
+  font-size: 14px; font-weight: 600;
   cursor: pointer; transition: background 0.2s;
   &:hover { background: $brand-500; }
 }
@@ -249,7 +249,7 @@ function onTextInput(note, e) {
   padding: 48px 24px;
   color: $brand-400;
   .empty-icon { font-size: 36px; margin-bottom: 12px; }
-  p { font-size: 13px; margin: 0; }
+  p { font-size: 14px; margin: 0; }
 }
 
 // ── Notes list ────────────────────────────────────────────────────────────────
@@ -340,7 +340,7 @@ function onTextInput(note, e) {
   flex: 1;
   min-width: 0;
   font-family: 'Inter', sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 1.5;
   color: rgba(255,255,255,0.88);

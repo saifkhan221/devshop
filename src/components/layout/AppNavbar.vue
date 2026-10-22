@@ -86,13 +86,13 @@ async function logout() {
   background: linear-gradient(135deg, $brand-600, $brand-500);
   border-radius: 9px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 15px;
+  font-size: 16px;
   flex-shrink: 0;
   box-shadow: 0 2px 10px var(--accent-glow);
 }
 
 .logo-name {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--ink);   // ds ink (step 1)
   letter-spacing: -0.3px;
@@ -109,7 +109,7 @@ async function logout() {
 }
 
 .nav-username {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--ink-muted);   // ds ink-muted (step 1)
 }
@@ -119,7 +119,7 @@ async function logout() {
   background: linear-gradient(135deg, $brand-600, $brand-500);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 600; color: #fff;
+  font-size: 14px; font-weight: 600; color: #fff;
   cursor: pointer;
   box-shadow: 0 2px 8px var(--accent-glow);
 }
@@ -162,7 +162,7 @@ async function logout() {
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   color: var(--ink-muted);                // ds ink-muted (step 1)
-  font-size: 14px;
+  font-size: 15px;
   transition: all 0.2s;
   // destructive action keeps danger tones
   &:hover { background: var(--danger-soft); border-color: var(--danger); color: var(--danger-text); }

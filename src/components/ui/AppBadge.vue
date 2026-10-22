@@ -26,7 +26,7 @@ function hexToRgba(hex, alpha) {
   align-items: center;
   background: $bg-elevated;
   color: $brand-300;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   padding: 3px 8px;
   border-radius: 20px;

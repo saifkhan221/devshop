@@ -86,21 +86,21 @@ function loadUrl() {
 @use '@/styles/variables' as *;
 
 .url-row { display: flex; gap: 10px; margin-bottom: 16px; }
-.url-input { flex: 1; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; padding: 10px 14px; font-family: 'Inter', sans-serif; font-size: 13px; color: #fff; outline: none; &:focus { border-color: $brand-500; } &::placeholder { color: rgba(167,139,250,0.4); } }
-.load-btn { padding: 10px 20px; background: linear-gradient(135deg, $brand-600, $brand-500); border: none; border-radius: $radius-md; color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.url-input { flex: 1; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; padding: 10px 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; outline: none; &:focus { border-color: $brand-500; } &::placeholder { color: rgba(167,139,250,0.4); } }
+.load-btn { padding: 10px 20px; background: linear-gradient(135deg, $brand-600, $brand-500); border: none; border-radius: $radius-md; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; }
 
 .presets-row { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
-.preset-btn { padding: 7px 14px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; color: $brand-300; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 2px; &.active { background: $brand-700; border-color: $brand-600; color: #fff; } &:hover:not(.active) { background: $bg-surface; border-color: $brand-500; } }
-.preset-px { font-size: 10px; color: $brand-400; }
+.preset-btn { padding: 7px 14px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; color: $brand-300; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 2px; &.active { background: $brand-700; border-color: $brand-600; color: #fff; } &:hover:not(.active) { background: $bg-surface; border-color: $brand-500; } }
+.preset-px { font-size: 11px; color: $brand-400; }
 .custom-width { display: flex; align-items: center; gap: 4px; }
-.width-input { width: 80px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-sm; padding: 8px 10px; font-family: 'Inter', sans-serif; font-size: 13px; color: #fff; outline: none; &:focus { border-color: $brand-500; } }
-.px-label { font-size: 12px; color: $brand-400; }
+.width-input { width: 80px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-sm; padding: 8px 10px; font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; outline: none; &:focus { border-color: $brand-500; } }
+.px-label { font-size: 13px; color: $brand-400; }
 
 .frame-wrapper { overflow-x: auto; }
-.frame-label { font-size: 12px; font-weight: 600; color: $brand-300; text-align: center; margin-bottom: 8px; }
+.frame-label { font-size: 13px; font-weight: 600; color: $brand-300; text-align: center; margin-bottom: 8px; }
 .frame-container { margin: 0 auto; transition: width 0.3s; }
 
-.frame-placeholder, .frame-blocked { height: 500px; background: $bg-elevated; border-radius: $radius-lg; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: $brand-400; font-size: 13px; text-align: center; }
+.frame-placeholder, .frame-blocked { height: 500px; background: $bg-elevated; border-radius: $radius-lg; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: $brand-400; font-size: 14px; text-align: center; }
 .placeholder-icon, .blocked-icon { font-size: 36px; }
 .open-link { color: $brand-300; text-decoration: none; &:hover { color: #fff; } }
 

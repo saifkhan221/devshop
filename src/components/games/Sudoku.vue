@@ -164,7 +164,7 @@ onMounted(() => { newPuzzle('easy'); root.value?.focus() })
 .sudoku { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); padding: var(--space-1) 0 var(--space-2); outline: none; }
 
 .s-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); width: 100%; }
-.s-status { font-size: 13px; font-weight: 600; color: var(--ink-muted); }
+.s-status { font-size: 14px; font-weight: 600; color: var(--ink-muted); }
 .s-status.is-win { color: var(--peach-text); }
 
 .board {
@@ -180,7 +180,7 @@ onMounted(() => { newPuzzle('easy'); root.value?.focus() })
   border: 1px solid var(--line-soft);
   background: var(--bg-100);
   color: var(--peach-text);
-  font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums;
+  font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums;
   cursor: pointer;
   transition: background-color 100ms;
   &:disabled { cursor: default; opacity: 1; }  // given clues stay full-strength
@@ -195,11 +195,11 @@ onMounted(() => { newPuzzle('easy'); root.value?.focus() })
 .board.done .cell { background: var(--peach-soft); }
 
 .pad { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-2); width: 100%; max-width: 300px; }
-.pad-btn { height: 40px; padding: 0; font-size: 16px; font-weight: 700; }
+.pad-btn { height: 40px; padding: 0; font-size: 17px; font-weight: 700; }
 .pad-erase { grid-column: span 1; }
 
 @media (max-width: 560px) {
   .board { grid-template-columns: repeat(9, 32px); grid-template-rows: repeat(9, 32px); }
-  .cell { font-size: 16px; }
+  .cell { font-size: 17px; }
 }
 </style>

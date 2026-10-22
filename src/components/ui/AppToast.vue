@@ -52,7 +52,7 @@ function typeIcon(type) {
   gap: 10px;
   padding: 12px 16px;
   border-radius: $radius-md;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   min-width: 260px;
   max-width: 380px;
@@ -63,7 +63,7 @@ function typeIcon(type) {
   &--info { background: $bg-elevated; color: $brand-300; border: 1px solid $border-subtle; }
 }
 
-.toast-icon { font-size: 14px; flex-shrink: 0; }
+.toast-icon { font-size: 15px; flex-shrink: 0; }
 
 .toast-message { flex: 1; }
 
@@ -73,7 +73,7 @@ function typeIcon(type) {
   color: inherit;
   opacity: 0.6;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12px;
   flex-shrink: 0;
   &:hover { opacity: 1; }
 }

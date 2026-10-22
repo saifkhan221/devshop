@@ -33,9 +33,9 @@ defineProps({
   transition: all 0.2s;
   border-radius: $radius-md;
 
-  &--sm { padding: 6px 14px; font-size: 12px; }
-  &--md { padding: 9px 20px; font-size: 13px; }
-  &--lg { padding: 12px 24px; font-size: 14px; }
+  &--sm { padding: 6px 14px; font-size: 13px; }
+  &--md { padding: 9px 20px; font-size: 14px; }
+  &--lg { padding: 12px 24px; font-size: 15px; }
 
   &--primary {
     background: linear-gradient(135deg, $brand-600, $brand-500);

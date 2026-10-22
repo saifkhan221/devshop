@@ -488,13 +488,13 @@ onMounted(load)
   gap: var(--space-4);
   margin-bottom: var(--space-6);
 }
-.pg-title { margin: 0; font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
-.pg-sub { margin: var(--space-1) 0 0; font-size: 14px; color: var(--ink-muted); }
+.pg-title { margin: 0; font-size: 32px; line-height: 38px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+.pg-sub { margin: var(--space-1) 0 0; font-size: 15px; color: var(--ink-muted); }
 .pg-actions { display: flex; gap: var(--space-2); flex: none; }
 
 // ── Filter tabs ─────────────────────────────────────────────────────
 .lib-tabs { margin-bottom: var(--space-5); }
-.lib-tabs .ds-badge { margin-left: var(--space-1); height: 18px; padding: 0 6px; font-size: 11px; }
+.lib-tabs .ds-badge { margin-left: var(--space-1); height: 18px; padding: 0 6px; font-size: 12px; }
 
 .lib-loading { padding: var(--space-8) 0; text-align: center; }
 
@@ -509,7 +509,7 @@ onMounted(load)
 .lc-acts { display: flex; gap: 2px; opacity: 0; transition: opacity 120ms; }
 .lib-card:hover .lc-acts, .lib-card:focus-within .lc-acts { opacity: 1; }
 .lc-del:hover { color: var(--danger-text); }
-.lc-title { margin: 0; font-size: 15px; line-height: 22px; font-weight: 700; letter-spacing: -0.005em; color: var(--ink); }
+.lc-title { margin: 0; font-size: 16px; line-height: 24px; font-weight: 700; letter-spacing: -0.005em; color: var(--ink); }
 .lc-foot {
   display: flex; align-items: center; justify-content: space-between;
   gap: var(--space-2);
@@ -530,10 +530,10 @@ onMounted(load)
 .ed-f-type { flex: 1 1 260px; min-width: 0; }
 .ed-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
 .ed-tags .ds-badge { gap: 4px; }
-.ed-tag-rm { background: none; border: 0; color: inherit; cursor: pointer; font-size: 14px; line-height: 1; padding: 0; opacity: .7; &:hover { opacity: 1; } }
+.ed-tag-rm { background: none; border: 0; color: inherit; cursor: pointer; font-size: 15px; line-height: 1; padding: 0; opacity: .7; &:hover { opacity: 1; } }
 .ed-tag-input { width: 160px; height: 28px; }
 .ed-body-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin-bottom: var(--space-1); }
-.ed-textarea { min-height: 240px; font-family: var(--font-mono); font-size: 13px; line-height: 20px; }
+.ed-textarea { min-height: 240px; font-family: var(--font-mono); font-size: 14px; line-height: 22px; }
 .ed-preview { min-height: 240px; background: var(--bg-200); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: var(--space-3) var(--space-4); }
 
 // ── Drop overlay ────────────────────────────────────────────────────
@@ -551,7 +551,7 @@ onMounted(load)
   background: var(--peach-soft);
 }
 .drop-icon { width: 40px; height: 40px; color: var(--peach-text); }
-.drop-text { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); }
+.drop-text { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); }
 
 .fade-enter-active, .fade-leave-active { transition: opacity 120ms ease; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
@@ -561,15 +561,15 @@ onMounted(load)
 <style lang="scss">
 .md-body {
   color: var(--ink-muted);
-  font-size: 14px;
-  line-height: 22px;
+  font-size: 15px;
+  line-height: 24px;
   word-break: break-word;
 
   h1, h2, h3, h4 { color: var(--ink); font-weight: 700; line-height: 1.35; margin: 1.6em 0 0.6em; letter-spacing: -0.01em; }
-  h1 { font-size: 20px; }
-  h2 { font-size: 17px; }
-  h3 { font-size: 15px; }
-  h4 { font-size: 14px; }
+  h1 { font-size: 22px; }
+  h2 { font-size: 18px; }
+  h3 { font-size: 16px; }
+  h4 { font-size: 15px; }
   p { margin: 0 0 1em; }
   a { color: var(--peach-text); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--peach-text) 40%, transparent); }
   a:hover { border-bottom-color: var(--peach-text); }
@@ -599,7 +599,7 @@ onMounted(load)
     padding: var(--space-4);
     overflow-x: auto;
     margin: 1.2em 0;
-    line-height: 20px;
+    line-height: 22px;
     code { background: none; color: var(--ink); padding: 0; font-size: 0.9em; }
   }
 
@@ -616,7 +616,7 @@ onMounted(load)
     border-collapse: collapse;
     width: 100%;
     margin: 1.2em 0;
-    font-size: 13px;
+    font-size: 14px;
   }
   th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
   th { background: var(--bg-200); color: var(--ink); font-weight: 600; }

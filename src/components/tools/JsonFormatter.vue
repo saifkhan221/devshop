@@ -99,16 +99,16 @@ async function copyOutput() {
 .pane { display: flex; flex-direction: column; }
 
 .pane-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.pane-label { font-size: 11px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
+.pane-label { font-size: 12px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
 .pane-actions { display: flex; gap: 6px; }
 
-.act-btn { padding: 5px 12px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: 6px; color: $brand-300; font-size: 11px; cursor: pointer; transition: all 0.2s; &:hover:not(:disabled) { background: $brand-700; color: #fff; } &:disabled { opacity: 0.5; } }
+.act-btn { padding: 5px 12px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: 6px; color: $brand-300; font-size: 12px; cursor: pointer; transition: all 0.2s; &:hover:not(:disabled) { background: $brand-700; color: #fff; } &:disabled { opacity: 0.5; } }
 
-.code-area { width: 100%; height: 400px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; padding: 12px 14px; font-family: monospace; font-size: 12px; color: #fff; outline: none; resize: vertical; &:focus { border-color: $brand-500; } &::placeholder { color: rgba(167,139,250,0.3); } }
+.code-area { width: 100%; height: 400px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; padding: 12px 14px; font-family: monospace; font-size: 13px; color: #fff; outline: none; resize: vertical; &:focus { border-color: $brand-500; } &::placeholder { color: rgba(167,139,250,0.3); } }
 
-.error-box { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: $radius-md; padding: 12px 14px; font-size: 12px; color: #f87171; font-family: monospace; height: 400px; overflow: auto; }
+.error-box { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: $radius-md; padding: 12px 14px; font-size: 13px; color: #f87171; font-family: monospace; height: 400px; overflow: auto; }
 
-.output-area { height: 400px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; padding: 12px 14px; font-family: monospace; font-size: 12px; color: #fff; overflow: auto; white-space: pre; margin: 0; }
+.output-area { height: 400px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; padding: 12px 14px; font-family: monospace; font-size: 13px; color: #fff; overflow: auto; white-space: pre; margin: 0; }
 
 :deep(.json-key) { color: #a78bfa; }
 :deep(.json-str) { color: #6ee7b7; }

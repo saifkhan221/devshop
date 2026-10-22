@@ -78,15 +78,15 @@ async function copyCSS() {
 .preview-box { width: 140px; height: 140px; background: linear-gradient(135deg, $brand-600, $brand-500); transition: border-radius 0.2s; }
 
 .uniform-toggle { margin-bottom: 20px; }
-.toggle-label { display: flex; align-items: center; gap: 10px; font-size: 13px; color: $brand-300; cursor: pointer; }
+.toggle-label { display: flex; align-items: center; gap: 10px; font-size: 14px; color: $brand-300; cursor: pointer; }
 .toggle-check { accent-color: $brand-500; width: 16px; height: 16px; }
 
 .corners-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-.corner-control { &.full-width { grid-column: 1 / -1; } label { display: block; font-size: 12px; color: $brand-300; margin-bottom: 6px; } input[type="range"] { width: 100%; accent-color: $brand-500; } }
+.corner-control { &.full-width { grid-column: 1 / -1; } label { display: block; font-size: 13px; color: $brand-300; margin-bottom: 6px; } input[type="range"] { width: 100%; accent-color: $brand-500; } }
 
 .css-output { background: $bg-elevated; border-radius: $radius-md; padding: 16px; }
 .css-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.css-label { font-size: 11px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
-code { font-size: 13px; color: $brand-300; font-family: monospace; }
-.copy-btn { padding: 6px 14px; background: $brand-600; border: none; border-radius: 8px; color: #fff; font-size: 12px; font-weight: 500; cursor: pointer; &:hover { background: $brand-500; } }
+.css-label { font-size: 12px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
+code { font-size: 14px; color: $brand-300; font-family: monospace; }
+.copy-btn { padding: 6px 14px; background: $brand-600; border: none; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 500; cursor: pointer; &:hover { background: $brand-500; } }
 </style>

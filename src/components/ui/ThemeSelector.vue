@@ -176,8 +176,8 @@ onUnmounted(() => document.removeEventListener('mousedown', handleOutsideClick))
   flex-shrink: 0;
 }
 
-.trigger-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
-.trigger-caret { font-size: 10px; color: var(--text-muted); }
+.trigger-label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+.trigger-caret { font-size: 11px; color: var(--text-muted); }
 
 .panel {
   position: absolute;
@@ -200,7 +200,7 @@ onUnmounted(() => document.removeEventListener('mousedown', handleOutsideClick))
 }
 
 .panel-title {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -254,10 +254,10 @@ onUnmounted(() => document.removeEventListener('mousedown', handleOutsideClick))
 }
 
 .theme-info { flex: 1; }
-.theme-name { font-size: 12px; font-weight: 600; color: var(--text-primary); }
-.theme-desc { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+.theme-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.theme-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
 
-.check { font-size: 11px; font-weight: 700; color: var(--accent); }
+.check { font-size: 12px; font-weight: 700; color: var(--accent); }
 
 .divider {
   height: 1px;
@@ -288,7 +288,7 @@ onUnmounted(() => document.removeEventListener('mousedown', handleOutsideClick))
 
 .color-label {
   display: block;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -313,7 +313,7 @@ onUnmounted(() => document.removeEventListener('mousedown', handleOutsideClick))
 }
 
 .color-hex {
-  font-size: 11px;
+  font-size: 12px;
   font-family: monospace;
   color: var(--text-muted);
 }
@@ -351,7 +351,7 @@ onUnmounted(() => document.removeEventListener('mousedown', handleOutsideClick))
   border-radius: $radius-md;
   color: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: $transition-fast;

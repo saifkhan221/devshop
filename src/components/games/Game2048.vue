@@ -139,7 +139,7 @@ onUnmounted(() => {})
 .g2048 { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); padding: var(--space-1) 0 var(--space-2); outline: none; }
 
 .g-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); width: 100%; }
-.g-status { font-size: 13px; color: var(--ink-muted); }
+.g-status { font-size: 14px; color: var(--ink-muted); }
 .st--win { color: var(--peach-text); font-weight: 600; }
 .st--over { color: var(--violet-text); font-weight: 600; }
 .g-scores { display: flex; gap: var(--space-2); }
@@ -148,8 +148,8 @@ onUnmounted(() => {})
   padding: var(--space-1) var(--space-3);
   background: var(--bg-200); border: 1px solid var(--line);
   border-radius: var(--radius-sm);
-  span { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
-  b { font-size: 15px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  span { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
+  b { font-size: 16px; color: var(--ink); font-variant-numeric: tabular-nums; }
 }
 .sc--best b { color: var(--peach-text); }
 
@@ -167,7 +167,7 @@ onUnmounted(() => {})
 .tile {
   display: flex; align-items: center; justify-content: center;
   border-radius: var(--radius-md);
-  font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums;
+  font-size: 26px; font-weight: 800; font-variant-numeric: tabular-nums;
   color: var(--ink);
   transition: background-color 120ms;
 }
@@ -180,11 +180,11 @@ onUnmounted(() => {})
 .tile--16   { background: var(--peach-soft); color: var(--peach-text); }
 .tile--32   { background: var(--peach); color: var(--on-peach); }
 .tile--64   { background: var(--peach); color: var(--on-peach); }
-.tile--128  { background: var(--peach-strong); color: var(--on-peach); font-size: 21px; }
-.tile--256  { background: var(--peach-strong); color: var(--on-peach); font-size: 21px; }
-.tile--512  { background: var(--violet-soft); color: var(--violet-text); font-size: 21px; }
-.tile--1024 { background: var(--violet); color: var(--on-violet); font-size: 18px; }
-.tile--2048 { background: var(--violet); color: var(--on-violet); font-size: 18px; }
+.tile--128  { background: var(--peach-strong); color: var(--on-peach); font-size: 23px; }
+.tile--256  { background: var(--peach-strong); color: var(--on-peach); font-size: 23px; }
+.tile--512  { background: var(--violet-soft); color: var(--violet-text); font-size: 23px; }
+.tile--1024 { background: var(--violet); color: var(--on-violet); font-size: 20px; }
+.tile--2048 { background: var(--violet); color: var(--on-violet); font-size: 20px; }
 
 @keyframes pop { from { transform: scale(0.6); } to { transform: scale(1); } }
 </style>

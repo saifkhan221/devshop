@@ -219,10 +219,10 @@ function formatDate(d) {
 }
 
 .adm-title {
-  font-size: 26px; font-weight: 700; color: $text-heading;
+  font-size: 28px; font-weight: 700; color: $text-heading;
   letter-spacing: -0.5px; line-height: 1.2;
 }
-.adm-sub { font-size: 13px; color: $brand-400; margin-top: 4px; }
+.adm-sub { font-size: 14px; color: $brand-400; margin-top: 4px; }
 
 .nav-back {
   display: flex; align-items: center; gap: 6px;
@@ -231,7 +231,7 @@ function formatDate(d) {
   border: 1px solid var(--border-subtle);
   border-radius: $radius-md;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   color: $brand-300; cursor: pointer;
   transition: all 0.15s;
   &:hover { border-color: var(--accent); color: $text-heading; }
@@ -242,7 +242,7 @@ function formatDate(d) {
   background: linear-gradient(135deg, $brand-600, $brand-500);
   border: none; border-radius: $radius-md;
   color: #fff; font-family: 'Inter', sans-serif;
-  font-size: 13px; font-weight: 600;
+  font-size: 14px; font-weight: 600;
   cursor: pointer; transition: all 0.2s;
   box-shadow: 0 4px 14px var(--accent-glow);
   white-space: nowrap;
@@ -263,7 +263,7 @@ function formatDate(d) {
 
 .fg {
   label {
-    display: block; font-size: 11px; font-weight: 500;
+    display: block; font-size: 12px; font-weight: 500;
     color: $brand-300; margin-bottom: 5px; letter-spacing: 0.02em;
   }
   input, select {
@@ -273,7 +273,7 @@ function formatDate(d) {
     border-radius: $radius-md;
     padding: 9px 12px;
     font-family: 'Inter', sans-serif;
-    font-size: 13px; color: #fff; outline: none;
+    font-size: 14px; color: #fff; outline: none;
     transition: border-color 0.2s;
     &:focus { border-color: $brand-500; }
     &::placeholder { color: rgba(167,139,250,.35); }
@@ -293,7 +293,7 @@ function formatDate(d) {
   background: linear-gradient(135deg, $brand-600, $brand-500);
   border: none; border-radius: $radius-md;
   color: #fff; font-family: 'Inter', sans-serif;
-  font-size: 13px; font-weight: 600;
+  font-size: 14px; font-weight: 600;
   cursor: pointer; transition: all 0.2s;
   box-shadow: 0 2px 10px var(--accent-glow);
   display: flex; align-items: center; gap: 6px;
@@ -319,15 +319,15 @@ function formatDate(d) {
   text-align: center;
 }
 .stat-val {
-  font-size: 28px; font-weight: 800; color: $text-heading;
+  font-size: 32px; font-weight: 800; color: $text-heading;
   letter-spacing: -0.5px; line-height: 1; margin-bottom: 6px;
 }
-.stat-lbl { font-size: 12px; color: $brand-400; }
+.stat-lbl { font-size: 13px; color: $brand-400; }
 
 // ── Table ───────────────────────────────────────────────────────────
 .adm-table-section { width: 100%; }
 
-.adm-loading { text-align: center; color: $brand-400; font-size: 13px; padding: 40px 0; }
+.adm-loading { text-align: center; color: $brand-400; font-size: 14px; padding: 40px 0; }
 
 .adm-empty {
   text-align: center; padding: 48px 20px;
@@ -336,8 +336,8 @@ function formatDate(d) {
   border-radius: 16px;
 }
 .adm-empty-icon { font-size: 36px; margin-bottom: 10px; }
-.adm-empty-title { font-size: 15px; font-weight: 600; color: $text-heading; margin-bottom: 4px; }
-.adm-empty-sub { font-size: 12px; color: $brand-400; }
+.adm-empty-title { font-size: 16px; font-weight: 600; color: $text-heading; margin-bottom: 4px; }
+.adm-empty-sub { font-size: 13px; color: $brand-400; }
 
 .adm-table-wrap {
   background: $bg-surface;
@@ -349,12 +349,12 @@ function formatDate(d) {
 
 .adm-table {
   width: 100%; border-collapse: collapse;
-  font-size: 13px;
+  font-size: 14px;
 
   th {
     text-align: left;
     padding: 14px 16px;
-    font-size: 11px; font-weight: 600;
+    font-size: 12px; font-weight: 600;
     color: $brand-400; letter-spacing: 0.04em;
     text-transform: uppercase;
     border-bottom: 1px solid var(--border-subtle);
@@ -377,17 +377,17 @@ function formatDate(d) {
 .td-tokens { color: #10b981; font-weight: 600; font-variant-numeric: tabular-nums; }
 .td-commit {
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 12px; color: $brand-300;
+  font-size: 13px; color: $brand-300;
   max-width: 220px;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.td-date { color: $text-muted; white-space: nowrap; font-size: 12px; }
+.td-date { color: $text-muted; white-space: nowrap; font-size: 13px; }
 
 .model-badge {
   display: inline-block;
   padding: 3px 10px;
   border-radius: 12px;
-  font-size: 11px; font-weight: 500;
+  font-size: 12px; font-weight: 500;
   background: var(--accent-subtle);
   color: var(--accent);
   white-space: nowrap;

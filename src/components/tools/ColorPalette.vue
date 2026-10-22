@@ -117,15 +117,15 @@ function savePalette() {
   border-radius: $radius-md;
   padding: 10px 14px;
   font-family: monospace;
-  font-size: 14px;
+  font-size: 15px;
   color: #fff;
   outline: none;
   &:focus { border-color: $brand-500; }
 }
 
-.gen-btn { padding: 10px 18px; background: linear-gradient(135deg, $brand-600, $brand-500); border: none; border-radius: $radius-md; color: #fff; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; &:hover { transform: translateY(-1px); } }
+.gen-btn { padding: 10px 18px; background: linear-gradient(135deg, $brand-600, $brand-500); border: none; border-radius: $radius-md; color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; &:hover { transform: translateY(-1px); } }
 
-.section-title { font-size: 11px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+.section-title { font-size: 12px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
 
 .swatches { display: flex; border-radius: $radius-md; overflow: hidden; margin-bottom: 16px; }
 
@@ -142,10 +142,10 @@ function savePalette() {
   &:hover { transform: scaleY(1.05); }
 }
 
-.swatch-shade { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
-.swatch-hex { font-size: 8px; color: rgba(255,255,255,0.5); font-family: monospace; }
+.swatch-shade { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.7); }
+.swatch-hex { font-size: 9px; color: rgba(255,255,255,0.5); font-family: monospace; }
 
-.save-btn { padding: 8px 16px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; color: $brand-300; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; &:hover { background: $brand-700; color: #fff; } }
+.save-btn { padding: 8px 16px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; color: $brand-300; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; &:hover { background: $brand-700; color: #fff; } }
 
 .saved-section { margin-top: 24px; }
 
@@ -155,7 +155,7 @@ function savePalette() {
 
 .saved-swatch { flex: 1; height: 28px; border-radius: 4px; }
 
-.del-btn { background: transparent; border: none; color: $brand-400; cursor: pointer; font-size: 12px; &:hover { color: #f87171; } }
+.del-btn { background: transparent; border: none; color: $brand-400; cursor: pointer; font-size: 13px; &:hover { color: #f87171; } }
 
-.toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: $brand-700; color: #fff; padding: 8px 16px; border-radius: $radius-md; font-size: 13px; }
+.toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: $brand-700; color: #fff; padding: 8px 16px; border-radius: $radius-md; font-size: 14px; }
 </style>

@@ -301,7 +301,7 @@ async function logout() {
   border: none; border-radius: 8px;
   color: $brand-400; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  font-size: 14px; transition: all 0.2s;
+  font-size: 15px; transition: all 0.2s;
   text-decoration: none;
   &:hover { background: $brand-700; color: #fff; }
 }
@@ -311,7 +311,7 @@ async function logout() {
   background: linear-gradient(135deg, $brand-600, $brand-500);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .project-dot {
@@ -319,7 +319,7 @@ async function logout() {
   box-shadow: 0 0 6px var(--accent-glow);
 }
 
-.project-name { font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -0.2px; }
+.project-name { font-size: 16px; font-weight: 600; color: #fff; letter-spacing: -0.2px; }
 
 .nav-center { flex: 1; display: flex; justify-content: center; }
 
@@ -329,7 +329,7 @@ async function logout() {
   border: 1px solid var(--border-subtle);
   border-radius: 20px;
   padding: 4px 12px;
-  font-size: 12px; color: $brand-300; font-weight: 500;
+  font-size: 13px; color: $brand-300; font-weight: 500;
 }
 
 .nav-right { display: flex; align-items: center; gap: 10px; }
@@ -342,7 +342,7 @@ async function logout() {
   border-radius: 8px;
   color: $brand-300;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   cursor: pointer; transition: all 0.2s;
   text-decoration: none;
   &:hover { background: $brand-700; color: #fff; }
@@ -353,7 +353,7 @@ async function logout() {
   background: linear-gradient(135deg, $brand-600, $brand-500);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: #fff;
+  font-size: 12px; font-weight: 600; color: #fff;
 }
 
 .nav-logout {
@@ -389,8 +389,8 @@ async function logout() {
   margin-bottom: 24px;
 }
 
-.tool-title { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -0.4px; }
-.tool-subtitle { font-size: 13px; color: $brand-400; margin-top: 4px; }
+.tool-title { font-size: 22px; line-height: 1.25; font-weight: 700; color: #fff; letter-spacing: -0.4px; }
+.tool-subtitle { font-size: 14px; color: $brand-400; margin-top: 4px; }
 
 .tool-panel {
   background: $bg-surface;
@@ -429,8 +429,8 @@ async function logout() {
   height: 60%;
   text-align: center;
   .no-tool-icon { font-size: 48px; margin-bottom: 16px; }
-  .no-tool-title { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 8px; }
-  .no-tool-sub { font-size: 13px; color: $brand-400; margin-bottom: 20px; }
+  .no-tool-title { font-size: 20px; line-height: 1.25; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .no-tool-sub { font-size: 14px; color: $brand-400; margin-bottom: 20px; }
 }
 
 .btn-add-tools-empty {
@@ -441,7 +441,7 @@ async function logout() {
   background: linear-gradient(135deg, $brand-600, $brand-500);
   border-radius: $radius-md;
   color: #fff;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s;
@@ -467,7 +467,7 @@ async function logout() {
   color: $brand-400;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px;
+  font-size: 14px;
   transition: all 0.15s;
   &:hover { color: $brand-300; background: var(--border-subtle); }
   &.active {
@@ -492,7 +492,7 @@ async function logout() {
 }
 
 .tool-category-badge {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   color: $brand-400;
   background: $bg-elevated;
@@ -516,7 +516,7 @@ async function logout() {
 }
 
 .separator-label {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: $brand-400;
   white-space: nowrap;

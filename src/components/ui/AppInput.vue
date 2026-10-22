@@ -34,7 +34,7 @@ defineEmits(['update:modelValue'])
   gap: 6px;
 
   &__label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
     color: $brand-300;
     letter-spacing: 0.02em;
@@ -47,7 +47,7 @@ defineEmits(['update:modelValue'])
     border-radius: $radius-md;
     padding: 11px 14px;
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
+    font-size: 15px;
     color: #fff;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -61,7 +61,7 @@ defineEmits(['update:modelValue'])
   }
 
   &__error {
-    font-size: 12px;
+    font-size: 13px;
     color: #f87171;
   }
 }

@@ -126,9 +126,9 @@ async function logout() {
 .shell-sidebar-tail { margin-top: auto; display: flex; flex-direction: column; gap: var(--space-2); }
 .shell-theme { padding: 0 var(--space-1); }
 .ds-sidebar-collapsed .shell-theme { display: none; }
-.shell-user { display: flex; flex-direction: column; min-width: 0; line-height: 16px; }
-.shell-user-name { font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.shell-user-mail { font-size: 11px; color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.shell-user { display: flex; flex-direction: column; min-width: 0; line-height: 18px; }
+.shell-user-name { font-size: 14px; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.shell-user-mail { font-size: 12px; color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .shell-logout { margin-left: auto; flex: none; }
 .ds-sidebar-collapsed .shell-user, .ds-sidebar-collapsed .shell-logout { display: none; }
 .ds-sidebar-collapsed .ds-sidebar-footer { justify-content: center; }

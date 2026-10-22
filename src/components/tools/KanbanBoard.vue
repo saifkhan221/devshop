@@ -283,12 +283,12 @@ function handleImage(e) {
 
 .col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .col-title-row { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
-.col-drag { color: rgba(167,139,250,0.3); cursor: grab; font-size: 14px; flex-shrink: 0; transition: color 0.15s; &:hover { color: $brand-400; } &:active { cursor: grabbing; } }
-.col-title { font-size: 13px; font-weight: 700; color: #fff; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.col-title-input { background: $bg-surface; border: 1px solid $brand-500; border-radius: 4px; padding: 3px 6px; font-size: 13px; font-weight: 700; color: #fff; outline: none; width: 120px; }
-.col-count { font-size: 10px; font-weight: 600; color: $brand-400; background: $bg-surface; padding: 2px 7px; border-radius: 20px; flex-shrink: 0; }
+.col-drag { color: rgba(167,139,250,0.3); cursor: grab; font-size: 15px; flex-shrink: 0; transition: color 0.15s; &:hover { color: $brand-400; } &:active { cursor: grabbing; } }
+.col-title { font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.col-title-input { background: $bg-surface; border: 1px solid $brand-500; border-radius: 4px; padding: 3px 6px; font-size: 14px; font-weight: 700; color: #fff; outline: none; width: 120px; }
+.col-count { font-size: 11px; font-weight: 600; color: $brand-400; background: $bg-surface; padding: 2px 7px; border-radius: 20px; flex-shrink: 0; }
 .col-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-.col-del { background: transparent; border: none; color: rgba(167,139,250,0.25); cursor: pointer; font-size: 10px; &:hover { color: #f87171; } }
+.col-del { background: transparent; border: none; color: rgba(167,139,250,0.25); cursor: pointer; font-size: 11px; &:hover { color: #f87171; } }
 
 .col-color-wrap { position: relative; }
 
@@ -335,7 +335,7 @@ function handleImage(e) {
   background: $bg-elevated;
   border-color: var(--border-subtle);
   color: $brand-500;
-  font-size: 10px;
+  font-size: 11px;
   display: flex; align-items: center; justify-content: center;
 }
 
@@ -390,7 +390,7 @@ function handleImage(e) {
 .card-content { flex: 1; min-width: 0; }
 
 .card-title {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: #fff;
   line-height: 1.4;
@@ -398,7 +398,7 @@ function handleImage(e) {
 }
 
 .card-desc {
-  font-size: 11px;
+  font-size: 12px;
   color: $brand-400;
   margin-top: 4px;
   line-height: 1.4;
@@ -411,7 +411,7 @@ function handleImage(e) {
 .card-del {
   background: transparent; border: none;
   color: rgba(167,139,250,0.2); cursor: pointer;
-  font-size: 9px; flex-shrink: 0;
+  font-size: 10px; flex-shrink: 0;
   opacity: 0; transition: all 0.2s;
   &:hover { color: #f87171; }
 }
@@ -428,7 +428,7 @@ function handleImage(e) {
   border: 1px dashed transparent;
   border-radius: $radius-sm;
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   color: $brand-500;
   cursor: pointer;
@@ -438,7 +438,7 @@ function handleImage(e) {
 
 // ── Add column ───────────────────────────────────────────────────────────────
 .add-col { display: flex; align-items: flex-start; padding-top: 4px; }
-.add-col-btn { padding: 10px 16px; background: transparent; border: 2px dashed var(--accent-subtle); border-radius: $radius-lg; color: $brand-400; font-size: 13px; cursor: pointer; transition: all 0.2s; white-space: nowrap; width: 180px; &:hover { border-color: $brand-500; color: $brand-300; background: var(--accent-subtle); } }
+.add-col-btn { padding: 10px 16px; background: transparent; border: 2px dashed var(--accent-subtle); border-radius: $radius-lg; color: $brand-400; font-size: 14px; cursor: pointer; transition: all 0.2s; white-space: nowrap; width: 180px; &:hover { border-color: $brand-500; color: $brand-300; background: var(--accent-subtle); } }
 
 // ── Modal ─────────────────────────────────────────────────────────────────────
 .modal-backdrop {
@@ -471,8 +471,8 @@ function handleImage(e) {
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.modal-title { font-size: 14px; font-weight: 700; color: #fff; }
-.modal-close { background: transparent; border: none; color: $brand-400; cursor: pointer; font-size: 14px; &:hover { color: #f87171; } }
+.modal-title { font-size: 15px; font-weight: 700; color: #fff; }
+.modal-close { background: transparent; border: none; color: $brand-400; cursor: pointer; font-size: 15px; &:hover { color: #f87171; } }
 
 .modal-cover {
   position: relative;
@@ -486,14 +486,14 @@ function handleImage(e) {
   background: rgba(0,0,0,0.5); border: none;
   color: #fff; border-radius: 50%;
   width: 24px; height: 24px;
-  font-size: 11px; cursor: pointer;
+  font-size: 12px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   &:hover { background: rgba(239,68,68,0.8); }
 }
 
 .modal-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; }
 
-.modal-label { font-size: 11px; font-weight: 600; color: $brand-400; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: -6px; }
+.modal-label { font-size: 12px; font-weight: 600; color: $brand-400; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: -6px; }
 
 .modal-input {
   background: $bg-elevated;
@@ -501,7 +501,7 @@ function handleImage(e) {
   border-radius: $radius-md;
   padding: 10px 12px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   color: #fff;
   outline: none;
   width: 100%;
@@ -526,7 +526,7 @@ function handleImage(e) {
   border: 1px solid var(--border-subtle);
   border-radius: $radius-md;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   color: $brand-300; cursor: pointer;
   transition: all 0.15s;
   &:hover { border-color: var(--accent); color: #fff; }
@@ -535,7 +535,7 @@ function handleImage(e) {
 .modal-img-remove {
   background: transparent; border: none;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; color: #f87171;
+  font-size: 13px; color: #f87171;
   cursor: pointer; padding: 4px;
 }
 
@@ -561,7 +561,7 @@ function handleImage(e) {
   background: $bg-elevated;
   border-color: var(--border-subtle);
   color: $brand-500;
-  font-size: 11px;
+  font-size: 12px;
   display: flex; align-items: center; justify-content: center;
   &.active { border-color: $brand-400; }
 }
@@ -578,7 +578,7 @@ function handleImage(e) {
   padding: 8px 18px;
   border: none; border-radius: $radius-md;
   font-family: 'Inter', sans-serif;
-  font-size: 13px; font-weight: 600;
+  font-size: 14px; font-weight: 600;
   cursor: pointer; transition: all 0.15s;
 
   &--save   { background: var(--accent); color: #fff; &:hover { opacity: 0.85; } }

@@ -196,9 +196,9 @@ function addTask() {
 .tw-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
 .tw-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
 .tw-item { display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
-.tw-text { flex: 1; min-width: 0; font-size: 13px; line-height: 20px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tw-due, .tm-due { flex: none; font-size: 12px; line-height: 18px; color: var(--ink-muted); &.late { color: var(--danger-text); } }
-.tw-empty { margin: 0; font-size: 13px; line-height: 20px; color: var(--ink-muted); }
+.tw-text { flex: 1; min-width: 0; font-size: 14px; line-height: 22px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tw-due, .tm-due { flex: none; font-size: 13px; line-height: 20px; color: var(--ink-muted); &.late { color: var(--danger-text); } }
+.tw-empty { margin: 0; font-size: 14px; line-height: 22px; color: var(--ink-muted); }
 
 // ── Modal ───────────────────────────────────────────────────────────
 .tm-add { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-4); }
@@ -220,7 +220,7 @@ function addTask() {
   &.done .tm-text { color: var(--ink-faint); text-decoration: line-through; }
 }
 .tm-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--space-1); }
-.tm-text { font-size: 14px; line-height: 22px; color: var(--ink); word-break: break-word; }
+.tm-text { font-size: 15px; line-height: 24px; color: var(--ink); word-break: break-word; }
 .tm-meta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); }
 .tm-del { flex: none; opacity: 0; transition: opacity 120ms; &:hover { color: var(--danger-text); } }
 .tm-item:hover .tm-del, .tm-del:focus-visible { opacity: 1; }

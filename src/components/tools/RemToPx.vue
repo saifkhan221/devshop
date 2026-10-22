@@ -80,20 +80,20 @@ const quickRef = [
 <style lang="scss" scoped>
 @use '@/styles/variables' as *;
 .converter-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; margin-bottom: 28px; }
-.input-group label { display: block; font-size: 11px; font-weight: 600; color: $brand-400; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
-.big-input { width: 100%; background: $bg-elevated; border: 2px solid var(--border-strong); border-radius: 12px; padding: 16px 18px; font-family: 'Inter', sans-serif; font-size: 28px; font-weight: 600; color: #fff; outline: none; transition: border-color 0.2s; &:focus { border-color: $brand-500; } &::placeholder { color: rgba(167,139,250,0.25); } }
-.big-output { background: var(--accent-subtle); border: 2px solid var(--accent-subtle); border-radius: 12px; padding: 16px 18px; font-size: 28px; font-weight: 600; color: $brand-300; min-height: 72px; display: flex; align-items: center; }
-.arrow-icon { font-size: 24px; color: $brand-600; display: flex; align-items: center; justify-content: center; padding-top: 24px; }
+.input-group label { display: block; font-size: 12px; font-weight: 600; color: $brand-400; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.big-input { width: 100%; background: $bg-elevated; border: 2px solid var(--border-strong); border-radius: 12px; padding: 16px 18px; font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 600; color: #fff; outline: none; transition: border-color 0.2s; &:focus { border-color: $brand-500; } &::placeholder { color: rgba(167,139,250,0.25); } }
+.big-output { background: var(--accent-subtle); border: 2px solid var(--accent-subtle); border-radius: 12px; padding: 16px 18px; font-size: 32px; font-weight: 600; color: $brand-300; min-height: 72px; display: flex; align-items: center; }
+.arrow-icon { font-size: 26px; color: $brand-600; display: flex; align-items: center; justify-content: center; padding-top: 24px; }
 .base-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: $bg-elevated; border-radius: $radius-md; margin-bottom: 24px; }
-.base-label { font-size: 13px; color: $brand-400; }
-.base-select { background: $brand-700; border: 1px solid var(--border-strong); border-radius: 8px; padding: 5px 10px; font-family: 'Inter', sans-serif; font-size: 13px; color: #fff; outline: none; }
-.copy-btn { margin-left: auto; padding: 6px 14px; background: $brand-600; border: none; border-radius: 8px; color: #fff; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; &:hover { background: $brand-500; } }
-.section-title { font-size: 11px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+.base-label { font-size: 14px; color: $brand-400; }
+.base-select { background: $brand-700; border: 1px solid var(--border-strong); border-radius: 8px; padding: 5px 10px; font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; outline: none; }
+.copy-btn { margin-left: auto; padding: 6px 14px; background: $brand-600; border: none; border-radius: 8px; color: #fff; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; &:hover { background: $brand-500; } }
+.section-title { font-size: 12px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
 .ref-table { width: 100%; border-collapse: collapse; }
-.ref-table th { text-align: left; font-size: 11px; font-weight: 600; color: $brand-400; letter-spacing: 0.06em; text-transform: uppercase; padding: 0 12px 10px; }
-.ref-table td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--border-subtle); }
+.ref-table th { text-align: left; font-size: 12px; font-weight: 600; color: $brand-400; letter-spacing: 0.06em; text-transform: uppercase; padding: 0 12px 10px; }
+.ref-table td { padding: 10px 12px; font-size: 14px; border-bottom: 1px solid var(--border-subtle); }
 .ref-table tr:last-child td { border-bottom: none; }
-.rem-val { color: #fff; font-weight: 600; font-family: monospace; font-size: 14px; }
-.px-val { color: $brand-300; font-weight: 500; font-family: monospace; font-size: 14px; }
-.use-val { color: $brand-400; font-size: 12px; }
+.rem-val { color: #fff; font-weight: 600; font-family: monospace; font-size: 15px; }
+.px-val { color: $brand-300; font-weight: 500; font-family: monospace; font-size: 15px; }
+.use-val { color: $brand-400; font-size: 13px; }
 </style>

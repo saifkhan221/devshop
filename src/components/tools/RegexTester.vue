@@ -107,26 +107,26 @@ function applyPreset(p) {
 @use '@/styles/variables' as *;
 
 .pattern-row { display: flex; align-items: center; gap: 8px; background: $bg-elevated; border-radius: $radius-md; padding: 10px 14px; margin-bottom: 12px; }
-.slash { font-size: 18px; color: $brand-400; font-family: monospace; }
-.pattern-input { flex: 1; background: transparent; border: none; outline: none; font-family: monospace; font-size: 15px; color: #fff; &::placeholder { color: rgba(167,139,250,0.3); } }
+.slash { font-size: 20px; color: $brand-400; font-family: monospace; }
+.pattern-input { flex: 1; background: transparent; border: none; outline: none; font-family: monospace; font-size: 16px; color: #fff; &::placeholder { color: rgba(167,139,250,0.3); } }
 .flags { display: flex; gap: 6px; }
-.flag-label { padding: 3px 8px; background: $bg-surface; border-radius: 4px; color: $brand-400; font-family: monospace; font-size: 12px; cursor: pointer; transition: all 0.2s; user-select: none; &.active { background: $brand-700; color: #fff; } &:hover { background: $brand-800; } }
+.flag-label { padding: 3px 8px; background: $bg-surface; border-radius: 4px; color: $brand-400; font-family: monospace; font-size: 13px; cursor: pointer; transition: all 0.2s; user-select: none; &.active { background: $brand-700; color: #fff; } &:hover { background: $brand-800; } }
 
 .presets-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-.presets-label { font-size: 12px; color: $brand-400; }
-.preset-btn { padding: 4px 10px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: 20px; color: $brand-300; font-size: 11px; cursor: pointer; transition: all 0.2s; &:hover { background: $brand-700; color: #fff; } }
+.presets-label { font-size: 13px; color: $brand-400; }
+.preset-btn { padding: 4px 10px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: 20px; color: $brand-300; font-size: 12px; cursor: pointer; transition: all 0.2s; &:hover { background: $brand-700; color: #fff; } }
 
 .test-area { margin-bottom: 16px; position: relative; }
-.area-label { display: block; font-size: 11px; font-weight: 600; color: $brand-400; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
-.highlighted { position: absolute; top: 28px; left: 0; right: 0; padding: 10px 14px; font-family: monospace; font-size: 13px; color: transparent; pointer-events: none; z-index: 1; white-space: pre-wrap; word-break: break-word; }
+.area-label { display: block; font-size: 12px; font-weight: 600; color: $brand-400; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.highlighted { position: absolute; top: 28px; left: 0; right: 0; padding: 10px 14px; font-family: monospace; font-size: 14px; color: transparent; pointer-events: none; z-index: 1; white-space: pre-wrap; word-break: break-word; }
 :deep(.hl) { background: var(--accent-glow); color: transparent; border-radius: 2px; }
-.test-input { width: 100%; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; padding: 10px 14px; font-family: monospace; font-size: 13px; color: #fff; outline: none; resize: vertical; position: relative; z-index: 2; background: transparent; &:focus { border-color: $brand-500; } &::placeholder { color: rgba(167,139,250,0.3); } }
+.test-input { width: 100%; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; padding: 10px 14px; font-family: monospace; font-size: 14px; color: #fff; outline: none; resize: vertical; position: relative; z-index: 2; background: transparent; &:focus { border-color: $brand-500; } &::placeholder { color: rgba(167,139,250,0.3); } }
 
-.section-title { font-size: 11px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+.section-title { font-size: 12px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
 .matches-section { }
 .match-item { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: $bg-elevated; border-radius: $radius-sm; margin-bottom: 6px; }
-.match-index { font-size: 11px; color: $brand-400; min-width: 40px; }
-.match-value { font-size: 13px; color: $brand-300; font-family: monospace; background: var(--accent-subtle); padding: 2px 8px; border-radius: 4px; }
-.no-matches { text-align: center; padding: 20px; color: $brand-400; font-size: 13px; }
-.regex-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: $radius-md; padding: 10px 14px; font-size: 12px; color: #f87171; font-family: monospace; margin-top: 10px; }
+.match-index { font-size: 12px; color: $brand-400; min-width: 40px; }
+.match-value { font-size: 14px; color: $brand-300; font-family: monospace; background: var(--accent-subtle); padding: 2px 8px; border-radius: 4px; }
+.no-matches { text-align: center; padding: 20px; color: $brand-400; font-size: 14px; }
+.regex-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: $radius-md; padding: 10px 14px; font-size: 13px; color: #f87171; font-family: monospace; margin-top: 10px; }
 </style>

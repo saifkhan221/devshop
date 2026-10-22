@@ -184,7 +184,7 @@ onMounted(async () => {
   border: 1px solid var(--border-subtle);
   border-radius: 20px;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   color: $brand-300;
   cursor: pointer;
   transition: all 0.15s;
@@ -194,19 +194,19 @@ onMounted(async () => {
 
 .news-loc {
   display: flex; align-items: center; gap: 5px;
-  font-size: 11px; color: $brand-400;
+  font-size: 12px; color: $brand-400;
   svg { color: var(--accent); }
 }
 
 .news-state {
   display: flex; align-items: center; gap: 8px; justify-content: center;
-  padding: 48px 0; color: $brand-400; font-size: 13px;
+  padding: 48px 0; color: $brand-400; font-size: 14px;
   &--err { flex-direction: column; }
 }
 .news-retry {
   margin-top: 8px; padding: 6px 16px;
   background: var(--accent-subtle); border: 1px solid $brand-500; border-radius: $radius-md;
-  color: var(--accent); font-size: 12px; font-weight: 600; cursor: pointer;
+  color: var(--accent); font-size: 13px; font-weight: 600; cursor: pointer;
 }
 .news-spinner {
   width: 14px; height: 14px;
@@ -237,16 +237,16 @@ onMounted(async () => {
   width: 34px; height: 34px; flex-shrink: 0;
   border-radius: 9px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 15px; font-weight: 700; color: #fff;
+  font-size: 16px; font-weight: 700; color: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,.3);
 }
 
 .nf-body { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
 .nf-title {
-  font-size: 14px; font-weight: 600; color: $text-heading; line-height: 1.45;
+  font-size: 15px; font-weight: 600; color: $text-heading; line-height: 1.45;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.nf-meta { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: $brand-400; }
+.nf-meta { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: $brand-400; }
 .nf-source { font-weight: 600; color: $brand-300; }
 .nf-dot { opacity: 0.6; }
 .nf-ext { color: $brand-400; opacity: 0; flex-shrink: 0; margin-top: 3px; transition: opacity 0.15s; }
@@ -258,8 +258,8 @@ onMounted(async () => {
   border-radius: 14px;
   margin-bottom: 10px;
   padding: 16px;
-  .nf-avatar { width: 38px; height: 38px; font-size: 16px; }
-  .nf-title { font-size: 16.5px; font-weight: 700; letter-spacing: -0.2px; -webkit-line-clamp: 3; }
-  .nf-meta { font-size: 12px; }
+  .nf-avatar { width: 38px; height: 38px; font-size: 17px; }
+  .nf-title { font-size: 17.5px; font-weight: 700; letter-spacing: -0.2px; -webkit-line-clamp: 3; }
+  .nf-meta { font-size: 13px; }
 }
 </style>

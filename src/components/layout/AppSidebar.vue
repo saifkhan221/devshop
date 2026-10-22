@@ -179,7 +179,7 @@ async function confirmRemove(deleteData) {
 }
 
 .sidebar-label {
-  font-size: 10px; font-weight: 600;
+  font-size: 11px; font-weight: 600;
   color: rgba(167,139,250,0.5);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -218,7 +218,7 @@ async function confirmRemove(deleteData) {
 
 .drag-handle {
   color: rgba(167,139,250,0.3);
-  font-size: 12px;
+  font-size: 13px;
   cursor: grab;
   flex-shrink: 0;
   padding: 2px;
@@ -227,14 +227,14 @@ async function confirmRemove(deleteData) {
 }
 
 .tool-item-icon {
-  font-size: 14px;
+  font-size: 15px;
   flex-shrink: 0;
   width: 22px;
   text-align: center;
 }
 
 .tool-item-name {
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   color: $brand-300;
   flex: 1;
   white-space: nowrap;
@@ -261,7 +261,7 @@ async function confirmRemove(deleteData) {
   cursor: pointer;
   border-radius: 4px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 10px;
+  font-size: 11px;
   transition: all 0.15s;
   padding: 0;
   &:hover { color: $brand-200; background: $bg-surface; }
@@ -283,7 +283,7 @@ async function confirmRemove(deleteData) {
   border-radius: 9px;
   color: $brand-400;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   cursor: pointer; transition: all 0.2s;
   text-decoration: none;
   &:hover { background: var(--accent-subtle); border-color: var(--accent-glow); color: $brand-300; }
@@ -316,8 +316,8 @@ async function confirmRemove(deleteData) {
 }
 
 .del-icon { font-size: 36px; margin-bottom: 12px; }
-.del-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-.del-sub { font-size: 12px; color: $brand-400; margin-bottom: 20px; }
+.del-title { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.del-sub { font-size: 13px; color: $brand-400; margin-bottom: 20px; }
 
 .del-options {
   display: flex;
@@ -348,16 +348,16 @@ async function confirmRemove(deleteData) {
   }
 }
 
-.del-opt-icon { font-size: 20px; flex-shrink: 0; }
-.del-opt-label { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 2px; }
-.del-opt-desc { font-size: 11px; color: $brand-400; }
+.del-opt-icon { font-size: 22px; flex-shrink: 0; }
+.del-opt-label { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+.del-opt-desc { font-size: 12px; color: $brand-400; }
 
 .del-cancel {
   background: transparent;
   border: none;
   color: $brand-500;
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   padding: 6px;
   &:hover { color: $brand-300; }

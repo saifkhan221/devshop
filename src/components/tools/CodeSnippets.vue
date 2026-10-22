@@ -79,23 +79,23 @@ async function copySnippet(code) {
 @use '@/styles/variables' as *;
 
 .search-bar { display: flex; gap: 10px; margin-bottom: 16px; }
-.search-input { flex: 1; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; padding: 9px 14px; font-family: 'Inter', sans-serif; font-size: 13px; color: #fff; outline: none; &:focus { border-color: $brand-500; } &::placeholder { color: rgba(167,139,250,0.4); } }
-.add-btn { padding: 9px 16px; background: $brand-600; border: none; border-radius: $radius-md; color: #fff; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; &:hover { background: $brand-500; } }
+.search-input { flex: 1; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; padding: 9px 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; outline: none; &:focus { border-color: $brand-500; } &::placeholder { color: rgba(167,139,250,0.4); } }
+.add-btn { padding: 9px 16px; background: $brand-600; border: none; border-radius: $radius-md; color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; &:hover { background: $brand-500; } }
 
 .add-form { background: $bg-elevated; border-radius: $radius-lg; padding: 16px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
-.form-input { background: $bg-surface; border: 1px solid var(--border-subtle); border-radius: $radius-sm; padding: 8px 12px; font-family: 'Inter', sans-serif; font-size: 13px; color: #fff; outline: none; &:focus { border-color: $brand-500; } &::placeholder { color: rgba(167,139,250,0.4); } }
-.form-select { background: $bg-surface; border: 1px solid var(--border-subtle); border-radius: $radius-sm; padding: 8px 12px; font-family: 'Inter', sans-serif; font-size: 13px; color: #fff; outline: none; }
-.form-code { background: $bg-surface; border: 1px solid var(--border-subtle); border-radius: $radius-sm; padding: 10px 12px; font-family: monospace; font-size: 13px; color: #fff; outline: none; resize: vertical; &:focus { border-color: $brand-500; } }
-.save-btn { padding: 8px 16px; background: linear-gradient(135deg, $brand-600, $brand-500); border: none; border-radius: $radius-md; color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; &:disabled { opacity: 0.5; cursor: not-allowed; } }
+.form-input { background: $bg-surface; border: 1px solid var(--border-subtle); border-radius: $radius-sm; padding: 8px 12px; font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; outline: none; &:focus { border-color: $brand-500; } &::placeholder { color: rgba(167,139,250,0.4); } }
+.form-select { background: $bg-surface; border: 1px solid var(--border-subtle); border-radius: $radius-sm; padding: 8px 12px; font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; outline: none; }
+.form-code { background: $bg-surface; border: 1px solid var(--border-subtle); border-radius: $radius-sm; padding: 10px 12px; font-family: monospace; font-size: 14px; color: #fff; outline: none; resize: vertical; &:focus { border-color: $brand-500; } }
+.save-btn { padding: 8px 16px; background: linear-gradient(135deg, $brand-600, $brand-500); border: none; border-radius: $radius-md; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; &:disabled { opacity: 0.5; cursor: not-allowed; } }
 
-.empty { text-align: center; padding: 40px; color: $brand-400; font-size: 13px; }
+.empty { text-align: center; padding: 40px; color: $brand-400; font-size: 14px; }
 
 .snippet-item { background: $bg-elevated; border-radius: $radius-md; margin-bottom: 10px; overflow: hidden; }
 .snippet-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; &:hover { background: var(--border-subtle); } }
 .snippet-meta { display: flex; align-items: center; gap: 10px; }
-.snippet-title { font-size: 13px; font-weight: 600; color: #fff; }
-.lang-badge { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: var(--accent-subtle); color: $brand-300; }
+.snippet-title { font-size: 14px; font-weight: 600; color: #fff; }
+.lang-badge { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: var(--accent-subtle); color: $brand-300; }
 .snippet-actions { display: flex; gap: 6px; }
-.icon-btn { padding: 4px 10px; background: $bg-surface; border: none; border-radius: 6px; color: $brand-400; font-size: 11px; cursor: pointer; &:hover { color: #fff; background: $brand-700; } &.del:hover { color: #f87171; background: rgba(239,68,68,0.1); } }
-.snippet-code { padding: 14px 16px; font-size: 12px; color: $brand-300; font-family: monospace; white-space: pre-wrap; word-break: break-word; border-top: 1px solid var(--border-subtle); max-height: 300px; overflow-y: auto; }
+.icon-btn { padding: 4px 10px; background: $bg-surface; border: none; border-radius: 6px; color: $brand-400; font-size: 12px; cursor: pointer; &:hover { color: #fff; background: $brand-700; } &.del:hover { color: #f87171; background: rgba(239,68,68,0.1); } }
+.snippet-code { padding: 14px 16px; font-size: 13px; color: $brand-300; font-family: monospace; white-space: pre-wrap; word-break: break-word; border-top: 1px solid var(--border-subtle); max-height: 300px; overflow-y: auto; }
 </style>

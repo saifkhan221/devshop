@@ -104,7 +104,7 @@ function monthsFor(q) { return props.quarters.find(x => x.q === q)?.months || ''
 .ds-field { min-width: 0; }
 .opt { font-weight: 500; color: var(--ink-faint); margin-left: var(--space-1); }
 .pf-tags { display: flex; flex-wrap: wrap; gap: var(--space-1); margin-bottom: var(--space-1); }
-.pf-tag-rm { border: 0; background: transparent; color: inherit; font-size: 14px; line-height: 1; cursor: pointer; padding: 0 0 0 2px; opacity: .7; &:hover { opacity: 1; } }
+.pf-tag-rm { border: 0; background: transparent; color: inherit; font-size: 15px; line-height: 1; cursor: pointer; padding: 0 0 0 2px; opacity: .7; &:hover { opacity: 1; } }
 .pf-tag-row { display: flex; gap: var(--space-2); }
 .pf-two { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
 .pf-colors, .pf-emojis { display: flex; flex-wrap: wrap; gap: var(--space-2); }
@@ -116,7 +116,7 @@ function monthsFor(q) { return props.quarters.find(x => x.q === q)?.months || ''
   &:hover { transform: scale(1.1); }
 }
 .pf-emoji {
-  width: 34px; height: 34px; border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--bg-200); font-size: 16px; cursor: pointer;
+  width: 34px; height: 34px; border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--bg-200); font-size: 17px; cursor: pointer;
   display: inline-grid; place-items: center;
   &:hover { border-color: var(--line-strong); }
   &.selected { border-color: var(--peach); background: var(--peach-soft); }

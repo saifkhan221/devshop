@@ -117,10 +117,10 @@ onMounted(load)
 }
 .lb-rank {
   width: 24px; flex: none; text-align: center;
-  font-size: 13px; font-weight: 800; color: var(--ink-muted); font-variant-numeric: tabular-nums;
+  font-size: 14px; font-weight: 800; color: var(--ink-muted); font-variant-numeric: tabular-nums;
 }
 .lb-rank.rank-1 { color: var(--peach-text); }
 .lb-rank.rank-2 { color: var(--violet-text); }
-.lb-name { flex: 1; min-width: 0; font-size: 14px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: var(--space-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.lb-metric { flex: none; font-size: 13px; font-weight: 600; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.lb-name { flex: 1; min-width: 0; font-size: 15px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: var(--space-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lb-metric { flex: none; font-size: 14px; font-weight: 600; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
 </style>

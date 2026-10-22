@@ -262,7 +262,7 @@ onUnmounted(() => document.removeEventListener('mousedown', onOutside))
   justify-content: space-between;
 }
 
-.pd-count { font-size: 12px; color: $brand-400; }
+.pd-count { font-size: 13px; color: $brand-400; }
 
 .pd-head-actions {
   display: flex;
@@ -278,7 +278,7 @@ onUnmounted(() => document.removeEventListener('mousedown', onOutside))
   border-radius: $radius-md;
   color: $brand-300;
   font-family: 'Inter', sans-serif;
-  font-size: 13px; font-weight: 600;
+  font-size: 14px; font-weight: 600;
   cursor: pointer; transition: all 0.15s;
   &:hover { border-color: var(--accent); color: #fff; }
 
@@ -300,7 +300,7 @@ onUnmounted(() => document.removeEventListener('mousedown', onOutside))
   border: none; border-radius: $radius-md;
   color: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 13px; font-weight: 600;
+  font-size: 14px; font-weight: 600;
   cursor: pointer; transition: background 0.2s;
   &:hover { background: $brand-500; }
 }
@@ -328,7 +328,7 @@ onUnmounted(() => document.removeEventListener('mousedown', onOutside))
   background: transparent;
   border: none; border-radius: 8px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px; font-weight: 500;
+  font-size: 14px; font-weight: 500;
   color: $brand-300;
   cursor: pointer;
   text-align: left;
@@ -348,7 +348,7 @@ onUnmounted(() => document.removeEventListener('mousedown', onOutside))
   padding: 48px 24px;
   color: $brand-400;
   .empty-icon { font-size: 36px; margin-bottom: 12px; }
-  p { font-size: 13px; margin: 0; }
+  p { font-size: 14px; margin: 0; }
 }
 
 // ── Field grid ─────────────────────────────────────────────────────────────────
@@ -405,7 +405,7 @@ onUnmounted(() => document.removeEventListener('mousedown', onOutside))
   border: none;
   padding: 2px 0;
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: $brand-300;
   letter-spacing: 0.01em;
@@ -429,7 +429,7 @@ onUnmounted(() => document.removeEventListener('mousedown', onOutside))
   border-radius: 7px;
   padding: 3px 6px;
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   color: $brand-300;
   cursor: pointer;
@@ -459,7 +459,7 @@ onUnmounted(() => document.removeEventListener('mousedown', onOutside))
   border-radius: $radius-md;
   padding: 9px 12px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   color: #fff;
   outline: none;
   transition: border-color 0.2s;
@@ -513,7 +513,7 @@ input.pd-input[type="date"] {
 }
 
 .pv-label {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: $brand-300;
   flex-shrink: 0;
@@ -521,7 +521,7 @@ input.pd-input[type="date"] {
 }
 
 .pv-value {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: $text-heading;
   word-break: break-word;

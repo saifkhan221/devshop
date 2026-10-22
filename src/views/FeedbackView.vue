@@ -325,10 +325,10 @@ onMounted(() => {
 // ── Header ──────────────────────────────────────────────────────────
 .fb-header { margin-bottom: 4px; }
 .fb-title {
-  font-size: 26px; font-weight: 700; color: $text-heading;
+  font-size: 28px; font-weight: 700; color: $text-heading;
   letter-spacing: -0.5px; line-height: 1.2;
 }
-.fb-sub { font-size: 13px; color: $brand-400; margin-top: 4px; }
+.fb-sub { font-size: 14px; color: $brand-400; margin-top: 4px; }
 
 // ── Back button ─────────────────────────────────────────────────────
 .nav-back {
@@ -338,7 +338,7 @@ onMounted(() => {
   border: 1px solid var(--border-subtle);
   border-radius: $radius-md;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   color: $brand-300;
   cursor: pointer;
   transition: all 0.15s;
@@ -347,7 +347,7 @@ onMounted(() => {
 
 // ── Section title ───────────────────────────────────────────────────
 .fb-section-title {
-  font-size: 16px; font-weight: 700; color: $text-heading;
+  font-size: 17px; font-weight: 700; color: $text-heading;
   letter-spacing: -0.3px; margin-bottom: 20px;
 }
 
@@ -362,7 +362,7 @@ onMounted(() => {
 .fg {
   margin-bottom: 18px;
   label {
-    display: block; font-size: 12px; font-weight: 500;
+    display: block; font-size: 13px; font-weight: 500;
     color: $brand-300; margin-bottom: 6px; letter-spacing: 0.02em;
   }
   input, textarea {
@@ -372,7 +372,7 @@ onMounted(() => {
     border-radius: $radius-md;
     padding: 10px 13px;
     font-family: 'Inter', sans-serif;
-    font-size: 13px; color: #fff;
+    font-size: 14px; color: #fff;
     outline: none;
     transition: border-color 0.2s;
     resize: vertical;
@@ -381,7 +381,7 @@ onMounted(() => {
   }
 }
 
-.opt { color: $brand-600; font-size: 11px; }
+.opt { color: $brand-600; font-size: 12px; }
 
 // ── Tags ────────────────────────────────────────────────────────────
 .tag-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -390,7 +390,7 @@ onMounted(() => {
   padding: 6px 14px;
   border-radius: 20px;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   cursor: pointer;
   border: 1px solid var(--border-subtle);
   background: $bg-elevated;
@@ -406,7 +406,7 @@ onMounted(() => {
 }
 
 .tag-custom .tag-x {
-  font-size: 14px; line-height: 1; margin-left: 2px;
+  font-size: 15px; line-height: 1; margin-left: 2px;
   opacity: 0.6;
 }
 
@@ -422,7 +422,7 @@ onMounted(() => {
     padding: 6px 12px;
     border-radius: 20px;
     font-family: 'Inter', sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     background: $bg-elevated;
     border: 1px solid $brand-500;
     color: #fff;
@@ -442,7 +442,7 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.2s;
   color: $brand-400;
-  span { font-size: 12px; }
+  span { font-size: 13px; }
   &:hover, &.dragover {
     border-color: $brand-500;
     background: rgba(124,58,237,.04);
@@ -466,7 +466,7 @@ onMounted(() => {
     width: 20px; height: 20px;
     background: rgba(0,0,0,.7);
     border: none; border-radius: 50%;
-    color: #fff; font-size: 14px; line-height: 1;
+    color: #fff; font-size: 15px; line-height: 1;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     opacity: 0; transition: opacity 0.15s;
@@ -482,7 +482,7 @@ onMounted(() => {
   border-radius: $radius-md;
   color: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 13px; font-weight: 600;
+  font-size: 14px; font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0 4px 14px var(--accent-glow);
@@ -510,13 +510,13 @@ onMounted(() => {
 }
 
 .fb-count {
-  font-size: 12px; color: $brand-400;
+  font-size: 13px; color: $brand-400;
   background: $bg-elevated;
   padding: 4px 12px;
   border-radius: 20px;
 }
 
-.fb-loading { text-align: center; color: $brand-400; font-size: 13px; padding: 40px 0; }
+.fb-loading { text-align: center; color: $brand-400; font-size: 14px; padding: 40px 0; }
 
 .fb-empty {
   text-align: center; padding: 48px 20px;
@@ -525,8 +525,8 @@ onMounted(() => {
   border-radius: 18px;
 }
 .fb-empty-icon { font-size: 36px; margin-bottom: 10px; }
-.fb-empty-title { font-size: 15px; font-weight: 600; color: $text-heading; margin-bottom: 4px; }
-.fb-empty-sub { font-size: 12px; color: $brand-400; }
+.fb-empty-title { font-size: 16px; font-weight: 600; color: $text-heading; margin-bottom: 4px; }
+.fb-empty-sub { font-size: 13px; color: $brand-400; }
 
 .fb-cards { display: flex; flex-direction: column; gap: 14px; }
 
@@ -546,13 +546,13 @@ onMounted(() => {
 }
 
 .fb-card-title {
-  font-size: 15px; font-weight: 600; color: $text-heading;
+  font-size: 16px; font-weight: 600; color: $text-heading;
   letter-spacing: -0.2px;
 }
 
 .fb-card-user {
   display: flex; align-items: center; gap: 6px;
-  font-size: 12px; color: $brand-400; margin-top: 4px;
+  font-size: 13px; color: $brand-400; margin-top: 4px;
 }
 
 .fb-user-avatar {
@@ -560,14 +560,14 @@ onMounted(() => {
   background: linear-gradient(135deg, $brand-600, $brand-500);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 600; color: #fff;
+  font-size: 11px; font-weight: 600; color: #fff;
   flex-shrink: 0;
 }
 
-.fb-card-date { font-size: 11px; color: $text-muted; white-space: nowrap; }
+.fb-card-date { font-size: 12px; color: $text-muted; white-space: nowrap; }
 
 .fb-card-desc {
-  font-size: 13px; color: $text-secondary;
+  font-size: 14px; color: $text-secondary;
   line-height: 1.6; margin-bottom: 12px;
   white-space: pre-wrap;
 }
@@ -577,7 +577,7 @@ onMounted(() => {
 .fb-tag {
   padding: 3px 10px;
   border-radius: 12px;
-  font-size: 11px; font-weight: 500;
+  font-size: 12px; font-weight: 500;
   background: var(--accent-subtle);
   color: var(--accent);
   border: 1px solid rgba(124,58,237,.15);
@@ -596,7 +596,7 @@ onMounted(() => {
   border: 1px solid rgba(239,68,68,.25);
   border-radius: 8px;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   color: #f87171;
   cursor: pointer;
   transition: all 0.15s;
@@ -639,7 +639,7 @@ onMounted(() => {
   width: 36px; height: 36px;
   background: rgba(255,255,255,.1);
   border: none; border-radius: 50%;
-  color: #fff; font-size: 20px;
+  color: #fff; font-size: 22px;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: background 0.15s;

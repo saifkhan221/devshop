@@ -236,7 +236,7 @@ const quickRef = [
 
 .input-group label {
   display: block;
-  font-size: 11px; font-weight: 600;
+  font-size: 12px; font-weight: 600;
   color: $brand-400;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -252,7 +252,7 @@ const quickRef = [
   border-radius: 12px;
   padding: 16px 52px 16px 18px;
   font-family: 'Inter', sans-serif;
-  font-size: 28px; font-weight: 600;
+  font-size: 32px; font-weight: 600;
   color: #fff;
   outline: none;
   transition: border-color 0.2s;
@@ -283,7 +283,7 @@ const quickRef = [
 }
 
 .arrow-icon {
-  font-size: 24px; color: $brand-600;
+  font-size: 26px; color: $brand-600;
   display: flex; align-items: center; justify-content: center;
   padding-top: 24px;
 }
@@ -298,7 +298,7 @@ const quickRef = [
   flex-wrap: wrap;
 }
 
-.base-label { font-size: 13px; color: $brand-400; white-space: nowrap; flex-shrink: 0; }
+.base-label { font-size: 14px; color: $brand-400; white-space: nowrap; flex-shrink: 0; }
 
 .base-pills { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; flex: 1; }
 
@@ -309,7 +309,7 @@ const quickRef = [
   border: 1px solid var(--border-subtle);
   border-radius: 20px;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   color: $brand-300;
   cursor: pointer; transition: all 0.15s; white-space: nowrap;
   &:hover { border-color: var(--accent); color: #fff; }
@@ -318,12 +318,12 @@ const quickRef = [
     &:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-subtle); } }
 }
 
-.base-hint { font-size: 11px; color: $brand-400; font-style: italic; margin-left: 4px; }
+.base-hint { font-size: 12px; color: $brand-400; font-style: italic; margin-left: 4px; }
 
 .base-add-input {
   width: 56px;
   background: $bg-surface; border: 1px solid var(--accent); border-radius: 20px;
-  padding: 5px 10px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500;
+  padding: 5px 10px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
   color: #fff; outline: none; text-align: center;
   appearance: none; -moz-appearance: textfield;
   &::-webkit-outer-spin-button, &::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
@@ -340,7 +340,7 @@ const quickRef = [
   border-radius: 8px;
   color: $brand-300;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   cursor: pointer; transition: all 0.2s;
   &:hover { border-color: var(--accent); color: var(--accent); }
 }
@@ -349,7 +349,7 @@ const quickRef = [
   padding: 6px 14px;
   background: $brand-600; border: none; border-radius: 8px;
   color: #fff; font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   cursor: pointer; transition: all 0.2s; white-space: nowrap;
   &:hover { background: $brand-500; }
 }
@@ -369,7 +369,7 @@ const quickRef = [
 }
 
 .clear-all-btn {
-  font-size: 11px; color: $brand-500;
+  font-size: 12px; color: $brand-500;
   background: none; border: none; cursor: pointer;
   font-family: 'Inter', sans-serif;
   transition: color 0.15s;
@@ -389,7 +389,7 @@ const quickRef = [
 }
 
 .saved-col-header {
-  font-size: 10px; font-weight: 600;
+  font-size: 11px; font-weight: 600;
   color: $brand-500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -406,9 +406,9 @@ const quickRef = [
 }
 
 .saved-vals { display: flex; align-items: center; gap: 6px; }
-.saved-px   { font-size: 12px; font-weight: 600; color: #fff; font-family: monospace; }
-.saved-sep  { font-size: 11px; color: $brand-600; }
-.saved-rem  { font-size: 12px; font-weight: 600; color: $brand-300; font-family: monospace; }
+.saved-px   { font-size: 13px; font-weight: 600; color: #fff; font-family: monospace; }
+.saved-sep  { font-size: 12px; color: $brand-600; }
+.saved-rem  { font-size: 13px; font-weight: 600; color: $brand-300; font-family: monospace; }
 
 .saved-del {
   width: 20px; height: 20px;
@@ -421,7 +421,7 @@ const quickRef = [
 
 // ── Quick ref ─────────────────────────────────────────────────────
 .section-title {
-  font-size: 11px; font-weight: 600;
+  font-size: 12px; font-weight: 600;
   color: rgba(167,139,250,0.5);
   letter-spacing: 0.08em; text-transform: uppercase;
   margin-bottom: 12px;
@@ -429,13 +429,13 @@ const quickRef = [
 
 .ref-table { width: 100%; border-collapse: collapse; }
 .ref-table th {
-  text-align: left; font-size: 11px; font-weight: 600;
+  text-align: left; font-size: 12px; font-weight: 600;
   color: $brand-400; letter-spacing: 0.06em; text-transform: uppercase;
   padding: 0 12px 10px;
 }
-.ref-table td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--border-subtle); }
+.ref-table td { padding: 10px 12px; font-size: 14px; border-bottom: 1px solid var(--border-subtle); }
 .ref-table tr:last-child td { border-bottom: none; }
-.px-val  { color: $brand-300; font-weight: 500; font-family: monospace; font-size: 14px; }
-.rem-val { color: #fff; font-weight: 600; font-family: monospace; font-size: 14px; }
-.use-val { color: $brand-400; font-size: 12px; }
+.px-val  { color: $brand-300; font-weight: 500; font-family: monospace; font-size: 15px; }
+.rem-val { color: #fff; font-weight: 600; font-family: monospace; font-size: 15px; }
+.use-val { color: $brand-400; font-size: 13px; }
 </style>

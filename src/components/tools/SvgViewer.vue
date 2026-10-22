@@ -497,7 +497,7 @@ const filteredIcons = computed(() => {
 
 .sv-logo {
   display: flex; align-items: center; gap: 7px;
-  font-size: 13px; font-weight: 600; color: $text-heading;
+  font-size: 14px; font-weight: 600; color: $text-heading;
   svg { color: var(--accent); }
 }
 
@@ -508,7 +508,7 @@ const filteredIcons = computed(() => {
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   color: $brand-300;
   cursor: pointer;
   transition: all 0.15s;
@@ -541,7 +541,7 @@ const filteredIcons = computed(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     color: var(--accent);
     border: 2px dashed var(--accent);
@@ -567,7 +567,7 @@ const filteredIcons = computed(() => {
   border: none;
   border-radius: 8px 8px 0 0;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   color: $brand-400;
   cursor: pointer;
   transition: all 0.15s;
@@ -589,7 +589,7 @@ const filteredIcons = computed(() => {
   border: 1px solid var(--border-subtle);
   border-radius: 6px;
   font-family: 'Inter', sans-serif;
-  font-size: 11px; font-weight: 600;
+  font-size: 12px; font-weight: 600;
   color: $brand-400;
   cursor: pointer;
   outline: none;
@@ -611,7 +611,7 @@ const filteredIcons = computed(() => {
   margin: 0;
   padding: 16px;
   font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.7;
   white-space: pre;
   overflow: auto;
@@ -697,14 +697,14 @@ const filteredIcons = computed(() => {
 }
 
 .sv-drop-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: $brand-400;
   margin-bottom: 6px;
 }
 
 .sv-drop-sub {
-  font-size: 12px;
+  font-size: 13px;
   color: $brand-600;
 }
 
@@ -731,7 +731,7 @@ const filteredIcons = computed(() => {
 .sv-status-left  { display: flex; align-items: center; gap: 10px; }
 .sv-status-right { display: flex; align-items: center; gap: 10px; }
 
-.sv-stat        { font-size: 12px; color: $brand-400; }
+.sv-stat        { font-size: 13px; color: $brand-400; }
 .sv-stat-dim    { font-family: monospace; font-weight: 600; color: $text-heading; }
 .sv-stat-muted  { color: $brand-600; }
 
@@ -740,7 +740,7 @@ const filteredIcons = computed(() => {
   color: var(--accent);
   padding: 2px 8px;
   border-radius: 20px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -749,7 +749,7 @@ const filteredIcons = computed(() => {
   align-items: center;
   gap: 5px;
   font-family: monospace;
-  font-size: 11px;
+  font-size: 12px;
   color: $brand-300;
 }
 
@@ -773,7 +773,7 @@ const filteredIcons = computed(() => {
 .sv-zoom-btn {
   width: 22px; height: 22px;
   background: transparent; border: none;
-  color: $brand-400; font-size: 16px; line-height: 1;
+  color: $brand-400; font-size: 17px; line-height: 1;
   cursor: pointer; border-radius: 4px;
   display: flex; align-items: center; justify-content: center;
   transition: all 0.15s;
@@ -781,7 +781,7 @@ const filteredIcons = computed(() => {
 }
 
 .sv-zoom-val {
-  font-size: 11px; font-weight: 600;
+  font-size: 12px; font-weight: 600;
   color: $brand-300;
   width: 36px;
   text-align: center;
@@ -796,7 +796,7 @@ const filteredIcons = computed(() => {
 }
 
 .sv-zoom-pct {
-  font-size: 11px; font-weight: 600;
+  font-size: 12px; font-weight: 600;
   color: $brand-400;
   margin-left: -2px;
 }
@@ -807,7 +807,7 @@ const filteredIcons = computed(() => {
   background: var(--accent);
   border: none; border-radius: 8px;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 600;
+  font-size: 13px; font-weight: 600;
   color: #fff; cursor: pointer;
   transition: all 0.15s;
   &:hover { opacity: 0.85; }
@@ -839,7 +839,7 @@ const filteredIcons = computed(() => {
 }
 
 .sv-il-title {
-  font-size: 12px; font-weight: 700;
+  font-size: 13px; font-weight: 700;
   color: $text-heading;
   flex-shrink: 0;
 }
@@ -851,7 +851,7 @@ const filteredIcons = computed(() => {
   border-radius: 6px;
   padding: 5px 10px;
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   color: #fff;
   outline: none;
   &:focus { border-color: var(--accent); }
@@ -860,7 +860,7 @@ const filteredIcons = computed(() => {
 
 .sv-il-close {
   background: transparent; border: none;
-  color: $brand-500; font-size: 12px;
+  color: $brand-500; font-size: 13px;
   cursor: pointer; padding: 4px;
   border-radius: 4px;
   &:hover { color: #f87171; }
@@ -899,7 +899,7 @@ const filteredIcons = computed(() => {
 }
 
 .sv-il-name {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
   color: $brand-500;
   text-align: center;

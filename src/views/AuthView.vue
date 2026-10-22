@@ -310,12 +310,12 @@ async function handleSignup() {
   background: linear-gradient(135deg, $brand-600, $brand-500);
   border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
+  font-size: 20px;
   box-shadow: 0 4px 16px var(--accent-glow);
 }
 
 .logo-name {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   color: #fff;
   letter-spacing: -0.5px;
@@ -323,7 +323,7 @@ async function handleSignup() {
 
 .tagline {
   text-align: center;
-  font-size: 13px;
+  font-size: 14px;
   color: $brand-400;
   margin-bottom: 28px;
 }
@@ -343,7 +343,7 @@ async function handleSignup() {
   border: none;
   border-radius: 7px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
@@ -361,7 +361,7 @@ async function handleSignup() {
   border: 1px solid rgba(239,68,68,0.3);
   border-radius: $radius-md;
   padding: 10px 14px;
-  font-size: 13px;
+  font-size: 14px;
   color: #fca5a5;
   margin-bottom: 16px;
 }
@@ -371,7 +371,7 @@ async function handleSignup() {
   border: 1px solid rgba(16,185,129,0.3);
   border-radius: $radius-md;
   padding: 10px 14px;
-  font-size: 13px;
+  font-size: 14px;
   color: #6ee7b7;
   margin-bottom: 16px;
 }
@@ -379,7 +379,7 @@ async function handleSignup() {
 .forgot-link {
   display: block;
   text-align: right;
-  font-size: 12px;
+  font-size: 13px;
   color: $brand-400;
   margin-top: 6px;
   cursor: pointer;
@@ -393,7 +393,7 @@ async function handleSignup() {
   margin-bottom: 16px;
   label {
     display: block;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
     color: $brand-300;
     margin-bottom: 6px;
@@ -406,7 +406,7 @@ async function handleSignup() {
     border-radius: $radius-md;
     padding: 11px 14px;
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
+    font-size: 15px;
     color: #fff;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -427,7 +427,7 @@ async function handleSignup() {
   border-radius: $radius-md;
   color: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   margin-top: 8px;
@@ -453,7 +453,7 @@ async function handleSignup() {
 
 .toggle-link {
   text-align: center;
-  font-size: 13px;
+  font-size: 14px;
   color: $brand-400;
   margin-top: 20px;
   a {
@@ -471,7 +471,7 @@ async function handleSignup() {
   gap: 12px;
   margin: 20px 0 16px;
   color: $brand-500;
-  font-size: 12px;
+  font-size: 13px;
   &::before, &::after {
     content: '';
     flex: 1;
@@ -488,7 +488,7 @@ async function handleSignup() {
   border-radius: $radius-md;
   color: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
@@ -499,7 +499,7 @@ async function handleSignup() {
 
 .link-box {
   .link-msg {
-    font-size: 13px;
+    font-size: 14px;
     color: $brand-300;
     line-height: 1.55;
     margin-bottom: 16px;
@@ -508,7 +508,7 @@ async function handleSignup() {
   .link-cancel {
     display: block;
     text-align: center;
-    font-size: 13px;
+    font-size: 14px;
     color: $brand-400;
     margin-top: 14px;
     cursor: pointer;

@@ -79,15 +79,15 @@ async function copyCSS() {
 @use '@/styles/variables' as *;
 
 .controls-row { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
-.control-group { label { display: block; font-size: 11px; font-weight: 600; color: $brand-400; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; } input { width: 80px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-sm; padding: 7px 10px; font-family: 'Inter', sans-serif; font-size: 13px; color: #fff; outline: none; &:focus { border-color: $brand-500; } } }
+.control-group { label { display: block; font-size: 12px; font-weight: 600; color: $brand-400; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; } input { width: 80px; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-sm; padding: 7px 10px; font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; outline: none; &:focus { border-color: $brand-500; } } }
 
 .grid-preview { background: $bg-elevated; border-radius: $radius-lg; padding: 16px; margin-bottom: 20px; min-height: 200px; }
 
-.grid-cell { background: $brand-800; border: 1px solid var(--border-subtle); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: $brand-400; cursor: pointer; transition: all 0.2s; &:hover { border-color: $brand-500; color: $brand-300; } &.selected { background: var(--accent-subtle); border-color: $brand-500; color: $brand-300; } }
+.grid-cell { background: $brand-800; border: 1px solid var(--border-subtle); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: $brand-400; cursor: pointer; transition: all 0.2s; &:hover { border-color: $brand-500; color: $brand-300; } &.selected { background: var(--accent-subtle); border-color: $brand-500; color: $brand-300; } }
 
 .css-output { background: $bg-elevated; border-radius: $radius-md; padding: 16px; }
 .css-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.css-label { font-size: 11px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
-code { display: block; font-size: 12px; color: $brand-300; font-family: monospace; white-space: pre; }
-.copy-btn { padding: 6px 14px; background: $brand-600; border: none; border-radius: 8px; color: #fff; font-size: 12px; font-weight: 500; cursor: pointer; &:hover { background: $brand-500; } }
+.css-label { font-size: 12px; font-weight: 600; color: rgba(167,139,250,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
+code { display: block; font-size: 13px; color: $brand-300; font-family: monospace; white-space: pre; }
+.copy-btn { padding: 6px 14px; background: $brand-600; border: none; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 500; cursor: pointer; &:hover { background: $brand-500; } }
 </style>

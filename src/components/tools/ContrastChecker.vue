@@ -80,27 +80,27 @@ const wcagResults = computed(() => [
 
 .color-pickers { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
 
-.picker-group { label { display: block; font-size: 12px; font-weight: 500; color: $brand-300; margin-bottom: 8px; } }
+.picker-group { label { display: block; font-size: 13px; font-weight: 500; color: $brand-300; margin-bottom: 8px; } }
 
 .picker-row { display: flex; gap: 8px; align-items: center; }
 
 .color-input { width: 44px; height: 38px; border: none; border-radius: $radius-sm; cursor: pointer; background: transparent; padding: 0; }
 
-.hex-input { flex: 1; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; padding: 8px 12px; font-family: monospace; font-size: 13px; color: #fff; outline: none; &:focus { border-color: $brand-500; } }
+.hex-input { flex: 1; background: $bg-elevated; border: 1px solid var(--border-subtle); border-radius: $radius-md; padding: 8px 12px; font-family: monospace; font-size: 14px; color: #fff; outline: none; &:focus { border-color: $brand-500; } }
 
 .preview-box { border-radius: $radius-lg; padding: 28px; margin-bottom: 20px; min-height: 100px; transition: all 0.2s; }
-.preview-heading { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-.preview-body { font-size: 14px; opacity: 0.9; }
+.preview-heading { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+.preview-body { font-size: 15px; opacity: 0.9; }
 
 .ratio-display { text-align: center; padding: 24px; background: $bg-elevated; border-radius: $radius-lg; margin-bottom: 20px; }
 .ratio-value { font-size: 48px; font-weight: 700; color: #fff; letter-spacing: -2px; }
-.ratio-label { font-size: 13px; color: $brand-400; margin-top: 4px; }
+.ratio-label { font-size: 14px; color: $brand-400; margin-top: 4px; }
 
 .wcag-results { display: flex; flex-direction: column; gap: 8px; }
 
 .wcag-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: $bg-elevated; border-radius: $radius-md; }
 
-.wcag-label { font-size: 13px; color: $brand-300; }
+.wcag-label { font-size: 14px; color: $brand-300; }
 
-.wcag-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; &.pass { background: rgba(16,185,129,0.15); color: #6ee7b7; } &.fail { background: rgba(239,68,68,0.12); color: #f87171; } }
+.wcag-badge { padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; &.pass { background: rgba(16,185,129,0.15); color: #6ee7b7; } &.fail { background: rgba(239,68,68,0.12); color: #f87171; } }
 </style>

@@ -92,8 +92,8 @@ function onGameResult(patch) {
   svg { width: 24px; height: 24px; stroke: var(--on-peach); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 }
 .wyw-copy { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
-.wyw-title { font-size: 14px; font-weight: 700; color: var(--ink); }
-.wyw-sub { font-size: 13px; line-height: 20px; color: var(--ink-muted); }
+.wyw-title { font-size: 15px; font-weight: 700; color: var(--ink); }
+.wyw-sub { font-size: 14px; line-height: 22px; color: var(--ink-muted); }
 .wyw-cta { flex-shrink: 0; svg { transition: transform 120ms; } }
 
 // ── Modal ───────────────────────────────────────────────────────────
@@ -131,7 +131,7 @@ function onGameResult(patch) {
   button {
     padding: 7px 14px;
     background: transparent; border: 0; border-radius: 6px;
-    font: inherit; font-size: 13px; font-weight: 600;
+    font: inherit; font-size: 14px; font-weight: 600;
     color: var(--ink-muted); cursor: pointer;
     transition: background-color 120ms, color 120ms;
     &:hover { color: var(--ink); }
