@@ -30,7 +30,7 @@
       />
       <div class="tm-add-row">
         <select v-model="draft.projectId" class="ds-select" aria-label="Project">
-          <option :value="GENERAL_ID">General</option>
+          <option :value="GENERAL_ID">No project</option>
           <option v-for="p in projects" :key="p.id" :value="p.id">{{ p.name }}</option>
         </select>
         <select v-model="draft.priority" class="ds-select" aria-label="Priority">
@@ -51,10 +51,9 @@
           :aria-pressed="filter === f.key" @click="filter = f.key"
         >{{ f.label }}</button>
       </div>
-      <select v-model="projectFilter" class="ds-select tm-proj-filter" aria-label="Filter by project">
-        <option value="all">All projects</option>
-        <option :value="GENERAL_ID">General</option>
-        <option v-for="p in projects" :key="p.id" :value="p.id">{{ p.name }}</option>
+      <select v-if="groupOptions.length > 1" v-model="groupFilter" class="ds-select tm-proj-filter" aria-label="Filter by project">
+        <option value="all">All tasks</option>
+        <option v-for="g in groupOptions" :key="g.id" :value="g.id">{{ g.name }}</option>
       </select>
     </div>
 
@@ -66,8 +65,8 @@
         </label>
         <div class="tm-body">
           <span class="tm-text">{{ t.text }}</span>
-          <span class="tm-meta">
-            <span class="ds-badge ds-badge-violet">{{ projectName(t.projectId) }}</span>
+          <span v-if="t.projectId !== GENERAL_ID || t.priority || t.due" class="tm-meta">
+            <span v-if="t.projectId !== GENERAL_ID" class="ds-badge ds-badge-violet">{{ projectName(t.projectId) }}</span>
             <span v-if="t.priority" class="ds-badge" :class="PRIORITY_CLASS[t.priority]"><i class="ds-dot"></i>{{ cap(t.priority) }}</span>
             <span v-if="t.due" class="tm-due" :class="{ late: isLate(t) }">{{ fmtDue(t.due) }}</span>
           </span>
@@ -78,8 +77,8 @@
       </li>
     </ul>
     <div v-else class="ds-empty tm-empty">
-      <div class="ds-empty-title">{{ all.length ? 'No tasks match' : 'No tasks yet' }}</div>
-      <p class="ds-empty-body">{{ all.length ? 'Try another filter or project.' : 'Add one above. Pick a project to have it show up in that project’s task list too.' }}</p>
+      <div class="ds-empty-title">{{ mine.length ? 'No tasks match' : 'No tasks yet' }}</div>
+      <p class="ds-empty-body">{{ mine.length ? 'Try another filter.' : 'Add one above. Pick a project to also file it in that project’s task list.' }}</p>
     </div>
   </AppModal>
 </template>
@@ -102,6 +101,13 @@ const store = useStore()
 const projects = computed(() => store.getters['projects/allProjects'] || [])
 const { all, add, toggle, remove } = useAllTasks(projects)
 
+// Only tasks added from this widget: every standalone task, plus project tasks
+// flagged fromDash. Tasks created inside a project's own Task List stay there.
+const mine = computed(() => {
+  const ids = new Set(projects.value.map(p => p.id))
+  return all.value.filter(t => t.projectId === GENERAL_ID || (t.fromDash && ids.has(t.projectId)))
+})
+
 function todayISO() {
   const d = new Date()
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
@@ -120,19 +126,28 @@ function byUrgency(a, b) {
   return a.id - b.id
 }
 
-const openCount = computed(() => all.value.filter(t => !t.done).length)
-const preview = computed(() => all.value.filter(t => !t.done).sort(byUrgency).slice(0, 3))
+const openCount = computed(() => mine.value.filter(t => !t.done).length)
+const preview = computed(() => mine.value.filter(t => !t.done).sort(byUrgency).slice(0, 3))
+
+const projectName = (pid) => pid === GENERAL_ID ? 'No project' : (projects.value.find(p => p.id === pid)?.name || 'Project')
+
+// Filter by project, offering only the groups that actually have tasks
+const groupOptions = computed(() => {
+  const present = [...new Set(mine.value.map(t => t.projectId))]
+  return present
+    .map(id => ({ id, name: projectName(id) }))
+    .sort((a, b) => (a.id === GENERAL_ID ? -1 : b.id === GENERAL_ID ? 1 : a.name.localeCompare(b.name)))
+})
 
 const filter = ref('open')
-const projectFilter = ref('all')
+const groupFilter = ref('all')
 const visible = computed(() =>
-  all.value
+  mine.value
     .filter(t => filter.value === 'all' || (filter.value === 'done' ? t.done : !t.done))
-    .filter(t => projectFilter.value === 'all' || t.projectId === projectFilter.value)
+    .filter(t => groupFilter.value === 'all' || t.projectId === groupFilter.value)
     .sort(byUrgency)
 )
 
-const projectName = (pid) => pid === GENERAL_ID ? 'General' : (projects.value.find(p => p.id === pid)?.name || 'Project')
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1)
 const isLate = (t) => !t.done && t.due && t.due < todayISO()
 function fmtDue(iso) {
@@ -166,7 +181,7 @@ function ensureTaskListTool(pid) {
 function addTask() {
   const text = draft.text.trim()
   if (!text) return
-  add(draft.projectId, { id: Date.now(), text, done: false, priority: draft.priority || null, due: draft.due || null })
+  add(draft.projectId, { id: Date.now(), text, done: false, priority: draft.priority || null, due: draft.due || null, fromDash: true })
   if (draft.projectId !== GENERAL_ID) ensureTaskListTool(draft.projectId)
   draft.text = ''
   draft.priority = ''

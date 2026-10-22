@@ -3,8 +3,8 @@
  *
  * Each project's tasks live where the Task List tool keeps them
  * (useToolStorage(projectId, 'task-list')), so a task added here shows up in
- * that project's tool and vice versa. GENERAL_ID holds tasks that belong to
- * no project.
+ * that project's tool and vice versa. GENERAL_ID holds standalone tasks that
+ * belong to no project.
  */
 import { shallowReactive, computed, watch } from 'vue'
 import { useToolStorage } from './useToolStorage'
