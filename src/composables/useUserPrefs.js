@@ -18,6 +18,7 @@ const DEFAULTS = {
   theme:       'charcoal',
   customTheme: null,   // { accent, bg } or null
   clock24h:    true,
+  dashWidgets: ['weather', 'quote'],   // which widget fills each swappable dashboard slot
 }
 
 // ─── Firestore cache ──────────────────────────────────────────────────────

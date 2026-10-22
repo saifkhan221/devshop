@@ -60,33 +60,42 @@
         </div>
       </div>
 
-      <div class="ds-card">
-        <div class="ds-stat">
-          <div class="stat-top">
-            <div class="ds-stat-icon stat-icon-wx"><span>{{ weather.icon || '🌤️' }}</span></div>
-            <span class="ds-badge">{{ weather.temp !== null ? `${weather.temp}°C` : '—' }}<span v-if="weather.label" class="wx-label"> · {{ weather.label }}</span></span>
-          </div>
-          <div class="ds-stat-label">{{ todayFull }}</div>
-          <div class="ds-stat-row">
-            <span class="ds-stat-value ds-num">{{ clock }}</span>
-          </div>
-          <div class="wx-loc">
-            <svg class="ds-icon ds-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            {{ weather.city || 'Locating…' }}
+      <!-- Swappable slots: each can show weather, today's note, or tasks -->
+      <WidgetSlot
+        v-for="(w, si) in widgetSlots" :key="si"
+        :model-value="w" :options="WIDGET_OPTIONS"
+        @update:model-value="setWidget(si, $event)"
+      >
+        <div v-if="w === 'weather'" class="ds-card">
+          <div class="ds-stat">
+            <div class="stat-top">
+              <div class="ds-stat-icon stat-icon-wx"><span>{{ weather.icon || '🌤️' }}</span></div>
+              <span class="ds-badge">{{ weather.temp !== null ? `${weather.temp}°C` : '—' }}<span v-if="weather.label" class="wx-label"> · {{ weather.label }}</span></span>
+            </div>
+            <div class="ds-stat-label">{{ todayFull }}</div>
+            <div class="ds-stat-row">
+              <span class="ds-stat-value ds-num">{{ clock }}</span>
+            </div>
+            <div class="wx-loc">
+              <svg class="ds-icon ds-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              {{ weather.city || 'Locating…' }}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="ds-card ds-card-cream quote-card">
-        <div class="stat-top">
-          <span class="ds-stat-label quote-label">Today's note</span>
-          <button class="ds-icon-btn ds-icon-btn-sm quote-refresh" @click="fetchQuote" title="New quote" aria-label="New quote">
-            <svg class="ds-icon ds-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-          </button>
+        <div v-else-if="w === 'quote'" class="ds-card ds-card-cream quote-card">
+          <div class="stat-top">
+            <span class="ds-stat-label quote-label">Today's note</span>
+            <button class="ds-icon-btn ds-icon-btn-sm quote-refresh" @click="fetchQuote" title="New quote" aria-label="New quote">
+              <svg class="ds-icon ds-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            </button>
+          </div>
+          <p class="quote-text" :class="{ loading: quoteLoading }">{{ quoteLoading ? '…' : (quote.content || '—') }}</p>
+          <p class="quote-author">{{ quote.author }}</p>
         </div>
-        <p class="quote-text" :class="{ loading: quoteLoading }">{{ quoteLoading ? '…' : (quote.content || '—') }}</p>
-        <p class="quote-author">{{ quote.author }}</p>
-      </div>
+
+        <TasksWidget v-else-if="w === 'tasks'" />
+      </WidgetSlot>
     </div>
 
     <!-- ── While-you-wait ─────────────────────────────────────── -->
@@ -190,7 +199,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onUnmounted, onBeforeUnmount, defineAsyncComponent } from 'vue'
 import { getPrefs, savePrefs } from '@/composables/useUserPrefs'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -198,6 +207,9 @@ import AppShell from '@/components/layout/AppShell.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import WhileYouWait from '@/components/dashboard/WhileYouWait.vue'
 import ProjectForm from '@/components/dashboard/ProjectForm.vue'
+import WidgetSlot from '@/components/dashboard/WidgetSlot.vue'
+// Loaded only when chosen: it opens a task-list store per project
+const TasksWidget = defineAsyncComponent(() => import('@/components/dashboard/TasksWidget.vue'))
 
 const store = useStore()
 const router = useRouter()
@@ -365,6 +377,29 @@ const projectSections = computed(() => {
   if (sortBy.value === 'quarter') return groupedProjects.value
   return [{ key: '_all', label: null, months: '', projects: filteredProjects.value }]
 })
+
+// ─── Swappable widget slots ───────────────────────────────────────
+const WIDGET_OPTIONS = [
+  { key: 'weather', label: 'Weather & clock' },
+  { key: 'quote',   label: "Today's note" },
+  { key: 'tasks',   label: 'Tasks' },
+]
+function initialWidgetSlots() {
+  const s = getPrefs().dashWidgets
+  const valid = WIDGET_OPTIONS.map(w => w.key)
+  const ok = Array.isArray(s) && s.length === 2 && s[0] !== s[1] && s.every(k => valid.includes(k))
+  return ok ? [...s] : ['weather', 'quote']
+}
+const widgetSlots = ref(initialWidgetSlots())
+
+function setWidget(si, key) {
+  const next = [...widgetSlots.value]
+  const other = si === 0 ? 1 : 0
+  if (next[other] === key) next[other] = next[si]   // picking the other slot's widget swaps them
+  next[si] = key
+  widgetSlots.value = next
+  savePrefs({ dashWidgets: next })
+}
 
 // ─── Clock ────────────────────────────────────────────────────────
 const clock = ref('')
